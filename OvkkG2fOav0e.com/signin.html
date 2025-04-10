@@ -1,0 +1,257 @@
+<!DOCTYPE html><html lang="en" data-bs-theme="dark"><head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Ai Trade Gains meta Data -->
+    <meta name="application-name" content="Ai Trade Gain - Best Platfotm for Your Crypto, Forex, Stocks & Day Trading">
+    <meta name="author" content="Ai Trade Gain">
+    <meta name="keywords" content="Ai Trade Gain, Crypto, Forex, and Stocks Trading Business, Copy Trading">
+    <meta name="description" content="Experience the power of copy trading, the ultimate platform designed to transform trading. With its sleek design and advanced features, Ai Trade Gain empowers you to showcase your expertise, engage in trades, and dominate the markets. Elevate your online presence and unlock new trading possibilities with Ai Trade Gain.">
+
+    <!-- OG meta data -->
+    <meta property="og:title" content="Ai Trade Gain - Best Online Platfotm for Your Crypto, Forex, Stocks & Day Trading">
+    <meta property="og:Ai Trade Gain_name" content="Ai" trade="" gain="">
+    <meta property="og:url" content="index">
+    <meta property="og:description" content="Welcome to Ai Trade Gain, the game-changing platform meticulously crafted to revolutionize trading business. With its sleek and modern design, Ai Trade Gain provides a cutting-edge platform to showcase your expertise, attract good profits, and stay ahead in the competitive trading markets.">
+    <meta property="og:type" content="webAi Trade Gain">
+    <meta property="og:image" content="images-signin/favicon.png">
+
+    <link rel="shortcut icon" href="images-signin/favicon.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="css-signin/bootstrap.min.css">
+    <link rel="stylesheet" href="css-signin/aos.css">
+    <link rel="stylesheet" href="css-signin/toastr.css">
+    <link rel="stylesheet" href="css-signin/all.min.css">
+
+    <link rel="stylesheet" href="css-signin/swiper-bundle.min.css">
+    <!-- main css for template -->
+    <link rel="stylesheet" href="css-signin/style.css">
+<style>
+    .pos{
+     z-index: 1;
+     position: fixed !important;
+     top: 82px;
+ }
+</style></head>
+
+
+<body>
+    <div class="preloader">
+        <img src="images-signin/preloader.png" alt="preloader icon">
+    </div>
+    <div class="lightdark-switch">
+        <span class="switch-btn" id="btnSwitch">
+            <img src="images-signin/moon.svg" alt="light-dark-switchbtn" class="swtich-icon">
+        </span>
+    </div>
+    <header class="header-section bg-color-3">
+        <div class="header-bottom">
+            <div class="container">
+                <div class="header-wrapper">
+                    <div class="logo">
+                        <a href="./">
+                            <img class="dark" width="160" src="images-signin/logo.png" alt="logo">
+                        </a>
+                    </div>
+                    <div class="menu-area">
+                        <ul class="menu menu--style1">
+                            <li class="">
+                                <a href="./index.html">Home </a>
+                            </li>
+                            <li class="">
+                                <a href="./about.html">About </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)">Services</a>
+                                <ul class="submenu">
+                                    <li><a href="./buy-crypto.html">Buy Crypto</a></li>
+                                    <li><a href="./copy.html">Copy Trading</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)">Trading Tools</a>
+                                <ul class="submenu">
+                                    <li><a href="./forex.html">Forex Charts</a></li>
+                                    <li><a href="./index-trade.html">Index Charts</a></li>
+                                    <li><a href="./crypto.html">Crypto Market</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="./license.html">Licenses</a>
+                            </li>
+                            <li>
+                                <a href="./contact.html">Contact Us</a>
+                            </li>
+                            <li>
+                                <a href="./signin.html">Sign in</a>
+                            </li>
+                            <li>
+                                <a href="./signup.html">Sign up</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="header-action">
+                        <div class="menu-area">
+                            <!-- toggle icons -->
+                            <div class="header-bar d-lg-none header-bar--style1">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pos">
+            <div class="cryptohopper-web-widget" data-id="2" data-realtime="on"></div>
+        </div>
+    </header>
+    <!-- ===============>> Header section end here <<================= --><title>Sign in - Ai Trade Gain</title>
+<section class="account padding-top padding-bottom sec-bg-color2">
+	<div class="container">
+		<div class="account__wrapper" data-aos="fade-up" data-aos-duration="800">
+			<div class="account__inner">
+				<div class="row align-items-center">
+					<div class="col-lg-6">
+						<div class="account__thumb">
+							<img src="images-signin/1.png" alt="account-image" class="dark">
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="account__content account__content--style2">
+							<div class="account__header">
+								<h2>Log in</h2>
+								<p class="mb-0">Enter your details below to sign in</p>
+							</div>
+							<form id="loginForm" method="POST" class="account__form needs-validation" novalidate="">
+								<div class="row g-4">
+									<div class="col-12">
+										<div>
+											<label for="username" class="form-label">Username/Email</label>
+											<input type="text" class="form-control" id="username" name="username" placeholder="Enter your username or email" required="">
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-pass">
+											<label for="password" class="form-label">Password</label>
+											<input type="password" class="form-control showhide-pass" id="password" name="password" placeholder="Password" required="">
+
+											<button onclick="showpass('password', 'eyeIcon')" type="button" id="btnToggle" class="form-pass__toggle"><i id="eyeIcon" class="fa-solid fa-eye"></i></button>
+										</div>
+									</div>
+								</div>
+
+								<div class="account__check">
+
+									<div class="account__check-remember">
+										<input type="checkbox" class="form-check-input" value="" id="terms-check">
+										<label for="terms-check" class="form-check-label">
+											Remember me
+										</label>
+									</div>
+									<div class="account__check-forgot">
+										<a href="forgot-password">Forgot Password?</a>
+									</div>
+								</div>
+								<p class="my-3 alert alert-success" id="errorshow1" role="alert"></p>
+								<button type="submit" class="trk-btn trk-btn--border trk-btn--primary d-block mt-4">Sign in</button>
+							</form>
+							<div class="account__switch">
+								<p>Don't have an account? <a href="signup">Sign up</a></p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ===============>> scrollToTop start here <<================= -->
+	<a href="#" class="scrollToTop scrollToTop--style1"><i class="fa-solid fa-arrow-up-from-bracket"></i></a>
+	<!-- ===============>> scrollToTop ending here <<================= -->
+<div class="gtranslate_wrapper"></div>
+
+		<!-- vendor plugins -->
+		<script src="js/jquery-3.4.1.min.js"></script>
+		<script src="js/bootstrap.bundle.min.js"></script>
+		<script src="js/all.min.js"></script>
+		<script src="js/swiper-bundle.min.js"></script>
+		<script src="js/aos.js"></script>
+		<script src="js/toastr.js"></script>
+		<script src="js/fslightbox.js"></script>
+		<script src="js/purecounter_vanilla.js"></script>
+ <script src="https://www.cryptohopper.com/widgets/js/script"></script>
+<script>window.gtranslateSettings = {"default_language":"en","wrapper_selector":".gtranslate_wrapper"}</script>
+<script src="js/float.js" defer=""></script>
+	<script src="js/custom.js"></script>
+
+	<script>
+		const showpass = (pass, span) => {
+			let password = document.getElementById(pass);
+			if (password.type == 'password') {
+				password.type = 'text';
+				$('#' + span).html("<span class= 'fa-solid fa-eye-slash'></span>");
+			}else{
+				password.type = 'password';
+				$('#' + span).html("<span class= 'fa-solid fa-eye'></span>");
+			}
+		}
+	</script>
+	
+	
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/67ef26e2ae5da2190a1a044c/1inv2vq7c';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script--><script>
+    $(document).ready(function(){
+        $("#errorshow1").hide();
+    });
+
+    $("form#loginForm").submit(function(e) {
+        e.preventDefault();    
+        var formData = new FormData(this);
+        formData.append('request', 'login');
+        $.ajax({
+            url: './ops/users',
+            type: 'POST',
+            data: formData,
+            beforeSend:function(){
+                $('#errorshow1').html("logging in <span class='fas fa-1x fa-spinner fa-spin'></span>").show();
+            },
+            success: function (data) {
+                let resp = $.parseJSON(data);
+                if (resp.status == "success") {
+                    $("#errorshow1").html(resp.message).show();
+                    setTimeout(' window.location.href = "./app/account"; ', 3000);
+                }else{
+                    $("#errorshow1").html(resp.message).show();
+                    setTimeout(function(){
+                        $("#errorshow1").hide();
+                    }, 10000);
+                }   
+            },
+            cache: false,
+            error:function(){
+                $('#errorshow1').html("An error has occured!!").show();
+                setTimeout(function(){
+                    $("#errorshow1").hide();
+                }, 10000);
+            },
+            contentType: false,
+            processData: false
+        });
+    });
+</script></body></html>
