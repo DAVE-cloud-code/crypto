@@ -1,0 +1,65 @@
+# Node.js dependencies
+/node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build output
+/dist
+/build
+
+# Dependency directories
+/bower_components
+
+# .vscode settings
+.vscode/
+
+# IDE settings (optional, depending on your editor)
+.idea/
+
+# Operating system files (macOS, Windows)
+.DS_Store
+Thumbs.db
+
+# Coverage directory used by testing tools
+/coverage/
+
+# Package lock files (optional, you can ignore this if you want version control)
+package-lock.json
+yarn.lock
+
+# Test output
+/test-results/
+
+# Temporary files from various tools
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# IntelliJ IDEA files
+*.iml
+
+# SvelteKit files (if using Svelte)
+.svelte-kit/
+
+# Cache files from tools like webpack
+.cache/
+
+# Build artifacts (generated during build)
+*.tgz
+
+# Other potential files to ignore
+/dist/
+*.bak
+*.swp
