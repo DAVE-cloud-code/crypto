@@ -130,7 +130,7 @@
 									<div class="col-12">
 										<div>
 											<label for="username" class="form-label">Username/Email</label>
-											<input type="text" class="form-control" id="username" name="username" placeholder="Enter your username or email" required="">
+											<input type="text" class="form-control" id="username" name="usernameOrEmail" placeholder="Enter your username or email" required="">
 										</div>
 									</div>
 									<div class="col-12">
@@ -152,14 +152,14 @@
 										</label>
 									</div>
 									<div class="account__check-forgot">
-										<a href="forgot-password">Forgot Password?</a>
+										<a href="forgot-password.html">Forgot Password?</a>
 									</div>
 								</div>
 								<p class="my-3 alert alert-success" id="errorshow1" role="alert"></p>
-								<button type="submit" class="trk-btn trk-btn--border trk-btn--primary d-block mt-4">Sign in</button>
+								<button type="submit" class="trk-btn trk-btn--border trk-btn--primary d-block mt-4" id="first-sign">Sign in</button>
 							</form>
 							<div class="account__switch">
-								<p>Don't have an account? <a href="signup">Sign up</a></p>
+								<p>Don't have an account yet? <a href="signup.html">Sign up</a></p>
 							</div>
 						</div>
 					</div>
@@ -176,18 +176,18 @@
 <div class="gtranslate_wrapper"></div>
 
 		<!-- vendor plugins -->
-		<script src="js/jquery-3.4.1.min.js"></script>
-		<script src="js/bootstrap.bundle.min.js"></script>
-		<script src="js/all.min.js"></script>
-		<script src="js/swiper-bundle.min.js"></script>
-		<script src="js/aos.js"></script>
-		<script src="js/toastr.js"></script>
-		<script src="js/fslightbox.js"></script>
-		<script src="js/purecounter_vanilla.js"></script>
+		<script src="js-signin/jquery-3.4.1.min.js"></script>
+		<script src="js-signin/bootstrap.bundle.min.js"></script>
+		<script src="js-signin/all.min.js"></script>
+		<script src="js-signin/swiper-bundle.min.js"></script>
+		<script src="js-signin/aos.js"></script>
+		<script src="js-signin/toastr.js"></script>
+		<script src="js-signin/fslightbox.js"></script>
+		<script src="js-signin/purecounter_vanilla.js"></script>
  <script src="https://www.cryptohopper.com/widgets/js/script"></script>
 <script>window.gtranslateSettings = {"default_language":"en","wrapper_selector":".gtranslate_wrapper"}</script>
-<script src="js/float.js" defer=""></script>
-	<script src="js/custom.js"></script>
+<script src="js-signin/float.js" defer=""></script>
+	<script src="js-signin/custom.js"></script>
 
 	<script>
 		const showpass = (pass, span) => {
@@ -202,56 +202,76 @@
 		}
 	</script>
 	
-	
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/67ef26e2ae5da2190a1a044c/1inv2vq7c';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script--><script>
-    $(document).ready(function(){
-        $("#errorshow1").hide();
-    });
-
-    $("form#loginForm").submit(function(e) {
-        e.preventDefault();    
-        var formData = new FormData(this);
-        formData.append('request', 'login');
-        $.ajax({
-            url: './ops/users',
-            type: 'POST',
-            data: formData,
-            beforeSend:function(){
-                $('#errorshow1').html("logging in <span class='fas fa-1x fa-spinner fa-spin'></span>").show();
-            },
-            success: function (data) {
-                let resp = $.parseJSON(data);
-                if (resp.status == "success") {
-                    $("#errorshow1").html(resp.message).show();
-                    setTimeout(' window.location.href = "./app/account"; ', 3000);
-                }else{
-                    $("#errorshow1").html(resp.message).show();
-                    setTimeout(function(){
-                        $("#errorshow1").hide();
-                    }, 10000);
-                }   
-            },
-            cache: false,
-            error:function(){
-                $('#errorshow1').html("An error has occured!!").show();
-                setTimeout(function(){
-                    $("#errorshow1").hide();
-                }, 10000);
-            },
-            contentType: false,
-            processData: false
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/67ef26e2ae5da2190a1a044c/1inv2vq7c';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    <!--End of Tawk.to Script-->
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const errorMessage = document.getElementById("errorshow1");
+            errorMessage.style.display = 'none';
+    
+            const loginForm = document.getElementById("loginForm");
+    
+            loginForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+    
+                // Create a JSON object from the form data
+                const formData = new FormData(loginForm);
+                const data = {};
+                formData.forEach((value, key) => {
+                    data[key] = value;
+                });
+    
+                // Show the loading message
+                errorMessage.innerHTML = "Logging in <span class='fas fa-1x fa-spinner fa-spin'></span>";
+                errorMessage.style.display = 'block';
+    
+                // Send JSON to the backend
+                fetch('http://localhost:1800/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json', // Set the content type to JSON
+                    },
+                    body: JSON.stringify(data), // Convert the form data to a JSON string
+                })
+                    .then(response => response.json()) // Parse the JSON response from the server
+                    .then(data => {
+                        // Check if login was successful
+                        if (data.message === "Login successful") {
+                            errorMessage.innerHTML = `Welcome, <strong>${data.user.username}</strong> 🎉`; // Display username
+                            loginForm.reset(); // Clear the form
+                            setTimeout(function () {
+                                window.location.href = "./dashboard.html"; // Redirect after successful login
+                            }, 3000);
+                        } else {
+                            errorMessage.innerHTML = data.message; // Show error message
+                            setTimeout(function () {
+                                errorMessage.style.display = 'none'; // Hide the error message after 10 seconds
+                            }, 10000);
+                        }
+                    })
+                    .catch(error => {
+                        // Handle any errors with the request
+                        errorMessage.innerHTML = "An error has occurred!!";
+                        errorMessage.style.display = 'block';
+                        setTimeout(function () {
+                            errorMessage.style.display = 'none'; // Hide the error message after 10 seconds
+                        }, 10000);
+                    });
+            });
         });
-    });
-</script></body></html>
+    </script>
+    
+    
+    </body></html>
