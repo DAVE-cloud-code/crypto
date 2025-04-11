@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/authRoutes');
+const adminRoutes = require("./routes/adminAuth");
 // const apiRoutes = require('./routes/api');
 const cors = require('cors')
 dotenv.config();
@@ -14,6 +15,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use("/api/admin", adminRoutes);
 // app.use('/api', apiRoutes);
 
 const MONGO = process.env.MONGODB_URI

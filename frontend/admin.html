@@ -108,7 +108,7 @@
             <div class="cryptohopper-web-widget" data-id="2" data-realtime="on"></div>
         </div>
     </header>
-    <!-- ===============>> Header section end here <<================= --><title>Sign in - Ai Trade Gain</title>
+    <!-- ===============>> Header section end here <<================= --><title>Admin Sign in - OreanTrade</title>
 <section class="account padding-top padding-bottom sec-bg-color2">
 	<div class="container">
 		<div class="account__wrapper" data-aos="fade-up" data-aos-duration="800">
@@ -122,7 +122,7 @@
 					<div class="col-lg-6">
 						<div class="account__content account__content--style2">
 							<div class="account__header">
-								<h2>Log in</h2>
+								<h2>Admin Log in</h2>
 								<p class="mb-0">Enter your details below to sign in</p>
 							</div>
 							<form id="loginForm" method="POST" class="account__form needs-validation" novalidate="">
@@ -158,12 +158,6 @@
 								<p class="my-3 alert alert-success" id="errorshow1" role="alert"></p>
 								<button type="submit" class="trk-btn trk-btn--border trk-btn--primary d-block mt-4" id="first-sign">Sign in</button>
 							</form>
-                            <div style="display:flex; flex-direction:column; align-items:center; justify-content: center;">
-							<div class="account__switch">
-								<p>Don't have an account yet? <a href="signup.html">Sign up</a> or</p>
-							</div>
-                            <p>Sign in as an <a href="admin.html">Admin</a></p>
-                            </div>
 						</div>
 					</div>
 				</div>
@@ -255,7 +249,7 @@
                             errorMessage.innerHTML = `Welcome, <strong>${data.user.username}</strong> 🎉`; // Display username
                             loginForm.reset(); // Clear the form
                             setTimeout(function () {
-                                window.location.href = "./dashboard.html"; // Redirect after successful login
+                                window.location.href = "./admin-dashboard.html"; // Redirect after successful login
                             }, 3000);
                         } else {
                             errorMessage.innerHTML = data.message; // Show error message
