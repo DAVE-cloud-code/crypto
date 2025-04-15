@@ -3,7 +3,7 @@ const token = localStorage.getItem('token'); // Adjust if stored differently
 
 export async function getDashboardData(token) {
     try {
-      const response = await fetch('http://localhost:1800/api/user/dashboard', {
+      const response = await fetch('https://oreantrade.onrender.com/api/user/dashboard', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
