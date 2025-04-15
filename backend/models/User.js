@@ -11,6 +11,14 @@ const userSchema = new mongoose.Schema({
   resetToken: { type: String },
 resetTokenExpiry: { type: Date },
 role: { type: String, default: "user", enum: ["user", "admin"] },
+trades: { type: [Object], default: [] },
+deposits: { type: [Object], default: [] },
+withdrawals: { type: [Object], default: [] },
+transactions: { type: [Object], default: [] },
+commodities: { type: [Object], default: [] },
+balance: { type: Number, default: 0 },
+profit: { type: Number, default: 0 },
+
   agreedToTerms: { type: Boolean, required: true }
 }, { timestamps: true });
 

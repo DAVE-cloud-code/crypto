@@ -61,7 +61,7 @@ exports.login = async (req, res) => {
       return res.status(400).json({ status: "error", message: "Invalid credentials" });
 
     // Generate JWT token
-    const token = jwt.sign({ id: user._id }, "secret", { expiresIn: "1d" });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 
     // Return response with token and user data
     res.status(200).json({
@@ -96,7 +96,7 @@ exports.forgotPassword = async (req, res) => {
   
       res.status(200).json({
         message: "Reset link generated",
-        resetLink: `http://localhost:5000/api/auth/reset-password/${token}`
+        resetLink: `http://localhost:1800/api/auth/reset-password/${token}`
       });
     } catch (err) {
       res.status(500).json({ message: "Server error", error: err.message });

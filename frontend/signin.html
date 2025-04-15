@@ -240,24 +240,32 @@
                 errorMessage.innerHTML = "Logging in <span class='fas fa-1x fa-spinner fa-spin'></span>";
                 errorMessage.style.display = 'block';
     
-                // Send JSON to the backend
+                // Send the JSON data to the server
                 fetch('http://localhost:1800/api/auth/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json', // Set the content type to JSON
-                    },
-                    body: JSON.stringify(data), // Convert the form data to a JSON string
-                })
-                    .then(response => response.json()) // Parse the JSON response from the server
-                    .then(data => {
-                        // Check if login was successful
-                        if (data.message === "Login successful") {
-                            errorMessage.innerHTML = `Welcome, <strong>${data.user.username}</strong> 🎉`; // Display username
-                            loginForm.reset(); // Clear the form
-                            setTimeout(function () {
-                                window.location.href = "./dashboard.html"; // Redirect after successful login
-                            }, 3000);
-                        } else {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json', // Set the content type to JSON
+    },
+    body: JSON.stringify(data), // Convert the form data to a JSON string
+})
+    .then(response => response.json()) // Parse the JSON response from the server
+    .then(data => {
+        // Check if login was successful
+        if (data.message === "Login successful") {
+            // ✅ Save token to localStorage
+            localStorage.setItem("token", data.token);
+
+            errorMessage.innerHTML = `Welcome, <strong>${data.user.username}</strong> 🎉`;
+            loginForm.reset();
+
+            setTimeout(function () {
+                if (data.user.role === "admin") {
+                    window.location.href = "./admin-dashboard.html";
+                } else {
+                    window.location.href = "./dashboard.html";
+                }
+            }, 3000);
+        }            else {
                             errorMessage.innerHTML = data.message; // Show error message
                             setTimeout(function () {
                                 errorMessage.style.display = 'none'; // Hide the error message after 10 seconds
