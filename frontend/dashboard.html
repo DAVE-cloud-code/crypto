@@ -23,6 +23,7 @@
 <body>
     <div class="container">
         <aside class="sidebar">
+            <div class="close-btn" id="close-sidebar">&times;</div>
           <div class="profile">
             <img src="https://via.placeholder.com/60" alt="User" class="avatar" id="user-avatar">
             <div>
@@ -54,13 +55,14 @@
               <li>🏧 Withdrawal</li>
               <li>✅ Verifications</li>
               <li>⚙️ User Settings</li>
-              <li style="color: red;">🚪 Sign Out</li>
+              <li style="color: red;" id="logoutLink">🚪 Logout</li>
             </ul>
           </nav>
         </aside>
       
         <main class="main-content">
           <header class="topbar">
+            <div class="hamburger" id="hamburger">&#9776;</div>
             <div class="ticker">💹 BTC: $85,451 | ETH: $1,629.5</div>
             <div class="user-area">
               🔔 Notifications | 💬 Messages |
@@ -75,44 +77,56 @@
           <section class="chart">
             <iframe src="https://www.tradingview.com/widgetembed/" width="100%" height="400" frameborder="0"></iframe>
           </section>
+          <section class="balance-summary">
+            <div class="summary-box">
+              <h3>Total Balance</h3>
+              <p id="total-balance">$0.00</p>
+            </div>
+            <div class="summary-box">
+              <h3>Deposit Balance</h3>
+              <p id="deposit-balance">$0.00</p>
+            </div>
+            <div class="summary-box">
+              <h3>Profit Balance</h3>
+              <p id="profit-balance">$0.00</p>
+            </div>
+          </section>
+          
+        <section class="growth-chart">
+            <div class="chart-header">
+                <h3>Balance Growth <span id="growth-badge">+0.00%</span></h3>
+                <select id="dateRange" class="filter">
+                  <option value="7">Last 7 Days</option>
+                  <option value="30">Last 30 Days</option>
+                  <option value="all">All Time</option>
+                </select>
+              </div>              
+  <canvas id="balanceChart" height=""></canvas>
+</section>
+         
+
+          <section class="all-history">
+            <div class="all-history1">
+              <span><a href="./trading/connect.html">Connect Wallet</a></span>
+              <span><a href="./trading/claim.html">Claim Bonus</a></span>
+              <span><a href="./trading/market.html">Market</a></span>
+              <span><a href="./trading/commodities.html">Commodity</a></span>
+            </div>
+            <div class="all-history1" style="text-decoration: none;">
+              <span><a href="./trading/deposit.html">Deposit</a></span>
+              <span><a href="./trading/withdraw.html">Withdraw</a></span>
+              <span><a href="./trading/ai-trading.html">Ai Trading</a></span>
+              <span><a href="./trading/copy.html">Copy Trading</a></span>
+            </div>
+            </section>
         </main>
       </div>
 
 
-      <script type="module">
-        import { getDashboardData } from './api/userAPI.js';
-      
-        const token = localStorage.getItem('token'); // Adjust if stored differently
-        console.log('Token:', token);
-        async function loadUserDashboard() {
-          try {
-            const data = await getDashboardData(token);
-      
-            // Set values dynamically
-            document.getElementById('user-fullname').textContent = data.fullname;
-            document.getElementById('header-fullname').textContent = data.fullname;
-            document.getElementById('user-username').textContent = data.username;
-            document.getElementById('greeting-name').textContent = data.username;
-      
-            document.getElementById('user-balance').textContent = `$${parseFloat(data.balance).toFixed(2)}`;
-            document.getElementById('wallet-balance').textContent = parseFloat(data.balance).toFixed(2);
-            document.getElementById('user-profit').textContent = parseFloat(data.profit).toFixed(2);
-      
-            // Optional: AI Trading status
-            const tradingStatus = data.aiTradingEnabled ? 'Active ✅' : 'Inactive ❌';
-            const tradingColor = data.aiTradingEnabled ? 'green' : 'red';
-            const aiTradingEl = document.getElementById('ai-trading');
-            aiTradingEl.textContent = tradingStatus;
-            aiTradingEl.className = tradingColor;
-      
-            // Optional: Avatar (if you support profile pictures)
-            // document.getElementById('user-avatar').src = data.profilePicUrl || 'https://via.placeholder.com/60';
-          } catch (err) {
-            console.error('Dashboard load error:', err);
-          }
-        }
-      
-        loadUserDashboard();
-      </script>
+      <script type="module" src="./api/auth.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="module" src="dashboard.js"></script>
+  
+  
     </body>
 </html>

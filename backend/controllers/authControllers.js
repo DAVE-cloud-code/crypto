@@ -80,6 +80,13 @@ exports.login = async (req, res) => {
   }
 };
 
+exports.logout = (req, res) => {
+  res.status(200).json({
+    status: "success",
+    message: "Logout successful",
+  });
+};
+
 
 // Request Password Reset
 exports.forgotPassword = async (req, res) => {
