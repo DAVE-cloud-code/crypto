@@ -5,7 +5,7 @@
 
     <!-- Ai Trade Gains meta Data -->
     <meta name="application-name" content="Orean Trade - Best Platfotm for Your Crypto, Forex, Stocks & Day Trading">
-    <meta name="author" content="Orean Trade">
+    <meta name="author" content="Ai Trade Gain">
     <meta name="keywords" content="Orean Trade, Crypto, Forex, and Stocks Trading Business, Copy Trading">
     <meta name="description" content="Experience the power of copy trading, the ultimate platform designed to transform trading. With its sleek design and advanced features, Orean Trade empowers you to showcase your expertise, engage in trades, and dominate the markets. Elevate your online presence and unlock new trading possibilities with Orean Trade.">
 
@@ -19,6 +19,7 @@
     <link rel="shortcut icon" href="../images-signin/favicon.png" type="image/x-icon">
     <title>AAPL</title>
     <link rel="stylesheet" href="../dashboard.css">
+    <link rel="stylesheet" href="loan.css">
 </head>
 <body>
     <div class="trade-container">
@@ -48,7 +49,7 @@
             <li>🏠 <a href="../dashboard.html" style="text-decoration: none; color: black;">Home</a></li>
             <li>💱<a href="place-trade.html" style="text-decoration: none; color: black;">Place Trade</a></li>
             <li>📈 <a href="my-trades.html" style="text-decoration: none; color: black;">My Trades</a></li>
-            <li>💰 <a href="./loans.html" style="text-decoration: none; color: black;">Loans</a></li>
+            <li>💰Take Loan</li>
             <li>📥  <a href="deposit.html" style="text-decoration: none; color: black;">Deposit</a> </li>
             <li>📊  <a href="commodities.html" style="text-decoration: none; color: black;">Commodities</a> </li>
             <li>💳  <a href="transactions.html" style="text-decoration: none; color: black;">Transactions</a> </li>
@@ -70,12 +71,58 @@
               <span class="user" id="header-fullname">Loading...</span>
             </div>
           </header>
-          <h1>Commodities Market</h1>
-          <div id="commodity-list" class="grid"></div>
+          <div class="container">
+            <h1>Loan Application Form</h1>
+        
+            <form id="loan-form">
+              <div class="form-group">
+                <label for="loan-amount">Loan Amount ($):</label>
+                <input type="number" id="loan-amount" name="loan-amount" required>
+              </div>
+        
+              <div class="form-group">
+                <label for="loan-duration">Loan Duration (Months):</label>
+                <input type="number" id="loan-duration" name="loan-duration" required>
+              </div>
+        
+              <div class="form-group">
+                <label for="monthly-income">Monthly Income ($):</label>
+                <input type="number" id="monthly-income" name="monthly-income" required>
+              </div>
+        
+              <div class="form-group">
+                <label for="accept-terms">
+                  <input type="checkbox" id="accept-terms" name="accept-terms" required> I accept the terms of the loan
+                </label>
+              </div>
+        
+              <button type="submit">Apply for Loan</button>
+            </form>
+        
+            <div class="loan-table">
+              <h2>Loans Applied</h2>
+              <table id="loan-table">
+                <thead>
+                  <tr>
+                    <th>Loan Amount ($)</th>
+                    <th>Loan Duration (Months)</th>
+                    <th>Monthly Income ($)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Dynamic rows will appear here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
       </div>
+
+
     </div>
 
     <script type="module" src="../dashboard.js"></script>
-    <script type="module" src="../api/commo.js"></script>
+      <script type="module" src="../api/auth.js"></script>
+      <script type="module" src="../api/loans.js"></script>
 </body>
 </html>

@@ -11,10 +11,11 @@ async function loadUserDashboard() {
     document.getElementById('header-fullname').textContent = data.fullname;
     document.getElementById('user-username').textContent = data.username;
     document.getElementById('greeting-name').textContent = data.username;
-
-    document.getElementById('user-balance').textContent = `$${parseFloat(data.balance).toFixed(2)}`;
-    document.getElementById('wallet-balance').textContent = parseFloat(data.balance).toFixed(2);
-    document.getElementById('user-profit').textContent = parseFloat(data.profit).toFixed(2);
+    
+    document.getElementById('user-balance').textContent = `$${parseFloat(data.mainBalance || 0).toFixed(2)}`;
+    document.getElementById('wallet-balance').textContent = parseFloat(data.mainBalance || 0).toFixed(2);
+    document.getElementById('user-profit').textContent = parseFloat(data.profitBalance || 0).toFixed(2);
+    
 
     // Optional: AI Trading status
     const tradingStatus = data.aiTradingEnabled ? 'Active ✅' : 'Inactive ❌';
@@ -131,3 +132,8 @@ const ctx = document.getElementById('balanceChart').getContext('2d');
       sidebar.classList.remove('active');
       overlay.style.display = 'none';
     });
+
+    
+    
+
+    

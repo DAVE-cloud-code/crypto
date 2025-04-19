@@ -1,0 +1,179 @@
+<!DOCTYPE html><html lang="en" data-bs-theme="dark"><head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Ai Trade Gains meta Data -->
+    <meta name="application-name" content="Orean Trade - Best Platfotm for Your Crypto, Forex, Stocks & Day Trading">
+    <meta name="author" content="Ai Trade Gain">
+    <meta name="keywords" content="Orean Trade, Crypto, Forex, and Stocks Trading Business, Copy Trading">
+    <meta name="description" content="Experience the power of copy trading, the ultimate platform designed to transform trading. With its sleek design and advanced features, Orean Trade empowers you to showcase your expertise, engage in trades, and dominate the markets. Elevate your online presence and unlock new trading possibilities with Orean Trade.">
+
+    <!-- OG meta data -->
+    <meta property="og:title" content="OreanTrade - Best Online Platfotm for Your Crypto, Forex, Stocks & Day Trading">
+    <meta property="og:Ai Trade Gain_name" content="Ai" trade="" gain="">
+    <meta property="og:url" content="index">
+    <meta property="og:description" content="Welcome to Orean Trade, the game-changing platform meticulously crafted to revolutionize trading business. With its sleek and modern design, Orean Trade provides a cutting-edge platform to showcase your expertise, attract good profits, and stay ahead in the competitive trading markets.">
+    <meta property="og:type" content="webAi Orean Trade">
+    <meta property="og:image" content="images-signin/favicon.png">
+    <link rel="shortcut icon" href="../images-signin/favicon.png" type="image/x-icon">
+    <title>AAPL</title>
+    <link rel="stylesheet" href="../dashboard.css">
+</head>
+<body>
+
+    <div class="trade-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="close-btn" id="close-sidebar">&times;</div>
+  <div class="profile">
+    <img src="https://via.placeholder.com/60" alt="User" class="avatar" id="user-avatar">
+    <div>
+      <h3 id="user-fullname">Loading...</h3>
+      <p id="user-username">Loading...</p>
+    </div>
+  </div>
+  <div class="status">
+    <p>Main Balance: <span class="green" id="user-balance">$0.00</span></p>
+    <p>Ai Trading: <span class="red" id="ai-trading">Inactive ❌</span></p>
+    <p>Wallet: <span class="green">Connected ✅</span></p>
+    <p>Balance: $<span id="wallet-balance">0.00</span></p>
+    <p>Profit: $<span id="user-profit">0.00</span></p>
+  </div>
+  <div class="buttons">
+    <button class="deposit">DEPOSIT</button>
+    <button class="withdraw">WITHDRAWAL</button>
+  </div>
+  <nav>
+    <ul>
+      <li>🏠 <a href="../dashboard.html" style="text-decoration: none; color: black;">Home</a></li>
+      <li>💱Place Trade</li>
+      <li>📈 <a href="my-trades.html" style="text-decoration: none; color: black;">My Trades</a></li>
+      <li>💰  <a href="loans.html" style="text-decoration: none; color: black;">Take Loan</a> </li>
+      <li>📥  <a href="deposit.html" style="text-decoration: none; color: black;">Deposit</a> </li>
+      <li>📊  <a href="commodities.html" style="text-decoration: none; color: black;">Commodities</a> </li>
+      <li>💳  <a href="transactions.html" style="text-decoration: none; color: black;">Transactions</a> </li>
+      <li>👥  <a href="copy.html" style="text-decoration: none; color: black;">Copy Traders</a> </li>
+      <li>🏧  <a href="withdraw.html" style="text-decoration: none; color: black;">Withdrawal</a> </li>
+      <li>✅  <a href="verify.html" style="text-decoration: none; color: black;">Verifications</a> </li>
+      <li>⚙️  <a href="user.html" style="text-decoration: none; color: black;">User Settings</a> </li>
+      <li style="color: red;" id="logoutLink">🚪 Logout</li>
+    </ul>
+  </nav>
+</aside>
+
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <header class="topbar">
+      <div class="hamburger" id="hamburger">&#9776;</div>
+      <div class="ticker">💹 BTC: $85,451 | ETH: $1,629.5</div>
+      <div class="user-area">
+        🔔 Notifications | 💬 Messages |
+        <span class="user" id="header-fullname">Loading...</span>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <div class="page-content">
+      <div class="top-section">
+        <!-- Widget -->
+        <div class="widget-container">
+          <iframe id="tvChart"
+            src="https://s.tradingview.com/widgetembed/?symbol=BINANCE:BTCUSDT&interval=1D&theme=dark"
+            frameborder="0">
+          </iframe>
+        </div>
+
+        <!-- Trade Form -->
+        <div class="trade-form">
+          <h2>Place a Trade</h2>
+          <form id="tradeForm">
+            <label for="assetCategory">Asset Category:</label>
+            <select id="assetCategory" name="assetCategory" required>
+              <option value="">-- Select Category --</option>
+              <option value="crypto">Crypto</option>
+              <option value="forex">Forex</option>
+              <option value="stock">Stock</option>
+              <option value="indices">Indices</option>
+              <option value="commodities">Commodities</option>
+              <option value="metals">Metals</option>
+              <option value="energy">Energy</option>
+              <option value="bonds">Bonds</option>
+              <option value="etf">ETF</option>
+              <option value="mutual_funds">Mutual Funds</option>
+              <option value="futures">Futures</option>
+              <option value="options">Options</option>
+              <option value="real_estate">Real Estate</option>
+              <option value="nfts">NFTs</option>
+              <option value="synthetic_assets">Synthetic Assets</option>
+            </select>
+
+            <label for="asset">Select Asset:</label>
+            <select id="asset" name="asset" required>
+              <option value="">-- Select Asset --</option>
+            </select>
+
+            <label for="amount">Amount to Trade ($):</label>
+            <input type="number" id="amount" name="amount" required min="1" />
+
+            <label for="tradeTime">Trade Time (minutes):</label>
+            <input type="number" id="tradeTime" name="tradeTime" required min="1" />
+
+            <label for="leverage">Leverage:</label>
+            <select id="leverage" name="leverage" required>
+              <option value="">-- Select Leverage --</option>
+              <option value="1x">1x</option>
+              <option value="2x">2x</option>
+              <option value="5x">5x</option>
+              <option value="10x">10x</option>
+            </select>
+
+            <label for="accountType">Deduct From:</label>
+            <select id="accountType" name="accountType" required>
+              <option value="">-- Select Account --</option>
+              <option value="main">Main Balance</option>
+              <option value="profit">Profit Balance</option>
+            </select>
+
+            <label for="tradeType">Trade Type:</label>
+            <select id="tradeType" name="tradeType" required>
+              <option value="">-- Select Trade Type --</option>
+              <option value="buy">Buy</option>
+              <option value="sell">Sell</option>
+            </select>
+
+            <button type="submit">Place Trade</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Bottom Section -->
+      <div class="bottom-section">
+        <h3>Live Price: <span id="livePrice">Loading...</span></h3>
+        <h3>Trade History</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Asset</th>
+              <th>Amount</th>
+              <th>Type</th>
+              <th>Time</th>
+              <th>Leverage</th>
+              <th>Account</th>
+            </tr>
+          </thead>
+          <tbody id="tradeHistory">
+            <!-- Trade history will be appended here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script type="module" src="../api/auth.js"></script>
+  <script type="module" src="../api/trade.js"  defer></script>
+  <script type="module" src="../dashboard.js"></script>
+</body>
+</html>

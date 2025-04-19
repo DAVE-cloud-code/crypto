@@ -14,9 +14,9 @@ mongoose.connect(MONGO,)
 // Admin details
 const newAdmin = {
   fullname: "Admin User2",
-  username: "admin1",
-  email: "admin@gmail.com",
-  password: "OREANtrader123",
+  username: "admin145",
+  email: "admin456@gmail.com",
+  password: "OREANtrader2003",
 };
 
 // Function to create admin

@@ -53,39 +53,75 @@ exports.addWithdrawal = async (req, res) => {
 // 3. Add a Trade
 exports.addTrade = async (req, res) => {
   try {
-    const { asset, amount } = req.body;
+    const {
+      marketType,
+      asset,
+      amount,
+      leverage,
+      duration,
+      fromBalance
+    } = req.body;
+
+    if (!marketType || !asset || !amount || !leverage || !duration || !fromBalance) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
 
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ message: "User not found" });
 
+    // Validate balance
+    if (fromBalance === "mainBalance" && user.mainBalance < amount) {
+      return res.status(400).json({ message: "Insufficient main balance" });
+    }
+
+    if (fromBalance === "profitBalance" && user.profitBalance < amount) {
+      return res.status(400).json({ message: "Insufficient profit balance" });
+    }
+
+    // Deduct from correct balance
+    if (fromBalance === "mainBalance") {
+      user.mainBalance -= amount;
+    } else {
+      user.profitBalance -= amount;
+    }
+
+    // Create new trade
     const newTrade = {
+      marketType,
       asset,
       amount,
-      status: "active",
+      leverage,
+      duration,
+      fromBalance,
+      status: "open",
       openedAt: new Date()
     };
 
     user.trades.push(newTrade);
     await user.save();
 
-    res.status(201).json({ message: "Trade added", trade: newTrade });
+    res.status(201).json({ message: "Trade created successfully", trade: newTrade });
   } catch (err) {
+    console.error("Trade creation error:", err);
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
 
-// 4. Add a Commodity
-exports.addCommodity = async (req, res) => {
-  try {
-    const { name, quantity, value } = req.body;
 
-    const user = await User.findById(req.user.id);
+exports.getUserTrades = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.query;
+
+    const user = await User.findById(id);
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    user.commodities.push({ name, quantity, value });
-    await user.save();
+    let filteredTrades = user.trades;
+    if (status && status !== "all") {
+      filteredTrades = filteredTrades.filter(trade => trade.status === status);
+    }
 
-    res.status(201).json({ message: "Commodity added", name });
+    res.status(200).json({ trades: filteredTrades });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
@@ -134,14 +170,17 @@ exports.updateWithdrawalStatus = async (req, res) => {
         fullname: user.fullname,
         username: user.username,
         email: user.email,
-        balance: user.balance,
-        profit: user.profit,
+        mainBalance: user.mainBalance,
+        profitBalance: user.profitBalance,
         deposits: user.deposits,
         withdrawals: user.withdrawals,
         transactions: user.transactions,
         activeTrades,
         allTrades: user.trades,
-        commodities: user.commodities
+        commodities: user.commodities,
+        role: user.role,
+        country: user.country,
+        currency: user.currency
       };
   
       res.status(200).json(dashboardInfo);

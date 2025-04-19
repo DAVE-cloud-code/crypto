@@ -5,7 +5,7 @@
 
     <!-- Ai Trade Gains meta Data -->
     <meta name="application-name" content="Orean Trade - Best Platfotm for Your Crypto, Forex, Stocks & Day Trading">
-    <meta name="author" content="Orean Trade">
+    <meta name="author" content="Ai Trade Gain">
     <meta name="keywords" content="Orean Trade, Crypto, Forex, and Stocks Trading Business, Copy Trading">
     <meta name="description" content="Experience the power of copy trading, the ultimate platform designed to transform trading. With its sleek design and advanced features, Orean Trade empowers you to showcase your expertise, engage in trades, and dominate the markets. Elevate your online presence and unlock new trading possibilities with Orean Trade.">
 
@@ -47,8 +47,8 @@
           <ul>
             <li>🏠 <a href="../dashboard.html" style="text-decoration: none; color: black;">Home</a></li>
             <li>💱<a href="place-trade.html" style="text-decoration: none; color: black;">Place Trade</a></li>
-            <li>📈 <a href="my-trades.html" style="text-decoration: none; color: black;">My Trades</a></li>
-            <li>💰 <a href="./loans.html" style="text-decoration: none; color: black;">Loans</a></li>
+            <li>📈My Trades</li>
+            <li>💰 <a href="loans.html" style="text-decoration: none; color: black;">Take Loan</a></li>
             <li>📥  <a href="deposit.html" style="text-decoration: none; color: black;">Deposit</a> </li>
             <li>📊  <a href="commodities.html" style="text-decoration: none; color: black;">Commodities</a> </li>
             <li>💳  <a href="transactions.html" style="text-decoration: none; color: black;">Transactions</a> </li>
@@ -70,12 +70,31 @@
               <span class="user" id="header-fullname">Loading...</span>
             </div>
           </header>
-          <h1>Commodities Market</h1>
-          <div id="commodity-list" class="grid"></div>
+
+          <div class="bottom-section">
+            <h3>Trade History</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Asset</th>
+                  <th>Amount</th>
+                  <th>Type</th>
+                  <th>Time</th>
+                  <th>Leverage</th>
+                  <th>Account</th>
+                </tr>
+              </thead>
+              <tbody id="tradeHistory">
+                <!-- Trade history will be appended here -->
+              </tbody>
+            </table>
+          </div>
+    
       </div>
     </div>
 
-    <script type="module" src="../dashboard.js"></script>
-    <script type="module" src="../api/commo.js"></script>
+      <script type="module" src="../dashboard.js"></script>
+      <script type="module" src="../api/auth.js"></script>
+      <script type="module" src="../api/trade.js"></script>
 </body>
 </html>

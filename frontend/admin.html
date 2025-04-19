@@ -235,7 +235,7 @@
                 errorMessage.style.display = 'block';
     
                 // Send JSON to the backend
-                fetch('http://localhost:1800/api/auth/login', {
+                fetch('https://oreantrade.onrender.com/api/admin/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json', // Set the content type to JSON
@@ -246,8 +246,10 @@
                     .then(data => {
                         // Check if login was successful
                         if (data.message === "Login successful") {
-                            errorMessage.innerHTML = `Welcome, <strong>${data.user.username}</strong> 🎉`; // Display username
+                            errorMessage.innerHTML = `Welcome, <strong>${data.admin.username}</strong> 🎉`; // Display username
                             loginForm.reset(); // Clear the form
+                            localStorage.setItem("adminToken", data.token);
+localStorage.setItem("adminUser", JSON.stringify(data.admin));
                             setTimeout(function () {
                                 window.location.href = "./admin-dashboard.html"; // Redirect after successful login
                             }, 3000);
