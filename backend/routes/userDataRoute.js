@@ -6,10 +6,11 @@ const auth = require('../middlewares/authMiddleware'); // your middleware to ver
 router.post('/deposit', auth, userDataController.addDeposit);
 router.post('/withdraw', auth, userDataController.addWithdrawal);
 router.post('/trade', auth, userDataController.addTrade);
-router.post('/commodity', auth, userDataController.addCommodity);
+router.get('/trades', auth, userDataController.getUserTrades);
 router.get('/transactions', auth, userDataController.getAllTransactions);
 router.post('/update-withdrawal-status', auth, userDataController.updateWithdrawalStatus);
 router.get('/dashboard', auth, userDataController.getUserDashboard);
+
 
 
 module.exports = router;
