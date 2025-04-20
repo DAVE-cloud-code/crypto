@@ -145,12 +145,11 @@ document.addEventListener("DOMContentLoaded", ()=>{
       };
       
 
-  const assetCategory = document.getElementById('assetCategory');
+  const assetCategory = document.getElementById('marketType');
   const asset = document.getElementById('asset');
   const livePrice = document.getElementById('livePrice');
   const tvChart = document.getElementById('tvChart');
   const tradeForm = document.getElementById('tradeForm');
-  const tradeHistory = document.getElementById('tradeHistory');
 
   assetCategory.addEventListener('change', function () {
     const selected = this.value;
@@ -188,10 +187,19 @@ document.addEventListener("DOMContentLoaded", ()=>{
     e.preventDefault();
     const formData = new FormData(tradeForm);
     const trade = Object.fromEntries(formData.entries());
+  
+    // ✅ Convert values to numbers (if needed by backend)
+    trade.amount = parseFloat(trade.amount);
+    trade.leverage = parseFloat(trade.leverage);
+    trade.duration = parseInt(trade.duration);
+  
     const token = localStorage.getItem('token');
+    console.log('Token:', token);
 
+    console.log('Trade:', trade);
+  
     try {
-      const res = await fetch('http://localhost:1800/api/trades/place', {
+      const res = await fetch('https://oreantrade.onrender.com/api/user/trade', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -199,11 +207,10 @@ document.addEventListener("DOMContentLoaded", ()=>{
         },
         body: JSON.stringify(trade)
       });
-
+  
       const result = await res.json();
       if (res.ok) {
         alert('Trade placed successfully!');
-        appendToHistory(trade);
         tradeForm.reset();
       } else {
         alert(result.message || 'Trade failed!');
@@ -212,20 +219,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
       console.error(err);
       alert('Error placing trade.');
     }
-  });
-
-  function appendToHistory(trade) {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${trade.asset}</td>
-      <td>$${parseFloat(trade.amount).toFixed(2)}</td>
-      <td>${trade.status === 'closed' ? 'Completed' : 'Active'}</td>
-      <td>${trade.duration}</td>
-      <td>x${trade.leverage}</td>
-      <td>${trade.fromBalance === 'mainBalance' ? 'Main' : 'Profit'}</td>
-    `;
-    tradeHistory.prepend(row);
-  }  
+  });  
 })
 
 document.addEventListener("DOMContentLoaded", () => {

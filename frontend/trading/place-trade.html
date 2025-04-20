@@ -85,95 +85,76 @@
           </iframe>
         </div>
 
-        <!-- Trade Form -->
-        <div class="trade-form">
-          <h2>Place a Trade</h2>
-          <form id="tradeForm">
-            <label for="assetCategory">Asset Category:</label>
-            <select id="assetCategory" name="assetCategory" required>
-              <option value="">-- Select Category --</option>
-              <option value="crypto">Crypto</option>
-              <option value="forex">Forex</option>
-              <option value="stock">Stock</option>
-              <option value="indices">Indices</option>
-              <option value="commodities">Commodities</option>
-              <option value="metals">Metals</option>
-              <option value="energy">Energy</option>
-              <option value="bonds">Bonds</option>
-              <option value="etf">ETF</option>
-              <option value="mutual_funds">Mutual Funds</option>
-              <option value="futures">Futures</option>
-              <option value="options">Options</option>
-              <option value="real_estate">Real Estate</option>
-              <option value="nfts">NFTs</option>
-              <option value="synthetic_assets">Synthetic Assets</option>
-            </select>
+       <!-- Trade Form -->
+<div class="trade-form">
+  <h2>Place a Trade</h2>
+  <form id="tradeForm">
+    <label for="marketType">Asset Category:</label>
+    <select id="marketType" name="marketType" required>
+      <option value="">-- Select Category --</option>
+      <option value="crypto">Crypto</option>
+      <option value="forex">Forex</option>
+      <option value="stock">Stock</option>
+      <option value="indices">Indices</option>
+      <option value="commodities">Commodities</option>
+      <option value="metals">Metals</option>
+      <option value="energy">Energy</option>
+      <option value="bonds">Bonds</option>
+      <option value="etf">ETF</option>
+      <option value="mutual_funds">Mutual Funds</option>
+      <option value="futures">Futures</option>
+      <option value="options">Options</option>
+      <option value="real_estate">Real Estate</option>
+      <option value="nfts">NFTs</option>
+      <option value="synthetic_assets">Synthetic Assets</option>
+    </select>
 
-            <label for="asset">Select Asset:</label>
-            <select id="asset" name="asset" required>
-              <option value="">-- Select Asset --</option>
-            </select>
+    <label for="asset">Select Asset:</label>
+    <select id="asset" name="asset" required>
+      <option value="">-- Select Asset --</option>
+    </select>
 
-            <label for="amount">Amount to Trade ($):</label>
-            <input type="number" id="amount" name="amount" required min="1" />
+    <label for="amount">Amount to Trade ($):</label>
+    <input type="number" id="amount" name="amount" required min="1" />
 
-            <label for="tradeTime">Trade Time (minutes):</label>
-            <input type="number" id="tradeTime" name="tradeTime" required min="1" />
+    <label for="duration">Trade Time (minutes):</label>
+    <input type="number" id="duration" name="duration" required min="1" />
 
-            <label for="leverage">Leverage:</label>
-            <select id="leverage" name="leverage" required>
-              <option value="">-- Select Leverage --</option>
-              <option value="1x">1x</option>
-              <option value="2x">2x</option>
-              <option value="5x">5x</option>
-              <option value="10x">10x</option>
-            </select>
+    <label for="leverage">Leverage:</label>
+    <select id="leverage" name="leverage" required>
+      <option value="">-- Select Leverage --</option>
+      <option value="1">1x</option>
+      <option value="2">2x</option>
+      <option value="5">5x</option>
+      <option value="10">10x</option>
+    </select>
 
-            <label for="accountType">Deduct From:</label>
-            <select id="accountType" name="accountType" required>
-              <option value="">-- Select Account --</option>
-              <option value="main">Main Balance</option>
-              <option value="profit">Profit Balance</option>
-            </select>
+    <label for="fromBalance">Deduct From:</label>
+    <select id="fromBalance" name="fromBalance" required>
+      <option value="">-- Select Account --</option>
+      <option value="mainBalance">Main Balance</option>
+      <option value="profitBalance">Profit Balance</option>
+    </select>
 
-            <label for="tradeType">Trade Type:</label>
-            <select id="tradeType" name="tradeType" required>
-              <option value="">-- Select Trade Type --</option>
-              <option value="buy">Buy</option>
-              <option value="sell">Sell</option>
-            </select>
+    <label for="tradeType">Trade Type:</label>
+    <select id="tradeType" name="tradeType" required>
+      <option value="">-- Select Trade Type --</option>
+      <option value="buy">Buy</option>
+      <option value="sell">Sell</option>
+    </select>
 
-            <button type="submit">Place Trade</button>
-          </form>
-        </div>
+    <button type="submit">Place Trade</button>
+  </form>
+</div>
+
       </div>
 
-      <!-- Bottom Section -->
-      <div class="bottom-section">
-        <h3>Live Price: <span id="livePrice">Loading...</span></h3>
-        <h3>Trade History</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Asset</th>
-              <th>Amount</th>
-              <th>Type</th>
-              <th>Time</th>
-              <th>Leverage</th>
-              <th>Account</th>
-            </tr>
-          </thead>
-          <tbody id="tradeHistory">
-            <!-- Trade history will be appended here -->
-          </tbody>
-        </table>
-      </div>
     </div>
   </div>
 </div>
 
   <script type="module" src="../api/auth.js"></script>
-  <script type="module" src="../api/trade.js"  defer></script>
   <script type="module" src="../dashboard.js"></script>
+  <script type="module" src="../api/trade.js"  defer></script>
 </body>
 </html>

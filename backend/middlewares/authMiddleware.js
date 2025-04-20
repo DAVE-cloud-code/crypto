@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
+const User = require('../models/User'); // Make sure this path is correct
 
-const verifyToken = (req, res, next) => {
+const verifyToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) {
     return res.status(401).json({ message: "Access denied. No token." });
@@ -9,15 +10,16 @@ const verifyToken = (req, res, next) => {
   const token = authHeader.split(" ")[1];
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
-    // Initialize req.user if it's undefined
-    req.user = req.user || {};  // Ensure req.user is defined
 
-    // Set the user ID from the decoded token
-    req.user._id = decoded.id;
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    req.user = user; // ✅ Now req.user contains full user details
     next();
   } catch (err) {
-    console.error('Token verification failed:', err); // Log the error
+    console.error('Token verification failed:', err);
     res.status(401).json({ message: "Invalid token" });
   }
 };

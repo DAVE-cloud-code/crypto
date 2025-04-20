@@ -59,40 +59,48 @@ exports.addTrade = async (req, res) => {
       amount,
       leverage,
       duration,
-      fromBalance
+      fromBalance,
+      tradeType // Optional field from frontend
     } = req.body;
 
+    // Validate required fields
     if (!marketType || !asset || !amount || !leverage || !duration || !fromBalance) {
       return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const tradeAmount = parseFloat(amount);
+    if (isNaN(tradeAmount) || tradeAmount <= 0) {
+      return res.status(400).json({ message: "Invalid amount value" });
     }
 
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ message: "User not found" });
 
     // Validate balance
-    if (fromBalance === "mainBalance" && user.mainBalance < amount) {
+    if (fromBalance === "mainBalance" && user.mainBalance < tradeAmount) {
       return res.status(400).json({ message: "Insufficient main balance" });
     }
 
-    if (fromBalance === "profitBalance" && user.profitBalance < amount) {
+    if (fromBalance === "profitBalance" && user.profitBalance < tradeAmount) {
       return res.status(400).json({ message: "Insufficient profit balance" });
     }
 
     // Deduct from correct balance
     if (fromBalance === "mainBalance") {
-      user.mainBalance -= amount;
+      user.mainBalance -= tradeAmount;
     } else {
-      user.profitBalance -= amount;
+      user.profitBalance -= tradeAmount;
     }
 
-    // Create new trade
+    // Create new trade object
     const newTrade = {
       marketType,
       asset,
-      amount,
+      amount: tradeAmount,
       leverage,
       duration,
       fromBalance,
+      tradeType: tradeType || null, // Optional
       status: "open",
       openedAt: new Date()
     };
@@ -106,6 +114,7 @@ exports.addTrade = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
 
 exports.getUserTrades = async (req, res) => {
   try {
