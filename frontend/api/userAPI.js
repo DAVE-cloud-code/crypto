@@ -17,7 +17,6 @@ export async function getDashboardData(token) {
       }
   
       const data = await response.json();
-      console.log('Dashboard Data:', data);
       return data;
     } catch (error) {
       console.error('getDashboardData error:', error);

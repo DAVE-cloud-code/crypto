@@ -36,8 +36,8 @@
           <p>Main Balance: <span class="green" id="user-balance">$0.00</span></p>
           <p>Ai Trading: <span class="red" id="ai-trading">Inactive ❌</span></p>
           <p>Wallet: <span class="green">Connected ✅</span></p>
-          <p>Balance: $<span id="wallet-balance">0.00</span></p>
-          <p>Profit: $<span id="user-profit">0.00</span></p>
+          <p>Balance: <span id="wallet-balance">0.00</span></p>
+          <p>Profit: <span id="user-profit">0.00</span></p>
         </div>
         <div class="buttons">
           <button class="deposit">DEPOSIT</button>
@@ -70,31 +70,45 @@
               <span class="user" id="header-fullname">Loading...</span>
             </div>
           </header>
+<!-- Trade Filters -->
+<select id="tradeStatusFilter">
+  <option value="all">All</option>
+  <option value="open">Open</option>
+  <option value="closed">Closed</option>
+</select>
 
-          <div class="bottom-section">
-            <h3>Trade History</h3>
-            <table>
-              <thead>
-                <tr>
-                  <th>Asset</th>
-                  <th>Amount</th>
-                  <th>Type</th>
-                  <th>Time</th>
-                  <th>Leverage</th>
-                  <th>Account</th>
-                </tr>
-              </thead>
-              <tbody id="tradeHistory">
-                <!-- Trade history will be appended here -->
-              </tbody>
-            </table>
-          </div>
+<!-- Trade History Table -->
+<div class="bottom-section">
+  <h3>Trade History</h3>
+  <table>
+    <thead>
+      <tr>
+        <th id="sortAsset">Asset ⬍</th>
+        <th id="sortAmount">Amount ⬍</th>
+        <th>Type</th>
+        <th>Time</th>
+        <th>Leverage</th>
+        <th>Account</th>
+      </tr>
+    </thead>
+    <tbody id="tradeHistory">
+      <!-- Trade history will be appended here -->
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <div id="paginationControls">
+    <button id="prevPage">Previous</button>
+    <span id="currentPage">Page 1</span>
+    <button id="nextPage">Next</button>
+  </div>
+</div>
+
     
       </div>
     </div>
 
-      <script type="module" src="../dashboard.js"></script>
       <script type="module" src="../api/auth.js"></script>
-      <script type="module" src="../api/trade.js"></script>
+      <script type="module" src="../api/my-trade.js"></script>
 </body>
 </html>

@@ -255,6 +255,7 @@
         if (data.message === "Login successful") {
             // ✅ Save token to localStorage
             localStorage.setItem("token", data.token);
+            localStorage.setItem("user", JSON.stringify(data.user));
 
             errorMessage.innerHTML = `Welcome, <strong>${data.user.username}</strong> 🎉`;
             loginForm.reset();

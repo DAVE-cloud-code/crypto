@@ -107,13 +107,12 @@ exports.addTrade = async (req, res) => {
   }
 };
 
-
 exports.getUserTrades = async (req, res) => {
   try {
-    const { id } = req.params;
+    const userId = req.user._id; // Get from auth middleware
     const { status } = req.query;
 
-    const user = await User.findById(id);
+    const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: "User not found" });
 
     let filteredTrades = user.trades;
@@ -126,6 +125,7 @@ exports.getUserTrades = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
 
 // 5. Get All Transactions
 exports.getAllTransactions = async (req, res) => {

@@ -1,3 +1,5 @@
+
+
 document.addEventListener("DOMContentLoaded", ()=>{
     const assetOptions = {
         crypto: [
@@ -216,14 +218,14 @@ document.addEventListener("DOMContentLoaded", ()=>{
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>${trade.asset}</td>
-      <td>${trade.amount}</td>
-      <td>${trade.tradeType}</td>
-      <td>${trade.tradeTime} min</td>
-      <td>${trade.leverage}</td>
-      <td>${trade.accountType}</td>
+      <td>$${parseFloat(trade.amount).toFixed(2)}</td>
+      <td>${trade.status === 'closed' ? 'Completed' : 'Active'}</td>
+      <td>${trade.duration}</td>
+      <td>x${trade.leverage}</td>
+      <td>${trade.fromBalance === 'mainBalance' ? 'Main' : 'Profit'}</td>
     `;
     tradeHistory.prepend(row);
-  }
+  }  
 })
 
 document.addEventListener("DOMContentLoaded", () => {
