@@ -8,13 +8,21 @@ cron.schedule("* * * * *", async () => {
 
     for (const user of users) {
       let updated = false;
+      const openTrades = user.trades.filter(trade => trade.status === "open");
 
-      user.trades.forEach((trade) => {
-        if (trade.status === "open") {
+      // Sort by openedAt for predictable processing
+      openTrades.sort((a, b) => new Date(a.openedAt) - new Date(b.openedAt));
+
+      // Process in chunks of 5 trades
+      for (let i = 0; i < openTrades.length; i += 5) {
+        const tradeBatch = openTrades.slice(i, i + 5);
+        let wins = 0;
+
+        for (let trade of tradeBatch) {
           const opened = new Date(trade.openedAt);
           const now = new Date();
 
-          // Convert duration string like "1h" or "30m"
+          // Parse duration ("1h" or "30m")
           const duration = trade.duration.toLowerCase();
           let ms = 0;
           if (duration.endsWith("h")) {
@@ -23,22 +31,22 @@ cron.schedule("* * * * *", async () => {
             ms = parseInt(duration) * 60 * 1000;
           }
 
+          // Check if trade is expired
           if (now - opened >= ms) {
             trade.status = "closed";
             trade.closedAt = now;
 
-            // Sample profit/loss logic
-            const randomProfit = Math.random() > 0.5;
-            const resultAmount = randomProfit ? trade.amount * 1.1 : trade.amount * 0.9;
-
-            if (randomProfit) {
-              user.profitBalance += resultAmount - trade.amount; // Profit
+            // Win logic — first 3 in every batch of 5 are wins
+            if (wins < 3) {
+              const profit = trade.amount * 0.4;
+              user.profitBalance += trade.amount + profit;
+              wins++;
             }
 
             updated = true;
           }
         }
-      });
+      }
 
       if (updated) await user.save();
     }

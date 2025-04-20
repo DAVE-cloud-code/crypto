@@ -194,8 +194,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
     trade.duration = parseInt(trade.duration);
   
     const token = localStorage.getItem('token');
-    console.log('Token:', token);
-
     console.log('Trade:', trade);
   
     try {

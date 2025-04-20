@@ -59,9 +59,48 @@ document.addEventListener('DOMContentLoaded', () => {
         <td>${trade.duration}</td>
         <td>${trade.leverage}x</td>
         <td>${trade.fromBalance === 'mainBalance' ? 'Main' : 'Profit'}</td>
+         <td><button class="view-btn" data-trade='${JSON.stringify(trade)}'>View</button></td>
       `;
       tradeHistory.appendChild(row);
     }
+
+    tradeHistory.addEventListener('click', function (e) {
+      if (e.target.classList.contains('view-btn')) {
+        const trade = JSON.parse(e.target.getAttribute('data-trade'));
+        showTradeDetails(trade);
+      }
+    });
+
+    function showTradeDetails(trade) {
+      const tradeDetails = document.getElementById('tradeDetails');
+      tradeDetails.textContent = `
+    Asset: ${trade.asset}
+    Amount: $${parseFloat(trade.amount).toFixed(2)}
+    Market Type: ${trade.marketType}
+    Duration: ${trade.duration} min
+    Leverage: ${trade.leverage}x
+    Status: ${trade.status}
+    From Balance: ${trade.fromBalance === 'mainBalance' ? 'Main' : 'Profit'}
+    Trade Type: ${trade.tradeType}
+      `;
+      document.getElementById('tradeModal').style.display = 'block';
+    }
+    
+  // Close modal when 'X' is clicked
+document.querySelector('.close-btn').addEventListener('click', () => {
+  document.getElementById('tradeModal').style.display = 'none';
+});
+
+// Optional: Close modal when clicking outside modal content
+window.addEventListener('click', (event) => {
+  const modal = document.getElementById('tradeModal');
+  if (event.target === modal) {
+    modal.style.display = 'none';
+  }
+});
+
+
+    
   
     function displayPage(page) {
       tradeHistory.innerHTML = '';
