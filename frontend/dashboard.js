@@ -10,7 +10,8 @@ async function loadUserDashboard() {
     const walletBalance = parseFloat(data.mainBalance || 0);
     const mainBalance = parseFloat(data.mainBalance || 0);
     const profitBalance = parseFloat(data.profitBalance || 0);
-    const totalBalance = mainBalance + profitBalance;
+    const bonusBalance = parseFloat(data.bonusBalance || 0);
+    const totalBalance = mainBalance + profitBalance + bonusBalance;
 
     // Set values dynamically
     document.getElementById('user-fullname').textContent = data.fullname;
@@ -26,6 +27,7 @@ async function loadUserDashboard() {
 document.getElementById('total-balance').textContent = `$${totalBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 document.getElementById('deposit-balance').textContent = `$${mainBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 document.getElementById('profit-balance').textContent = `$${profitBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+document.getElementById('bonus-balance').textContent = `$${bonusBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
     // Optional: AI Trading status
     const tradingStatus = data.aiTradingEnabled ? 'Active ✅' : 'Inactive ❌';
@@ -80,7 +82,7 @@ const ctx = document.getElementById('balanceChart').getContext('2d');
   updateGrowthBadge(currentData.data);
 
   const chart = new Chart(ctx, {
-    type: 'line',
+    type: 'bar',
     data: {
       labels: currentData.labels,
       datasets: [{
@@ -95,7 +97,7 @@ const ctx = document.getElementById('balanceChart').getContext('2d');
     },
     options: {
       responsive: true,
-      maintainAspectRatio: false,
+      maintainAspectRatio: true,
       animation: {
         duration: 1500,
         easing: 'easeOutQuart'
@@ -121,27 +123,7 @@ const ctx = document.getElementById('balanceChart').getContext('2d');
     chart.update();
     updateGrowthBadge(newData.data);
   }); 
-
-
-  const hamburger = document.getElementById('hamburger');
-    const sidebar = document.getElementById('sidebar');
-    const closeBtn = document.getElementById('close-sidebar');
-    const overlay = document.getElementById('overlay');
   
-    hamburger.addEventListener('click', () => {
-      sidebar.classList.add('active');
-      overlay.style.display = 'block';
-    });
-  
-    closeBtn.addEventListener('click', () => {
-      sidebar.classList.remove('active');
-      overlay.style.display = 'none';
-    });
-  
-    overlay.addEventListener('click', () => {
-      sidebar.classList.remove('active');
-      overlay.style.display = 'none';
-    });
 
     
     

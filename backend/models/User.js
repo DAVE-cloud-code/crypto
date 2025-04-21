@@ -25,14 +25,20 @@ const tradeSchema = new mongoose.Schema({
 });
 
 
+
 const loanSchema = new mongoose.Schema({
   amount: { type: Number, required: true },
-  duration: { type: Number, required: true },
-  interestRate: { type: Number, required: true },
+  duration: { type: Number, required: true }, // in months
+  interestRate: { type: Number, required: true }, // e.g., 0.1 for 10%
+  totalRepayable: { type: Number },
+  monthlyRepayment: { type: Number },
+  monthlyIncome: { type: Number, required: true },
+  agreedToLoanTerms: { type: Boolean, required: true },
   status: { type: String, enum: ['pending', 'approved', 'repaid'], default: 'pending' },
   requestedAt: { type: Date, default: Date.now },
   repaidAt: { type: Date }
 });
+
 
 const transactionSchema = new mongoose.Schema({
   type: { type: String, enum: ['deposit', 'withdrawal'], required: true },
@@ -54,6 +60,7 @@ const userSchema = new mongoose.Schema({
   role: { type: String, default: "user", enum: ["user", "admin"] },
   mainBalance: { type: Number, default: 0 },
   profitBalance: { type: Number, default: 0 },
+  bonusBalance: { type: Number, default: 0 },
   trades: [tradeSchema],
   commodities: { type: [Object], default: [] }, // optional, or you can remove if already using trades
   loans: [loanSchema],

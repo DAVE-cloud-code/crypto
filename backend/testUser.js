@@ -18,16 +18,17 @@ const createTestUser = async () => {
     const hashedPassword = await bcrypt.hash("SoloVictor123##", 10);
 
     const user = new User({
-      fullname: "Solo Vic",
-      username: "SoloBTC12",
-      email: "solo123@gmail.com",
+      fullname: "Dave Great",
+      username: "Deeweb",
+      email: "davegreat@gmail.com",
       currency: "USD",
       country: "USA",
       password: hashedPassword,
       agreedToTerms: true,
       role: "user",
-      mainBalance: 1000,
-      profitBalance: 250,
+      mainBalance: 1000000,
+      profitBalance: 10000,
+      bonusBalance: 5000,
 
       deposits: [
         {

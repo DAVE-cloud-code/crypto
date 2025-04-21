@@ -24,7 +24,7 @@
 <body>
     <div class="trade-container">
         <!-- Sidebar -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
           <div class="close-btn" id="close-sidebar">&times;</div>
         <div class="profile">
           <img src="https://via.placeholder.com/60" alt="User" class="avatar" id="user-avatar">
@@ -71,50 +71,56 @@
               <span class="user" id="header-fullname">Loading...</span>
             </div>
           </header>
-          <div class="container">
-            <h1>Loan Application Form</h1>
-        
-            <form id="loan-form">
-              <div class="form-group">
-                <label for="loan-amount">Loan Amount ($):</label>
-                <input type="number" id="loan-amount" name="loan-amount" required>
-              </div>
-        
-              <div class="form-group">
-                <label for="loan-duration">Loan Duration (Months):</label>
-                <input type="number" id="loan-duration" name="loan-duration" required>
-              </div>
-        
-              <div class="form-group">
-                <label for="monthly-income">Monthly Income ($):</label>
-                <input type="number" id="monthly-income" name="monthly-income" required>
-              </div>
-        
-              <div class="form-group">
-                <label for="accept-terms">
-                  <input type="checkbox" id="accept-terms" name="accept-terms" required> I accept the terms of the loan
-                </label>
-              </div>
-        
-              <button type="submit">Apply for Loan</button>
-            </form>
-        
-            <div class="loan-table">
-              <h2>Loans Applied</h2>
-              <table id="loan-table">
-                <thead>
-                  <tr>
-                    <th>Loan Amount ($)</th>
-                    <th>Loan Duration (Months)</th>
-                    <th>Monthly Income ($)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- Dynamic rows will appear here -->
-                </tbody>
-              </table>
-            </div>
-          </div>
+
+
+          
+  <div class="container">
+    <h1>Loan Application Form</h1>
+
+    <form id="loan-form">
+      <div class="form-group">
+        <label for="loan-amount">Loan Amount ($):</label>
+        <input type="number" id="loan-amount" name="loan-amount" required>
+      </div>
+
+      <div class="form-group">
+        <label for="loan-duration">Loan Duration (Months):</label>
+        <input type="number" id="loan-duration" name="loan-duration" required>
+      </div>
+
+      <div class="form-group">
+        <label for="monthly-income">Monthly Income ($):</label>
+        <input type="number" id="monthly-income" name="monthly-income" required>
+      </div>
+
+      <div class="form-group">
+        <label>
+          <input type="checkbox" id="accept-terms" name="accept-terms" required>
+          I accept the terms of the loan
+        </label>
+      </div>
+
+      <button type="submit">Apply for Loan</button>
+    </form>
+
+    <div class="loan-table">
+      <h2>Loans Applied</h2>
+      <table id="loan-table">
+        <thead>
+          <tr>
+            <th>Loan Amount ($)</th>
+            <th>Duration (Months)</th>
+            <th>Monthly Income ($)</th>
+            <th>Status</th>
+            <th>Total Payable ($)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Loan rows will be inserted here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
 
       </div>
 
@@ -124,5 +130,6 @@
     <script type="module" src="../dashboard.js"></script>
       <script type="module" src="../api/auth.js"></script>
       <script type="module" src="../api/loans.js"></script>
+      <script type="module" src="../api/ham.js"></script>
 </body>
 </html>

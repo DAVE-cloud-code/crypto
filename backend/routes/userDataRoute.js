@@ -11,6 +11,10 @@ router.get('/transactions', auth, userDataController.getAllTransactions);
 router.post('/update-withdrawal-status', auth, userDataController.updateWithdrawalStatus);
 router.get('/dashboard', auth, userDataController.getUserDashboard);
 
+router.post("/place-loan", auth, userDataController.placeLoan);
+router.get("/get-loan", auth, userDataController.getUserLoans);
 
+// Admin route
+router.put("/approve/:userId/:loanId", auth, isAdmin, userDataController.approveLoan);
 
 module.exports = router;

@@ -148,6 +148,102 @@ exports.getAllTransactions = async (req, res) => {
   }
 };
 
+exports.placeLoan = async (req, res) => {
+  try {
+    const { amount, duration, monthlyIncome, agreedToLoanTerms } = req.body;
+
+    if (!agreedToLoanTerms) {
+      return res.status(400).json({ message: "You must agree to the loan terms." });
+    }
+
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Interest rate logic (can also be based on amount/duration tiers)
+    const getInterestRate = (duration) => {
+      if (duration <= 6) return 0.05;
+      if (duration <= 12) return 0.1;
+      return 0.15;
+    };
+
+    const interestRate = getInterestRate(duration);
+    const totalInterest = amount * interestRate;
+    const totalRepayable = amount + totalInterest;
+    const monthlyRepayment = totalRepayable / duration;
+
+    const newLoan = {
+      amount,
+      duration,
+      interestRate,
+      totalRepayable,
+      monthlyRepayment,
+      monthlyIncome,
+      agreedToLoanTerms
+    };
+
+    user.loans.push(newLoan);
+    await user.save();
+
+    res.status(201).json({
+      message: "Loan request placed successfully",
+      loan: newLoan
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "Loan request failed",
+      error: err.message
+    });
+  }
+};
+
+
+// Get all loans for a user
+exports.getUserLoans = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    res.status(200).json(user.loans);
+  } catch (err) {
+    res.status(500).json({ message: "Unable to fetch loans", error: err.message });
+  }
+};
+
+
+exports.approveLoan = async (req, res) => {
+  try {
+    const { userId, loanId } = req.params;
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const loan = user.loans.id(loanId);
+    if (!loan) return res.status(404).json({ message: "Loan not found" });
+
+    if (loan.status === "approved") {
+      return res.status(400).json({ message: "Loan already approved" });
+    }
+
+    loan.status = "approved";
+    loan.repaidAt = null; // reset if needed
+    user.mainBalance += loan.amount;
+
+    // Optional: Log as a transaction
+    user.transactions.push({
+      type: "deposit",
+      amount: loan.amount,
+      status: "completed"
+    });
+
+    await user.save();
+
+    res.status(200).json({ message: "Loan approved and credited", loan });
+  } catch (err) {
+    res.status(500).json({ message: "Loan approval failed", error: err.message });
+  }
+};
+
+
 // Update Withdrawal Status
 exports.updateWithdrawalStatus = async (req, res) => {
     try {
@@ -181,6 +277,7 @@ exports.updateWithdrawalStatus = async (req, res) => {
         email: user.email,
         mainBalance: user.mainBalance,
         profitBalance: user.profitBalance,
+        bonusBalance: user.bonusBalance,
         deposits: user.deposits,
         withdrawals: user.withdrawals,
         transactions: user.transactions,

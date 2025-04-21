@@ -22,7 +22,7 @@
 </head>
 <body>
     <div class="container">
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="close-btn" id="close-sidebar">&times;</div>
           <div class="profile">
             <img src="https://via.placeholder.com/60" alt="User" class="avatar" id="user-avatar">
@@ -90,7 +90,12 @@
               <h3>Profit Balance</h3>
               <p id="profit-balance">$0.00</p>
             </div>
+            <div class="summary-box">
+              <h3>Bonus Balance</h3>
+              <p id="bonus-balance">$0.00</p>
+            </div>
           </section>
+          <div id="overlay" class="overlay"></div>
           
         <section class="growth-chart">
             <div class="chart-header">
@@ -128,6 +133,7 @@
       <script type="module" src="./api/auth.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="module" src="dashboard.js"></script>
+<script type="module" src="./api/ham.js"></script>
   
   
     </body>
