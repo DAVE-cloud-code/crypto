@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userDataController = require('../controllers/userDataController');
 const auth = require('../middlewares/authMiddleware'); // your middleware to verify JWT
+const isAdmin = require('../middlewares/isAdmin')
 
 router.post('/deposit', auth, userDataController.addDeposit);
 router.post('/withdraw', auth, userDataController.addWithdrawal);
