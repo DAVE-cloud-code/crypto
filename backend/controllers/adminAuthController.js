@@ -24,37 +24,43 @@ exports.register = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  try {
-    const { usernameOrEmail, password } = req.body;
+  const { usernameOrEmail, password } = req.body; // login can be email or username
 
+  try {
+    // Find the user by email or username
     const admin = await Admin.findOne({
-      $or: [{ email: usernameOrEmail }, { username: usernameOrEmail }]
+      $or: [
+        { email: usernameOrEmail },
+        { username: usernameOrEmail}
+      ]
     });
 
     if (!admin) {
-      return res.status(400).json({ status: "error", message: "Invalid credentials" });
+      return res.status(404).json({ message: "Admin not found" });
     }
 
     const isMatch = await bcrypt.compare(password, admin.password);
     if (!isMatch) {
-      return res.status(400).json({ status: "error", message: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ id: admin._id, role: "admin" }, "secret", { expiresIn: "1d" });
+    const token = jwt.sign(
+      { id: admin._id, role: admin.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
 
     res.status(200).json({
-      status: "success",
       message: "Login successful",
       token,
       admin: {
-        id: admin._id,
-        username: admin.username,
         fullname: admin.fullname,
-        email: admin.email
+        email: admin.email,
+        username: admin.username,
+        role: admin.role
       }
     });
-
   } catch (err) {
-    res.status(500).json({ status: "error", message: err.message });
+    res.status(500).json({ message: "Server error", error: err.message });
   }
 };

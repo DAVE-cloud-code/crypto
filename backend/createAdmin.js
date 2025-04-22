@@ -1,37 +1,65 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-const Admin = require("./models/Admin"); // Adjust path if needed
-const dotenv = require('dotenv');
+const Admin = require("./models/Admin");
+const dotenv = require("dotenv");
 
-dotenv.config()
+dotenv.config();
 
-const MONGO = process.env.MONGODB_URI
-// Connect to MongoDB
-mongoose.connect(MONGO,)
-.then(() => console.log("MongoDB connected"))
-.catch(err => console.error("MongoDB connection error:", err));
+const MONGO_URI = process.env.MONGODB_URI;
 
 // Admin details
 const newAdmin = {
-  fullname: "Admin User2",
-  username: "admin145",
-  email: "admin456@gmail.com",
+  fullname: "Admin User",
+  username: "admin",
+  email: "admin45@gmail.com",
   password: "OREANtrader2003",
+  role: "admin", // You can set this to "admin" or "superadmin"
 };
 
-// Function to create admin
+const connectToDB = async () => {
+  try {
+    await mongoose.connect(MONGO_URI);
+    console.log("✅ MongoDB connected");
+  } catch (err) {
+    console.error("❌ MongoDB connection error:", err.message);
+    process.exit(1);
+  }
+};
+
 const createAdmin = async () => {
   try {
-    const hashedPassword = await bcrypt.hash(newAdmin.password, 12);
-    const admin = await Admin.create({
-      ...newAdmin,
-      password: hashedPassword
+    await connectToDB();
+
+    const existingAdmin = await Admin.findOne({
+      $or: [{ email: newAdmin.email }, { username: newAdmin.username }],
     });
-    console.log("Admin created:", admin);
+
+    if (existingAdmin) {
+      console.log("⚠️ Admin already exists:", existingAdmin.email);
+      return;
+    }
+
+    const hashedPassword = await bcrypt.hash(newAdmin.password, 12);
+
+    const admin = await Admin.create({
+      fullname: newAdmin.fullname,
+      username: newAdmin.username,
+      email: newAdmin.email,
+      password: hashedPassword,
+      role: newAdmin.role,
+    });
+
+    console.log("✅ Admin created successfully:", {
+      id: admin._id,
+      email: admin.email,
+      role: admin.role,
+    });
   } catch (err) {
-    console.error("Error creating admin:", err.message);
+    console.error("❌ Error creating admin:", err.message);
   } finally {
-    mongoose.connection.close();
+    mongoose.connection.close(() => {
+      console.log("🔌 MongoDB connection closed");
+    });
   }
 };
 

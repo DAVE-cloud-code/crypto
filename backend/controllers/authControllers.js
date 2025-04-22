@@ -138,6 +138,7 @@ exports.forgotPassword = async (req, res) => {
   
   // Fetch all users (Admin only)
   exports.getAllUsers = async (req, res) => {
+    console.log(req.user)
     try {
       const users = await User.find().select("-password -resetToken -resetTokenExpiry");
       res.status(200).json(users);

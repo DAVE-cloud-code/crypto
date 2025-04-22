@@ -249,7 +249,7 @@
                             errorMessage.innerHTML = `Welcome, <strong>${data.admin.username}</strong> 🎉`; // Display username
                             loginForm.reset(); // Clear the form
                             localStorage.setItem("adminToken", data.token);
-localStorage.setItem("adminUser", JSON.stringify(data.admin));
+                            localStorage.setItem("adminUser", JSON.stringify(data.admin));
                             setTimeout(function () {
                                 window.location.href = "./admin-dashboard.html"; // Redirect after successful login
                             }, 3000);
