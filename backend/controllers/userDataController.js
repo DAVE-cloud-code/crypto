@@ -243,7 +243,6 @@ exports.approveLoan = async (req, res) => {
   }
 };
 
-
 // Update Withdrawal Status
 exports.updateWithdrawalStatus = async (req, res) => {
     try {
@@ -262,6 +261,28 @@ exports.updateWithdrawalStatus = async (req, res) => {
       res.status(500).json({ message: 'Server error', error: err.message });
     }
   };
+
+  
+  exports.updateTransactionStatus = async (req, res) => {
+    try {
+      const { userId, transactionId } = req.params;
+      const { status } = req.body; // expected values: 'approved' or 'failed'
+  
+      const user = await User.findById(userId);
+      if (!user) return res.status(404).json({ message: "User not found" });
+  
+      const transaction = user.transactions.id(transactionId);
+      if (!transaction) return res.status(404).json({ message: "Transaction not found" });
+  
+      transaction.status = status;
+      await user.save();
+  
+      res.status(200).json({ message: `Transaction ${status}`, transaction });
+    } catch (err) {
+      res.status(500).json({ message: "Failed to update transaction", error: err.message });
+    }
+  };
+  
   
   // Fetch User Dashboard Info
   exports.getUserDashboard = async (req, res) => {

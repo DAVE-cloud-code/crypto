@@ -4,8 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin dashboard</title>
+    <link rel="stylesheet" href="admin.css">
 </head>
 <body>
-    <p>Welcome to the admin Dashboard</p>
-</body>
+    <div class="admin-container">
+        <aside class="sidebar">
+          <h2>Admin Dashboard</h2>
+          <nav class="nav-links">
+            <a href="/admin/dashboard.html" class="nav-link">
+              Main Dashboard <span class="badge" id="userCount">0</span>
+            </a>
+            <a href="/admin/users.html" class="nav-link">Users</a>
+            <a href="/admin/transactions.html" class="nav-link">Transactions</a>
+          </nav>
+        </aside>
+    
+        <main class="main-content">
+          <!-- You can fill this in with your content like tables, charts, etc. -->
+          <h1>Welcome to the Admin Dashboard</h1>
+        </main>
+      </div>
+
+      <script type="module" src="./admin -dashboard.js"></script>
+    </body>
 </html>

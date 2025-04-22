@@ -145,3 +145,17 @@ exports.forgotPassword = async (req, res) => {
       res.status(500).json({ message: "Failed to fetch users", error: err.message });
     }
   };
+
+  exports.deleteUser = async (req, res) => {
+    try {
+      const user = await User.findByIdAndDelete(req.params.userId);
+      if (!user) return res.status(404).json({ message: 'User not found' });
+  
+      res.status(200).json({ message: 'User deleted successfully' });
+    } catch (err) {
+      res.status(500).json({ message: 'Failed to delete user', error: err.message });
+    }
+  };
+
+  
+  
