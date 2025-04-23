@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { register, login, forgotPassword,resetPassword,getAllUsers,logout, deleteUser } = require('../controllers/authControllers');
-const verifyToken = require('../middlewares/authMiddleware');
-const isAdmin = require('../middlewares/roleMiddleware');
+const verifyToken = require('../middlewares/adminMiddleware');
+const isAdmin = require('../middlewares/isAdmin');
+
 
 // Auth routes
 router.post('/forgot-password', forgotPassword);
@@ -10,7 +11,7 @@ router.post('/reset-password/:token', resetPassword);
 router.post('/register', register);
 router.post('/login', login);
 router.post('/logout', logout);
-router.delete('/delete-user', deleteUser)
+router.delete('/delete-user', verifyToken, isAdmin, deleteUser)
 
 // Admin-only route
 router.get('/get-users', verifyToken, isAdmin, getAllUsers);

@@ -92,3 +92,8 @@ mongoose.connect(MONGO)
   .catch(err => {
     logger.error('MongoDB connection failed:', err);
   });
+
+  app.use((req, res, next) => {
+    res.status(404).json({ message: 'Route not found' });
+  });
+  

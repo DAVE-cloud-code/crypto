@@ -11,17 +11,26 @@
         <aside class="sidebar">
           <h2>Admin Dashboard</h2>
           <nav class="nav-links">
-            <a href="/admin/dashboard.html" class="nav-link">
-              Main Dashboard <span class="badge" id="userCount">0</span>
+            <a href="./admin/users.html" class="nav-link">
+              Users Dashboard 
             </a>
-            <a href="/admin/users.html" class="nav-link">Users</a>
-            <a href="/admin/transactions.html" class="nav-link">Transactions</a>
+            <a href="./admin/users.html" class="nav-link">Traders</a>
+            <a href="./admin/transactions.html" class="nav-link">Transactions</a>
           </nav>
         </aside>
     
         <main class="main-content">
-          <!-- You can fill this in with your content like tables, charts, etc. -->
-          <h1>Welcome to the Admin Dashboard</h1>
+          <div class="dashboard-stats">
+            <div class="stat-card">
+              <h3>Total Users</h3>
+              <p id="totalUsers">0</p>
+            </div>
+            <div class="stat-card">
+              <h3>Pending Transactions</h3>
+              <p id="pendingTransactions">0</p>
+            </div>
+          </div>
+          
         </main>
       </div>
 
