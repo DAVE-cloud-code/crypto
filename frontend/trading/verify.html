@@ -1,0 +1,189 @@
+<!DOCTYPE html><html lang="en" data-bs-theme="dark"><head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Ai Trade Gains meta Data -->
+    <meta name="application-name" content="Orean Trade - Best Platfotm for Your Crypto, Forex, Stocks & Day Trading">
+    <meta name="author" content="Ai Trade Gain">
+    <meta name="keywords" content="Orean Trade, Crypto, Forex, and Stocks Trading Business, Copy Trading">
+    <meta name="description" content="Experience the power of copy trading, the ultimate platform designed to transform trading. With its sleek design and advanced features, Orean Trade empowers you to showcase your expertise, engage in trades, and dominate the markets. Elevate your online presence and unlock new trading possibilities with Orean Trade.">
+
+    <!-- OG meta data -->
+    <meta property="og:title" content="OreanTrade - Best Online Platfotm for Your Crypto, Forex, Stocks & Day Trading">
+    <meta property="og:Ai Trade Gain_name" content="Ai" trade="" gain="">
+    <meta property="og:url" content="index">
+    <meta property="og:description" content="Welcome to Orean Trade, the game-changing platform meticulously crafted to revolutionize trading business. With its sleek and modern design, Orean Trade provides a cutting-edge platform to showcase your expertise, attract good profits, and stay ahead in the competitive trading markets.">
+    <meta property="og:type" content="webAi Orean Trade">
+    <meta property="og:image" content="images-signin/favicon.png">
+      <title>KYC Verification</title>
+    <link rel="shortcut icon" href="../images-signin/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="../dashboard.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background: #f4f6f8;
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    select, input[type="file"], button {
+      display: block;
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0.6rem;
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .success-message {
+      background-color: #d4edda;
+      color: #155724;
+      padding: 1rem;
+      margin-top: 1rem;
+      border-left: 4px solid #28a745;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+    <div class="trade-container">
+
+        <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="close-btn" id="close-sidebar">&times;</div>
+  <div class="profile">
+    <img src="https://avatars.dicebear.com/api/initials/jd.svg" alt="User" class="avatar">
+    <div>
+      <h3 id="user-fullname">Loading...</h3>
+      <p id="user-username">Loading...</p>
+    </div>
+  </div>
+  <div class="status">
+    <p>Main Balance: <span class="green" id="user-balance">$0.00</span></p>
+    <p>Ai Trading: <span class="red" id="ai-trading">Inactive ❌</span></p>
+    <p>Wallet: <span class="green">Connected ✅</span></p>
+    <p>Balance: $<span id="wallet-balance">0.00</span></p>
+    <p>Profit: $<span id="user-profit">0.00</span></p>
+  </div>
+  <div class="buttons">
+    <button class="deposit">DEPOSIT</button>
+    <button class="withdraw">WITHDRAWAL</button>
+  </div>
+  <nav>
+    <ul>
+      <li>🏠 <a href="../dashboard.html" style="text-decoration: none; color: black;">Home</a></li>
+      <li>💱Place Trade</li>
+      <li>📈 <a href="my-trades.html" style="text-decoration: none; color: black;">My Trades</a></li>
+      <li>💰  <a href="loans.html" style="text-decoration: none; color: black;">Take Loan</a> </li>
+      <li>📥  <a href="deposit.html" style="text-decoration: none; color: black;">Deposit</a> </li>
+      <li>📊  <a href="commodities.html" style="text-decoration: none; color: black;">Commodities</a> </li>
+      <li>💳  <a href="transactions.html" style="text-decoration: none; color: black;">Transactions</a> </li>
+      <li>👥  <a href="copy.html" style="text-decoration: none; color: black;">Copy Traders</a> </li>
+      <li>🏧  <a href="withdraw.html" style="text-decoration: none; color: black;">Withdrawal</a> </li>
+      <li>✅  <a href="verify.html" style="text-decoration: none; color: black;">Verifications</a> </li>
+      <li>⚙️  <a href="user.html" style="text-decoration: none; color: black;">User Settings</a> </li>
+      <li style="color: red;" id="logoutLink">🚪 Logout</li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="main-content">
+    <header class="topbar">
+      <div class="hamburger" id="hamburger">&#9776;</div>
+      <div class="ticker">💹 BTC: $85,451 | ETH: $1,629.5</div>
+      <div class="user-area">
+        🔔 Notifications | 💬 Messages |
+        <span class="user" id="header-fullname">Loading...</span>
+      </div>
+    </header>
+
+  <h2>KYC Verification</h2>
+  <p>
+    Verify your account by providing us with a valid document (ID card). Drivers Licence, Valid Work ID Card, Passport, etc. are accepted.
+    Please do not try to upload a fake document as our support team reviews every document uploaded.
+  </p>
+  <p>
+    Detected fake documents will lead to immediate suspension of your account! Once uploaded, our support team will review your document within 24 hours.
+    The uploaded documents are for verification purposes only and are deleted once confirmed.
+  </p>
+  <p>You will be notified via email once your document has been verified. Choose your document and click on the verify button.</p>
+
+  <form id="kyc-form">
+    <label for="docType">Select Document Type:</label>
+    <select id="docType" required>
+      <option value="">-- Choose Document Type --</option>
+      <option value="ID Card">National ID Card</option>
+      <option value="Driver's License">Driver's License</option>
+      <option value="Passport">International Passport</option>
+      <option value="Work ID">Work ID Card</option>
+    </select>
+
+    <label for="frontFile">Upload Front of Document:</label>
+    <input type="file" id="frontFile" accept="image/*,application/pdf" required />
+
+    <label for="backFile">Upload Back of Document:</label>
+    <input type="file" id="backFile" accept="image/*,application/pdf" required />
+
+    <button type="submit">Verify</button>
+  </form>
+
+  <div class="success-message" id="successMessage">
+    ✅ Your document has been submitted for verification. You'll be notified via email once it's reviewed.
+  </div>
+
+</div>
+    </div>
+    <div id="overlay" class="overlay"></div>
+
+    
+
+  <script>
+    const form = document.getElementById("kyc-form");
+    const successMessage = document.getElementById("successMessage");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      // Simulate form submission
+      const docType = document.getElementById("docType").value;
+      const frontFile = document.getElementById("frontFile").files[0];
+      const backFile = document.getElementById("backFile").files[0];
+
+      if (!docType || !frontFile || !backFile) {
+        alert("Please complete all fields.");
+        return;
+      }
+
+      // Simulate delay and show success
+      setTimeout(() => {
+        successMessage.style.display = "block";
+        form.reset();
+      }, 1000);
+    });
+  </script>
+ <script type="module" src="../api/auth.js"></script>
+ <script type="module" src="../dashboard.js"></script>
+ <script type="module" src="../api/trade.js"  defer></script>
+ <script type="module" src="../api/ham.js"></script>
+</body>
+</html>

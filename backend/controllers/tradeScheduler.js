@@ -13,9 +13,9 @@ cron.schedule("* * * * *", async () => {
       // Sort by openedAt for predictable processing
       openTrades.sort((a, b) => new Date(a.openedAt) - new Date(b.openedAt));
 
-      // Process in chunks of 5 trades
-      for (let i = 0; i < openTrades.length; i += 5) {
-        const tradeBatch = openTrades.slice(i, i + 5);
+      // Process in chunks of 3 trades
+      for (let i = 0; i < openTrades.length; i += 3) {
+        const tradeBatch = openTrades.slice(i, i + 3);
         let wins = 0;
 
         for (let trade of tradeBatch) {
@@ -36,8 +36,8 @@ cron.schedule("* * * * *", async () => {
             trade.status = "closed";
             trade.closedAt = now;
 
-            // Win logic — first 3 in every batch of 5 are wins
-            if (wins < 3) {
+            // Win logic — first 2 in every batch of 3 are wins
+            if (wins < 2) {
               const profit = trade.amount * 0.4;
               user.profitBalance += trade.amount + profit;
               wins++;

@@ -148,6 +148,25 @@ exports.getAllTransactions = async (req, res) => {
   }
 };
 
+// In user controller
+exports.updateBalances = async (req, res) => {
+  const userId = req.user.id;
+  const { mainBalance, bonusBalance, profitBalance } = req.body;
+
+  try {
+    await User.findByIdAndUpdate(userId, {
+      mainBalance,
+      bonusBalance,
+      profitBalance
+    });
+
+    res.status(200).json({ message: 'Balances updated' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to update balances' });
+  }
+};
+
 exports.placeLoan = async (req, res) => {
   try {
     const { amount, duration, monthlyIncome, agreedToLoanTerms } = req.body;
@@ -284,6 +303,38 @@ exports.updateWithdrawalStatus = async (req, res) => {
   };
   
   
+  // Update user profile details
+exports.updateUserProfile = async (req, res) => {
+  const { fullname, username, email, phone, country, currency } = req.body;
+
+  try {
+    const userId = req.user.id; // This assumes you're using auth middleware that sets req.user
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        fullname,
+        username,
+        email,
+        phone,
+        country,
+        currency
+      },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
+    res.status(200).json({ message: 'Profile updated successfully.', user: updatedUser });
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(500).json({ message: 'Failed to update profile.', error: error.message });
+  }
+};
+
+
   // Fetch User Dashboard Info
   exports.getUserDashboard = async (req, res) => {
     try {
