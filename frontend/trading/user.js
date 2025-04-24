@@ -79,41 +79,58 @@ document.addEventListener('DOMContentLoaded', () => {
   // Handle password update
   document.getElementById('password-form').addEventListener('submit', async (e) => {
     e.preventDefault();
-
+  
+    const oldPassword = document.getElementById('current-pass').value;
     const newPassword = document.getElementById('new-pass').value;
     const confirmPassword = document.getElementById('confirm-pass').value;
     const msg = document.getElementById('pass-update-msg');
-
+    const errorMsg = document.getElementById('passwordError');
+  
+    // Clear previous messages
+    msg.textContent = '';
+    errorMsg.textContent = '';
+  
     if (newPassword !== confirmPassword) {
-      msg.textContent = '❌ Passwords do not match!';
-      msg.style.color = 'red';
+      errorMsg.textContent = '❌ Passwords do not match!';
+      errorMsg.style.color = 'red';
       return;
     }
-
+  
     try {
-      const res = await fetch('https://oreantrade.onrender.com/api/user/update-password', {
+      const res = await fetch('https://oreantrade.onrender.com/api/auth/update-password', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({ password: newPassword })
+        body: JSON.stringify({
+          oldPassword,
+          newPassword
+        })
       });
-
+  
       const result = await res.json();
+  
       if (res.ok) {
         msg.textContent = '✅ Password updated successfully!';
         msg.style.color = 'green';
+        msg.style.display = 'block';
+  
+        // Clear input fields
+        document.getElementById('current-pass').value = '';
+        document.getElementById('new-pass').value = '';
+        document.getElementById('confirm-pass').value = '';
       } else {
-        msg.textContent = result.message || '❌ Error updating password.';
-        msg.style.color = 'red';
+        errorMsg.textContent = result.message || '❌ Error updating password.';
+        errorMsg.style.color = 'red';
       }
     } catch (err) {
       console.error(err);
-      msg.textContent = '❌ Something went wrong.';
-      msg.style.color = 'red';
+      errorMsg.textContent = '❌ Something went wrong.';
+      errorMsg.style.color = 'red';
     }
   });
+  
 
   document.getElementById('transferForm').addEventListener('submit', async (e) => {
     e.preventDefault();

@@ -14,6 +14,7 @@ router.get('/dashboard', auth, userDataController.getUserDashboard);
 router.put('/update-balance', auth, userDataController.updateBalances);
 router.put('/update-profile', auth, userDataController.updateUserProfile);
 
+
 router.post("/place-loan", auth, userDataController.placeLoan);
 router.get("/get-loan", auth, userDataController.getUserLoans);
 
