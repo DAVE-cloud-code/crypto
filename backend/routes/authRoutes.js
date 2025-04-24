@@ -3,6 +3,7 @@ const router = express.Router();
 const { register, login, forgotPassword,resetPassword,getAllUsers,logout, deleteUser,updatePassword } = require('../controllers/authControllers');
 const verifyToken = require('../middlewares/adminMiddleware');
 const isAdmin = require('../middlewares/isAdmin');
+const auth = require('../middlewares/authMiddleware');
 
 
 // Auth routes
