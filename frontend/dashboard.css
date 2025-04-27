@@ -273,12 +273,10 @@ body {
 .all-history {
 margin-top: 20px;
   background-color: #fff;
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   gap: 30px;
   padding: 15px;
-  height: 20vh;
+  height: auto;
   text-decoration: none;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -505,6 +503,12 @@ table th {
 
     .balance-card {
       flex-direction: column;
+    }
+
+    .all-history1{
+      flex-direction: column;
+      height: auto;
+      gap: 30px;
     }
 
     .tip{
