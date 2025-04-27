@@ -65,12 +65,44 @@
     .modal-content button {
       margin-top: 10px;
     }
+
+    .toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #333;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 6px;
+  z-index: 9999;
+  opacity: 0.9;
+  font-size: 14px;
+}
+.toast.success {
+  background: #4caf50;
+}
+.toast.error {
+  background: #f44336;
+}
   </style>
 </head>
 <body>
 
   <h1>Wallet Management</h1>
 
+  <div id="addWalletForm" style="margin-bottom: 20px;">
+    <h3>Add New Wallet</h3>
+    <select id="cryptoType">
+      <option value="">Select Crypto Type</option>
+      <option value="ETHEREUM">ETHEREUM</option>
+      <option value="USDT(TRC20)">USDT (TRC20)</option>
+      <option value="BTC">BTC</option>
+      <option value="USDC(ETHEREUM)">USDC (ETHEREUM)</option>
+    </select>
+    <input type="text" id="walletAddress" placeholder="Wallet Address" />
+    <button id="addWalletBtn">Add Wallet</button>
+  </div>
+  
   <table id="walletTable">
     <thead>
       <tr>
@@ -81,36 +113,35 @@
       </tr>
     </thead>
     <tbody>
-      <!-- wallets will be populated here -->
+      <!-- Wallets will be populated here -->
     </tbody>
   </table>
-
-  <!-- Modal -->
-  <div class="modal" id="editModal">
+  
+  <!-- Edit Modal -->
+  <div id="editModal" style="display:none;">
     <div class="modal-content">
       <h3>Edit Wallet Address</h3>
-      <input type="text" id="editAddress" placeholder="Enter new wallet address">
-      <button id="saveBtn" class="edit-btn">Save</button>
-      <button onclick="closeModal()" class="delete-btn">Cancel</button>
+      <input type="text" id="editAddress" placeholder="New Address">
+      <button id="saveBtn">Save Changes</button>
+      <button onclick="closeModal()">Cancel</button>
     </div>
   </div>
-
+  
   <script>
-   const API_URL = 'https://oreantrade.onrender.com/api/wallets';
+  const API_URL = 'http://localhost:1800/api/user';
 const tbody = document.querySelector('#walletTable tbody');
 const editModal = document.getElementById('editModal');
 const editAddressInput = document.getElementById('editAddress');
-const searchInput = document.getElementById('searchInput');
 let currentEditingId = '';
 
 // Get Token from localStorage
 const token = localStorage.getItem('adminToken');
 
-// Global fetch with Authorization
+// Global fetch function with Authorization
 async function authorizedFetch(url, options = {}) {
   if (!token) {
     alert('No admin token found, please login again.');
-    window.location.href = '/admin-login.html'; // redirect to your admin login page
+    window.location.href = '/admin-login.html'; 
     return;
   }
   
@@ -123,42 +154,43 @@ async function authorizedFetch(url, options = {}) {
   const res = await fetch(url, options);
 
   if (res.status === 401) { 
-    // Unauthorized
     localStorage.removeItem('adminToken');
     alert('Session expired, please login again.');
-    window.location.href = '/admin-login.html'; 
+    window.location.href = '../admin.html';
     return;
   }
 
   return res;
 }
 
-// Load wallets
-async function loadWallets(filter = '') {
+// Fetch wallets once on page load
+async function loadWallets() {
   try {
     const res = await authorizedFetch(`${API_URL}/get-wallets`);
     const wallets = await res.json();
-    tbody.innerHTML = '';
-
-    wallets
-      .filter(wallet => wallet.cryptoType.toLowerCase().includes(filter.toLowerCase()))
-      .forEach(wallet => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${wallet.cryptoType}</td>
-          <td>${wallet.address}</td>
-          <td>${new Date(wallet.addedAt).toLocaleString()}</td>
-          <td>
-            <button class="edit-btn" onclick="openEditModal('${wallet._id}', '${wallet.address}')">Edit</button>
-            <button class="delete-btn" onclick="deleteWallet('${wallet._id}')">Delete</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-
+    displayWallets(wallets);
   } catch (error) {
     console.error('Failed to load wallets', error);
   }
+}
+
+// Display wallets into the table
+function displayWallets(wallets) {
+  tbody.innerHTML = '';
+
+  wallets.forEach(wallet => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${wallet.type}</td>
+      <td>${wallet.address}</td>
+      <td>${new Date(wallet.addedAt).toLocaleString()}</td>
+      <td>
+        <button class="edit-btn" onclick="openEditModal('${wallet._id}', '${wallet.address}')">Edit</button>
+        <button class="delete-btn" onclick="deleteWallet('${wallet._id}')">Delete</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
 }
 
 // Open Modal
@@ -192,7 +224,7 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
 
     showToast('Wallet updated successfully!', 'success');
     closeModal();
-    loadWallets();
+    loadWallets(); // Reload after successful update
   } catch (error) {
     console.error(error);
     showToast('Error updating wallet', 'error');
@@ -210,7 +242,7 @@ async function deleteWallet(id) {
       if (!res.ok) throw new Error('Delete failed');
 
       showToast('Wallet deleted successfully!', 'success');
-      loadWallets();
+      loadWallets(); // Reload after successful delete
     } catch (error) {
       console.error(error);
       showToast('Error deleting wallet', 'error');
@@ -218,10 +250,45 @@ async function deleteWallet(id) {
   }
 }
 
-// Search functionality
-searchInput.addEventListener('input', () => {
-  const filter = searchInput.value.trim();
-  loadWallets(filter);
+document.getElementById('addWalletBtn').addEventListener('click', async () => {
+  const type = document.getElementById('cryptoType').value;
+  const address = document.getElementById('walletAddress').value.trim();
+
+  if (!type || !address) {
+    showToast('Please fill all fields!', 'error');
+    return;
+  }
+
+  if (address.length > 42) {
+    showToast('Wallet address is too long!', 'error');
+    return;
+  }
+
+  try {
+    const res = await authorizedFetch(`${API_URL}/add-wallet`, {
+      method: 'POST',
+      body: JSON.stringify({ type: type, address })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      showToast(data.message || 'Failed to add wallet.', 'error');
+      return;
+    }
+
+    showToast('Wallet added successfully!', 'success');
+
+    // Clear the form
+    document.getElementById('cryptoType').value = '';
+    document.getElementById('walletAddress').value = '';
+
+    // Reload wallets after adding
+    loadWallets();
+  } catch (error) {
+    console.error(error);
+    showToast('Error adding wallet', 'error');
+  }
 });
 
 // Toast function
@@ -236,8 +303,9 @@ function showToast(message, type = 'info') {
   }, 3000);
 }
 
-// On load
+// On page load
 loadWallets();
+
 
   </script>
 

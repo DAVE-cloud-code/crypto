@@ -2,9 +2,9 @@
 const mongoose = require('mongoose');
 
 const walletSchema = new mongoose.Schema({
-  cryptoType: {
+  type: {
     type: String,
-    enum: ['ethereum', 'usdt(trc20)', 'btc', 'usdc(ethereum)'],
+    enum: ['ETHEREUM', 'USDT(TRC20)', 'BTC', 'USDC(ETHEREUM)'],
     required: true
   },
   address: {
