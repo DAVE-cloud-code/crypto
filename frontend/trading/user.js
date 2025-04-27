@@ -13,14 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('edit-email').value = data.email || '';
       document.getElementById('edit-phone').value = data.phone || '';
       document.getElementById('country').value = data.country || '';
-      document.getElementById('currency').value = data.currency || '';
-
       // Populate balance fields
      // Populate balance fields
      main = parseFloat(data.mainBalance || 0);
      profit = parseFloat(data.profitBalance || 0);
      bonus = parseFloat(data.bonusBalance || 0);
-      const deposits = parseFloat(data.deposits.amount || 0);
+      const deposits = parseFloat(data.deposits[2] || 0);
       const total = main + profit + bonus;
       const userCurrency = data.currency || 'USD'; // Fallback to USD if not provided
       const formatter = new Intl.NumberFormat(undefined, {

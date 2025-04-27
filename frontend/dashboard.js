@@ -6,7 +6,6 @@ async function loadUserDashboard() {
   try {
     const data = await getDashboardData(token);
     const userCurrency = data.currency || 'USD'; // fallback to USD if currency is missing
-
     const formatCurrency = (amount) =>
       new Intl.NumberFormat(undefined, {
         style: 'currency',
@@ -29,15 +28,23 @@ async function loadUserDashboard() {
     document.getElementById('user-username').textContent = data.username;
     document.getElementById('greeting-name').textContent = data.username;
     
-    document.getElementById('user-balance').textContent = formatCurrency(userBalance);
-    document.getElementById('wallet-balance').textContent = formatCurrency(walletBalance);
-    document.getElementById('user-profit').textContent = formatCurrency(userProfit);
-    
-    document.getElementById('total-balance').textContent = formatCurrency(totalBalance);
-    document.getElementById('deposit-balance').textContent = formatCurrency(mainBalance);
-    document.getElementById('profit-balance').textContent = formatCurrency(profitBalance);
-    document.getElementById('bonus-balance').textContent = formatCurrency(bonusBalance);
+// Helper function to set balances
+function setBalance(id, value) {
+  const el = document.getElementById(id);
+  const formatted = formatCurrency(value);
+  el.textContent = formatted;
+  el.setAttribute('data-real-value', formatted);
+  el.setAttribute('data-hidden', 'false');
+}
 
+// Set balances
+setBalance('user-balance', userBalance);
+setBalance('wallet-balance', walletBalance);
+setBalance('user-profit', userProfit);
+setBalance('total-balance', totalBalance);
+setBalance('deposit-balance', mainBalance);
+setBalance('profit-balance', profitBalance);
+setBalance('bonus-balance', bonusBalance);
     
     // Optional: AI Trading status
     const tradingStatus = data.aiTradingEnabled ? 'Active ✅' : 'Inactive ❌';

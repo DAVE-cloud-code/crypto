@@ -5,20 +5,138 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Users</title>
   <link rel="stylesheet" href="../admin.css" />
+
+  <style>
+    table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff;
+  overflow-x: auto;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px 15px;
+  text-align: left;
+}
+
+th {
+  background-color: #333;
+  color: white;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+.view-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.view-btn:hover {
+  background-color: #45a049;
+}
+
+.email-btn {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.email-btn:hover {
+  background-color: #0069d9;
+}
+
+.delete-btn {
+  background-color: #DC3545;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto; /* horizontal scroll if needed */
+  margin-top: 20px;
+}
+
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px; /* optional: to make sure table is always wide enough */
+}
+
+/* Optional: Style the scrollbar a little */
+.table-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+
+  </style>
 </head>
 <body>
   <div class="admin-container">
-    <aside class="sidebar">
-      <h2>Admin Dashboard</h2>
+
+    <div class="hamburger" id="hamburger">
+      &#9776;
+    </div>
+    <aside class="sidebar" id="sidebar">
+      <h2 style="margin-top: 20px;">Admin Dashboard</h2>
       <nav class="nav-links">
-        <a href="../admin-dashboard.html" class="nav-link">Dashboard</a>
-        <a href="../admin/users.html" class="nav-link active">Users</a>
-        <a href="../admin/transactions.html" class="nav-link">Transactions</a>
+          <!-- Simple Nav Links -->
+          <div class="nav-item">
+              <a href="./admin/users.html" class="nav-link">Users</a>
+          </div>
+    
+          <div class="nav-item">
+              <a href="./admin/traders.html" class="nav-link">Traders</a>
+          </div>
+    
+          <div class="nav-item">
+              <a href="./admin/transactions.html" class="nav-link">Transactions</a>
+          </div>
+    
+          <div class="nav-item">
+              <a href="./admin/send-mail.html" class="nav-link">Send Mail</a>
+          </div>
+    
+          <div class="nav-item">
+              <a href="./admin/manage-traders.html" class="nav-link">Manage Traders</a>
+          </div>
+    
+          <div class="nav-item">
+              <a href="./admin/transaction-history.html" class="nav-link">Transaction History</a>
+          </div>
       </nav>
     </aside>
 
     <main class="main-content">
       <h1>All Users</h1>
+      <div class="table-container">
       <table>
         <thead>
           <tr>
@@ -32,6 +150,7 @@
         </thead>
         <tbody id="userTableBody"></tbody>
       </table>
+    </div>
 
       <div class="pagination">
         <button id="prevPage">Previous</button>
@@ -42,16 +161,17 @@
   </div>
 
   <!-- User detail modal -->
-  <div id="userModal" class="modal" style="display: none;">
+  <div id="userModal" class="modal">
     <div class="modal-content">
-      <span id="closeModal" style="float:right; cursor:pointer;">&times;</span>
+      <span id="closeModal">×</span>
       <h2>User Details</h2>
-      <p><strong>Full Name:</strong> <span id="modalFullname"></span></p>
-      <p><strong>Email:</strong> <span id="modalEmail"></span></p>
-      <p><strong>Username:</strong> <span id="modalUsername"></span></p>
-      <p><strong>Role:</strong> <span id="modalRole"></span></p>
+  
+      <div id="modalDetails">
+        <!-- We'll inject all the details here -->
+      </div>
     </div>
   </div>
+  
 
   <script type="module" src="../admin -dashboard.js"></script>
 </body>

@@ -3,6 +3,16 @@ let currentPage = 1;
 const usersPerPage = 5;
 let allUsers = [];
 
+// Hamburger toggle
+const hamburger = document.getElementById("hamburger");
+const sidebar = document.getElementById("sidebar");
+
+// Toggle sidebar visibility
+hamburger.addEventListener("click", () => {
+  sidebar.classList.toggle("open");
+});
+
+// Fetch and display users
 const fetchAndDisplayUsers = async () => {
   try {
     const res = await fetch("http://localhost:1800/api/auth/get-users", {
@@ -20,6 +30,7 @@ const fetchAndDisplayUsers = async () => {
   }
 };
 
+// Display users in the table
 const displayUsers = () => {
   const tbody = document.getElementById("userTableBody");
   tbody.innerHTML = "";
@@ -29,26 +40,26 @@ const displayUsers = () => {
 
   currentUsers.forEach((user, index) => {
     const row = document.createElement("tr");
-
     row.innerHTML = `
-      <td>${startIndex + index + 1}</td>
-      <td>${user.fullname}</td>
-      <td>${user.email}</td>
-      <td>${user.username}</td>
-      <td>${user.role}</td>
-      <td>
-        <button onclick="sendEmail('${user.email}')">📧 Email</button>
-        <button onclick='viewDetails(${JSON.stringify(user)})'>🔍 View</button>
-        <button onclick="deleteUser('${user._id}')">🗑️ Delete</button>
-      </td>
-    `;
-
+    <td>${startIndex + index + 1}</td>
+    <td>${user.fullname}</td>
+    <td>${user.email}</td>
+    <td>${user.username}</td>
+    <td>${user.role}</td>
+    <td>
+      <button class="email-btn" onclick="sendEmail('${user.email}')">📧 Email</button>
+      <button class="view-btn" onclick='viewDetails(${JSON.stringify(user)})'>🔍 View</button>
+      <button class="delete-btn" onclick="deleteUser('${user._id}')">🗑️ Delete</button>
+    </td>
+  `;
     tbody.appendChild(row);
   });
 
   document.getElementById("pageInfo").textContent = `Page ${currentPage} of ${Math.ceil(allUsers.length / usersPerPage)}`;
 };
 
+
+// Pagination functionality
 document.getElementById("prevPage").addEventListener("click", () => {
   if (currentPage > 1) {
     currentPage--;
@@ -63,18 +74,20 @@ document.getElementById("nextPage").addEventListener("click", () => {
   }
 });
 
+// Email functionality
 window.sendEmail = (email) => {
   window.location.href = `mailto:${email}`;
 };
 
 window.viewDetails = (user) => {
-  document.getElementById("modalFullname").textContent = user.fullname;
-  document.getElementById("modalEmail").textContent = user.email;
-  document.getElementById("modalUsername").textContent = user.username;
-  document.getElementById("modalRole").textContent = user.role;
-  document.getElementById("userModal").style.display = "block";
+  // Save the user data to localStorage
+  localStorage.setItem('selectedUser', JSON.stringify(user));
+
+  // Redirect to the user details page
+  window.location.href = './user-details.html';
 };
 
+// Delete user functionality
 window.deleteUser = async (userId) => {
   if (!confirm("Are you sure you want to delete this user?")) return;
 
@@ -96,8 +109,10 @@ window.deleteUser = async (userId) => {
   }
 };
 
+// Close modal
 document.getElementById("closeModal").addEventListener("click", () => {
   document.getElementById("userModal").style.display = "none";
 });
 
+// Initialize and fetch users
 fetchAndDisplayUsers();

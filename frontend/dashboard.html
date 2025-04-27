@@ -5,7 +5,7 @@
 
     <!-- Ai Trade Gains meta Data -->
     <meta name="application-name" content="Orean Trade - Best Platfotm for Your Crypto, Forex, Stocks & Day Trading">
-    <meta name="author" content="Ai Trade Gain">
+    <meta name="author" content="Orean Trade Gain">
     <meta name="keywords" content="Orean Trade, Crypto, Forex, and Stocks Trading Business, Copy Trading">
     <meta name="description" content="Experience the power of copy trading, the ultimate platform designed to transform trading. With its sleek design and advanced features, Orean Trade empowers you to showcase your expertise, engage in trades, and dominate the markets. Elevate your online presence and unlock new trading possibilities with Orean Trade.">
 
@@ -19,8 +19,13 @@
     <link rel="shortcut icon" href="images-signin/favicon.png" type="image/x-icon">
     <title>Dashboard Orean Trade</title>
     <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
+  <div id="loading-overlay" style="display: none;">
+    <div class="spinner"></div>
+  </div>
+  
     <div class="container">
         <aside class="sidebar" id="sidebar">
             <div class="close-btn" id="close-sidebar">&times;</div>
@@ -39,8 +44,8 @@
             <p>Profit: <span id="user-profit">Loading....</span></p>
           </div>
           <div class="buttons">
-            <button class="deposit">DEPOSIT</button>
-            <button class="withdraw">WITHDRAWAL</button>
+            <button class="deposit"><a href="./trading/deposit.html" style="color: white; text-decoration: none;">DEPOSIT</a></button>
+            <button class="withdraw"><a href="./trading/withdraw.html" style="color: white; text-decoration: none;">WITHDRAWAL</a></button>
           </div>
           <nav>
             <ul>
@@ -62,12 +67,10 @@
       
         <main class="main-content">
           <header class="topbar">
+           <div class="tip">
             <div class="hamburger" id="hamburger">&#9776;</div>
-            <div class="ticker">💹 BTC: $85,451 | ETH: $1,629.5</div>
-            <div class="user-area">
-              🔔 Notifications | 💬 Messages |
-              <span class="user" id="header-fullname">Loading...</span>
-            </div>
+            <span class="user" id="header-fullname">Loading...</span>
+           </div>
           </header>
       
           <section class="greeting">
@@ -78,23 +81,33 @@
             <iframe src="https://www.tradingview.com/widgetembed/" width="100%" height="400" frameborder="0"></iframe>
           </section>
           <section class="balance-summary">
-            <div class="summary-box">
-              <h3>Total Balance</h3>
-              <p id="total-balance"></p>
+            <div class="balance-header">
+              <h2>Balances</h2>
+              <span class="toggle-visibility" onclick="toggleBalances()" id="balance-eye">
+                <i class="fa-solid fa-eye"></i>
+              </span>
             </div>
-            <div class="summary-box">
-              <h3>Main Balance</h3>
-              <p id="deposit-balance"></p>
-            </div>
-            <div class="summary-box">
-              <h3>Profit Balance</h3>
-              <p id="profit-balance"></p>
-            </div>
-            <div class="summary-box">
-              <h3>Bonus Balance</h3>
-              <p id="bonus-balance"></p>
+          
+            <div class="balance-card">
+              <div class="summary-box">
+                <h3>Total Balance</h3>
+                <p class="balance-value" id="total-balance"></p>
+              </div>
+              <div class="summary-box">
+                <h3>Main Balance</h3>
+                <p class="balance-value" id="deposit-balance"></p>
+              </div>
+              <div class="summary-box">
+                <h3>Profit Balance</h3>
+                <p class="balance-value" id="profit-balance"></p>
+              </div>
+              <div class="summary-box">
+                <h3>Bonus Balance</h3>
+                <p class="balance-value" id="bonus-balance"></p>
+              </div>
             </div>
           </section>
+          
           <div id="overlay" class="overlay"></div>
           
         <section class="growth-chart">
@@ -110,26 +123,62 @@
 </section>
          
 
-          <section class="all-history">
-            <div class="all-history1">
-              <span><a href="./trading/connect.html">Connect Wallet</a></span>
-              <span><a href="./trading/claim.html">Claim Bonus</a></span>
-              <span><a href="./trading/market.html">Market</a></span>
-              <span><a href="./trading/commodities.html">Commodity</a></span>
-            </div>
-            <div class="all-history1" style="text-decoration: none;">
-              <span><a href="./trading/deposit.html">Deposit</a></span>
-              <span><a href="./trading/withdraw.html">Withdraw</a></span>
-              <span><a href="./trading/ai-trading.html">Ai Trading</a></span>
-              <span><a href="./trading/copy.html">Copy Trading</a></span>
-            </div>
-            </section>
+<section class="all-history">
+  <div class="all-history1">
+    <span><i class="fa-solid fa-wallet"></i><a href="./trading/connect.html">Connect Wallet</a></span>
+    <span><i class="fa-solid fa-gift"></i><a href="./trading/claim.html">Claim Bonus</a></span>
+    <span><i class="fa-solid fa-chart-line"></i><a href="./trading/market.html">Market</a></span>
+    <span><i class="fa-solid fa-box"></i><a href="./trading/commodities.html">Commodity</a></span>
+  </div>
+  
+  <div class="all-history1" style="text-decoration: none;">
+    <span><i class="fa-solid fa-arrow-down"></i><a href="./trading/deposit.html">Deposit</a></span>
+    <span><i class="fa-solid fa-arrow-up"></i><a href="./trading/withdraw.html">Withdraw</a></span>
+    <span><i class="fa-solid fa-robot"></i><a href="./trading/ai-trading.html">Ai Trading</a></span>
+    <span><i class="fa-solid fa-copy"></i><a href="./trading/copy.html">Copy Trading</a></span>
+  </div>
+</section>
+
 
 
         </main>
       </div>
 
 
+      <script>
+        let balancesHidden = false; // Track balance state globally
+      
+        function toggleBalances() {
+          const balanceTexts = document.querySelectorAll('.balance-value');
+          const eyeIcon = document.getElementById('balance-eye').querySelector('i');
+      
+          balancesHidden = !balancesHidden; // Toggle the hidden state
+      
+          balanceTexts.forEach(balance => {
+            const realValue = balance.getAttribute('data-real-value') || ''; // fallback if no value yet
+      
+            if (balancesHidden) {
+              balance.textContent = '****';
+            } else {
+              balance.textContent = realValue;
+            }
+          });
+      
+          // Switch eye icon
+          if (balancesHidden) {
+            eyeIcon.classList.remove('fa-eye');
+            eyeIcon.classList.add('fa-eye-slash');
+          } else {
+            eyeIcon.classList.remove('fa-eye-slash');
+            eyeIcon.classList.add('fa-eye');
+          }
+      
+          // Blink animation
+          eyeIcon.classList.add('blink');
+          setTimeout(() => eyeIcon.classList.remove('blink'), 400);
+        }
+      </script>
+      
       <script type="module" src="./api/auth.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="module" src="dashboard.js"></script>

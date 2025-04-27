@@ -40,8 +40,27 @@ const loanSchema = new mongoose.Schema({
 });
 
 
+// Deposit Schema
+const depositSchema = new mongoose.Schema({
+  type: { type: String, enum: ['BTC', 'USDT(TRC20)', 'USDC(ETHEREUM)', 'ETHEREUM'], required: true },
+  amount: { type: Number, required: true },
+  status: { type: String, enum: ['pending', 'completed', 'failed'], default: 'pending' },
+  createdAt: { type: Date, default: Date.now }
+});
+
+// Withdrawal Schema
+const withdrawalSchema = new mongoose.Schema({
+  type: { type: String, enum: ['BTC', 'USDT(TRC20)', 'USDC(ETHEREUM)', 'ETHEREUM'], required: true },
+  amount: { type: Number, required: true },
+  status: { type: String, enum: ['pending', 'completed', 'failed'], default: 'pending' },
+  createdAt: { type: Date, default: Date.now }
+});
+
+// Transaction Schema
 const transactionSchema = new mongoose.Schema({
-  type: { type: String, enum: ['deposit', 'withdrawal'], required: true },
+  transactionId: { type: mongoose.Schema.Types.ObjectId, required: true },
+  direction: { type: String, enum: ['deposit', 'withdrawal'], required: true },
+  type: { type: String, enum: ['BTC', 'USDT(TRC20)', 'USDC(ETHEREUM)', 'ETHEREUM'], required: true },
   amount: { type: Number, required: true },
   status: { type: String, enum: ['pending', 'completed', 'failed'], default: 'pending' },
   createdAt: { type: Date, default: Date.now }
@@ -64,8 +83,8 @@ const userSchema = new mongoose.Schema({
   trades: [tradeSchema],
   commodities: { type: [Object], default: [] }, // optional, or you can remove if already using trades
   loans: [loanSchema],
-  deposits: [transactionSchema],
-  withdrawals: [transactionSchema],
+  deposits: [depositSchema],
+  withdrawals: [withdrawalSchema],
   transactions: [transactionSchema], // All deposit and withdrawal combined
   agreedToTerms: { type: Boolean, required: true }
 }, { timestamps: true });

@@ -78,16 +78,9 @@
       <p id="user-username">Loading...</p>
     </div>
   </div>
-  <div class="status">
-    <p>Main Balance: <span class="green" id="user-balance">$0.00</span></p>
-    <p>Ai Trading: <span class="red" id="ai-trading">Inactive ❌</span></p>
-    <p>Wallet: <span class="green">Connected ✅</span></p>
-    <p>Balance: $<span id="wallet-balance">0.00</span></p>
-    <p>Profit: $<span id="user-profit">0.00</span></p>
-  </div>
   <div class="buttons">
-    <button class="deposit">DEPOSIT</button>
-    <button class="withdraw">WITHDRAWAL</button>
+    <button class="deposit"><a href="deposit.html" style="color: white; text-decoration: none;">DEPOSIT</a></button>
+    <button class="withdraw"><a href="withdraw.html" style="color: white; text-decoration: none;">WITHDRAWAL</a></button>
   </div>
   <nav>
     <ul>
@@ -108,14 +101,12 @@
 </aside>
 
 <div class="main-content">
-    <header class="topbar">
-      <div class="hamburger" id="hamburger">&#9776;</div>
-      <div class="ticker">💹 BTC: $85,451 | ETH: $1,629.5</div>
-      <div class="user-area">
-        🔔 Notifications | 💬 Messages |
-        <span class="user" id="header-fullname">Loading...</span>
-      </div>
-    </header>
+  <header class="topbar">
+    <div class="tip">
+     <div class="hamburger" id="hamburger">&#9776;</div>
+     <span class="user" id="header-fullname">Loading...</span>
+    </div>
+   </header>
 
   <h2>KYC Verification</h2>
   <p>
@@ -157,7 +148,7 @@
 
     
 
-  <script>
+  <script >
     const form = document.getElementById("kyc-form");
     const successMessage = document.getElementById("successMessage");
 

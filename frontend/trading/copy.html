@@ -1,0 +1,254 @@
+<!DOCTYPE html><html lang="en" data-bs-theme="dark"><head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Ai Trade Gains meta Data -->
+    <meta name="application-name" content="Orean Trade - Best Platfotm for Your Crypto, Forex, Stocks & Day Trading">
+    <meta name="author" content=" Orean Trade">
+    <meta name="keywords" content="Orean Trade, Crypto, Forex, and Stocks Trading Business, Copy Trading">
+    <meta name="description" content="Experience the power of copy trading, the ultimate platform designed to transform trading. With its sleek design and advanced features, Orean Trade empowers you to showcase your expertise, engage in trades, and dominate the markets. Elevate your online presence and unlock new trading possibilities with Orean Trade.">
+
+    <!-- OG meta data -->
+    <meta property="og:title" content="OreanTrade - Best Online Platfotm for Your Crypto, Forex, Stocks & Day Trading">
+    <meta property="og:Ai Trade Gain_name" content="Ai" trade="" gain="">
+    <meta property="og:url" content="index">
+    <meta property="og:description" content="Welcome to Orean Trade, the game-changing platform meticulously crafted to revolutionize trading business. With its sleek and modern design, Orean Trade provides a cutting-edge platform to showcase your expertise, attract good profits, and stay ahead in the competitive trading markets.">
+    <meta property="og:type" content="webAi Orean Trade">
+    <meta property="og:image" content="images-signin/favicon.png">
+    <link rel="shortcut icon" href="../images-signin/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="../dashboard.css">
+  <title>Copy Trading</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+      position: relative;
+    }
+    .traders-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .trader-card {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    .trader-card:hover {
+      transform: translateY(-5px);
+    }
+    .trader-card img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+    .trader-card h3 {
+      margin: 10px 0 5px;
+      font-size: 20px;
+    }
+    .trader-card p {
+      margin: 5px 0;
+      color: #555;
+      font-size: 14px;
+    }
+    .copy-btn {
+      margin-top: 10px;
+      padding: 8px 20px;
+      border: none;
+      background: #007bff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .copy-btn.requested {
+      background: green;
+    }
+
+    /* Toast Styles */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #333;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+      transform: translateY(20px);
+      z-index: 1000;
+    }
+    .toast.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+    <div class="trade-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+          <div class="close-btn" id="close-sidebar">&times;</div>
+        <div class="profile">
+          <img src="https://avatars.dicebear.com/api/initials/jd.svg" alt="User" class="avatar">
+          <div>
+            <h3 id="user-fullname">Loading...</h3>
+            <p id="user-username">Loading...</p>
+          </div>
+        </div>
+        <div class="buttons">
+          <button class="deposit"><a href="deposit.html" style="color: white; text-decoration: none;">DEPOSIT</a></button>
+          <button class="withdraw"><a href="withdraw.html" style="color: white; text-decoration: none;">WITHDRAWAL</a></button>
+        </div>
+        <nav>
+          <ul>
+            <li>🏠 <a href="../dashboard.html" style="text-decoration: none; color: black;">Home</a></li>
+            <li>💱Place Trade</li>
+            <li>📈 <a href="my-trades.html" style="text-decoration: none; color: black;">My Trades</a></li>
+            <li>💰  <a href="loans.html" style="text-decoration: none; color: black;">Take Loan</a> </li>
+            <li>📥  <a href="deposit.html" style="text-decoration: none; color: black;">Deposit</a> </li>
+            <li>📊  <a href="commodities.html" style="text-decoration: none; color: black;">Commodities</a> </li>
+            <li>💳  <a href="transactions.html" style="text-decoration: none; color: black;">Transactions</a> </li>
+            <li>👥  <a href="copy.html" style="text-decoration: none; color: black;">Copy Traders</a> </li>
+            <li>🏧  <a href="withdraw.html" style="text-decoration: none; color: black;">Withdrawal</a> </li>
+            <li>✅  <a href="verify.html" style="text-decoration: none; color: black;">Verifications</a> </li>
+            <li>⚙️  <a href="user.html" style="text-decoration: none; color: black;">User Settings</a> </li>
+            <li style="color: red;" id="logoutLink">🚪 Logout</li>
+          </ul>
+        </nav>
+      </aside>
+      
+      
+        <!-- Main Content -->
+        <div class="main-content">
+          <header class="topbar">
+            <div class="tip">
+             <div class="hamburger" id="hamburger">&#9776;</div>
+             <span class="user" id="header-fullname">Loading...</span>
+            </div>
+           </header>
+
+  <h1>Copy Trading</h1>
+  <div class="traders-container">
+    <!-- Trader cards will be inserted here -->
+  </div>
+
+  <div class="toast" id="toast">Request sent successfully!</div>
+
+        </div>
+    </div>
+  <script>
+    const traders = [
+      {
+        id: "trader1",
+        name: "Alex Morgan",
+        returnRate: "+18%",
+        followers: "2,430",
+        minStake: "$100",
+        avatar: "https://randomuser.me/api/portraits/men/32.jpg"
+      },
+      {
+        id: "trader2",
+        name: "Sophia Lee",
+        returnRate: "+25%",
+        followers: "3,120",
+        minStake: "$150",
+        avatar: "https://randomuser.me/api/portraits/women/44.jpg"
+      },
+      {
+        id: "trader3",
+        name: "Michael Chen",
+        returnRate: "+15%",
+        followers: "1,980",
+        minStake: "$80",
+        avatar: "https://randomuser.me/api/portraits/men/53.jpg"
+      },
+      {
+        id: "trader4",
+        name: "Emily Davis",
+        returnRate: "+22%",
+        followers: "2,850",
+        minStake: "$120",
+        avatar: "https://randomuser.me/api/portraits/women/65.jpg"
+      },
+      {
+        id: "trader5",
+        name: "Daniel Smith",
+        returnRate: "+19%",
+        followers: "2,110",
+        minStake: "$90",
+        avatar: "https://randomuser.me/api/portraits/men/77.jpg"
+      }
+    ];
+
+    const container = document.querySelector('.traders-container');
+    const toast = document.getElementById('toast');
+
+    function loadRequestedTraders() {
+      const requested = localStorage.getItem('requestedTraders');
+      return requested ? JSON.parse(requested) : [];
+    }
+
+    function saveRequestedTraders(requested) {
+      localStorage.setItem('requestedTraders', JSON.stringify(requested));
+    }
+
+    const requestedTraders = loadRequestedTraders();
+
+    traders.forEach(trader => {
+      const card = document.createElement('div');
+      card.className = 'trader-card';
+      const isRequested = requestedTraders.includes(trader.id);
+
+      card.innerHTML = `
+        <img src="${trader.avatar}" alt="${trader.name}">
+        <h3>${trader.name}</h3>
+        <p>Return Rate: <strong>${trader.returnRate}</strong></p>
+        <p>Followers: ${trader.followers}</p>
+        <p>Min Stake: ${trader.minStake}</p>
+        <button class="copy-btn ${isRequested ? 'requested' : ''}" data-id="${trader.id}">
+          ${isRequested ? 'Requested' : 'Copy'}
+        </button>
+      `;
+      container.appendChild(card);
+    });
+
+    container.addEventListener('click', (e) => {
+      if (e.target.classList.contains('copy-btn')) {
+        const btn = e.target;
+        const traderId = btn.getAttribute('data-id');
+        btn.textContent = 'Requested';
+        btn.classList.add('requested');
+
+        if (!requestedTraders.includes(traderId)) {
+          requestedTraders.push(traderId);
+          saveRequestedTraders(requestedTraders);
+          showToast();
+        }
+      }
+    });
+
+    function showToast() {
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2000);
+    }
+  </script>
+
+<script type="module" src="../api/auth.js"></script>
+<script type="module" src="../api/trade.js"  defer></script>
+<script type="module" src="../api/ham.js"></script>
+
+</body>
+</html>

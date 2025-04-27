@@ -64,7 +64,6 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  margin: auto;
 }
 
 .balance-field {
@@ -130,7 +129,30 @@
   from { transform: translateY(-50px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper i{
+  margin-bottom: 15px;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding-right: 10px; /* Space for the eye icon */
+}
+
+.toggle-visibility {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+}
+
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
 
@@ -146,16 +168,9 @@
       <p id="user-username">Loading...</p>
     </div>
   </div>
-  <div class="status">
-    <p>Main Balance: <span class="green" id="user-balance">$0.00</span></p>
-    <p>Ai Trading: <span class="red" id="ai-trading">Inactive ❌</span></p>
-    <p>Wallet: <span class="green">Connected ✅</span></p>
-    <p>Balance: $<span id="wallet-balance">0.00</span></p>
-    <p>Profit: $<span id="user-profit">0.00</span></p>
-  </div>
   <div class="buttons">
-    <button class="deposit">DEPOSIT</button>
-    <button class="withdraw">WITHDRAWAL</button>
+    <button class="deposit"><a href="deposit.html" style="color: white; text-decoration: none;">DEPOSIT</a></button>
+    <button class="withdraw"><a href="withdraw.html" style="color: white; text-decoration: none;">WITHDRAWAL</a></button>
   </div>
   <nav>
     <ul>
@@ -176,14 +191,12 @@
 </aside>
 
 <div class="main-content">
-    <header class="topbar">
-      <div class="hamburger" id="hamburger">&#9776;</div>
-      <div class="ticker">💹 BTC: $85,451 | ETH: $1,629.5</div>
-      <div class="user-area">
-        🔔 Notifications | 💬 Messages |
-        <span class="user" id="header-fullname">Loading...</span>
-      </div>
-    </header>
+  <header class="topbar">
+    <div class="tip">
+     <div class="hamburger" id="hamburger">&#9776;</div>
+     <span class="user" id="header-fullname">Loading...</span>
+    </div>
+   </header>
 
     <h2>Update Profile</h2>
     <form id="user-basic-form">
@@ -192,7 +205,6 @@
       <input type="email" id="edit-email" placeholder="Email" required />
       <input type="text" id="edit-phone" placeholder="Phone Number" required />
       <input type="text" id="country" placeholder="Country" required />
-      <input type="text" id="currency" placeholder="Currency" required />
       <button type="submit">Save Profile</button>
       <div class="success" id="profile-update-msg">✅ Profile updated</div>
       <div class="error" id="profileError">❌ Failed to update profile</div>
@@ -200,44 +212,88 @@
   
     <h2>User Balances</h2>
     <form class="balance-form">
-        <div class="balance-field">
-            <label for="balance-main">Main Balance:</label>
-            <input class="readonly" type="text" id="balance-main" readonly />
-          </div>
-        
-          <div class="balance-field">
-            <label for="balance-profit">Profit Balance:</label>
-            <input class="readonly" type="text" id="balance-profit" readonly />
-          </div>
-        
-          <div class="balance-field">
-            <label for="balance-bonus">Bonus Balance:</label>
-            <input class="readonly" type="text" id="balance-bonus" readonly />
-          </div>
-        
-          <div class="balance-field">
-            <label for="balance-deposits">Deposits:</label>
-            <input class="readonly" type="text" id="balance-deposits" readonly />
-          </div>
-        
-          <div class="balance-field">
-            <label for="balance-total">Total Balance:</label>
-            <input class="readonly" type="text" id="balance-total" readonly />
-          </div>
-
-        <button type="button" id="openTransferModal">Transfer Funds</button>
-      </form>
+      <div class="balance-field">
+        <label for="balance-main">Main Balance:</label>
+        <div class="input-wrapper">
+          <input class="readonly" type="password" id="balance-main" readonly />
+          <span class="toggle-visibility" onclick="showpass('balance-main', 'toggle-main')" id="toggle-main">
+            <i class="fa-solid fa-eye"></i>
+          </span>
+        </div>
+      </div>
+    
+      <div class="balance-field">
+        <label for="balance-profit">Profit Balance:</label>
+        <div class="input-wrapper">
+          <input class="readonly" type="password" id="balance-profit" readonly />
+          <span class="toggle-visibility" onclick="showpass('balance-profit', 'toggle-profit')" id="toggle-profit">
+            <i class="fa-solid fa-eye"></i>
+          </span>
+        </div>
+      </div>
+    
+      <div class="balance-field">
+        <label for="balance-bonus">Bonus Balance:</label>
+        <div class="input-wrapper">
+          <input class="readonly" type="password" id="balance-bonus" readonly />
+          <span class="toggle-visibility" onclick="showpass('balance-bonus', 'toggle-bonus')" id="toggle-bonus">
+            <i class="fa-solid fa-eye"></i>
+          </span>
+        </div>
+      </div>
+    
+      <div class="balance-field">
+        <label for="balance-deposits">Deposits:</label>
+        <div class="input-wrapper">
+          <input class="readonly" type="password" id="balance-deposits" readonly />
+          <span class="toggle-visibility" onclick="showpass('balance-deposits', 'toggle-deposits')" id="toggle-deposits">
+            <i class="fa-solid fa-eye"></i>
+          </span>
+        </div>
+      </div>
+    
+      <div class="balance-field">
+        <label for="balance-total">Total Balance:</label>
+        <div class="input-wrapper">
+          <input class="readonly" type="password" id="balance-total" readonly />
+          <span class="toggle-visibility" onclick="showpass('balance-total', 'toggle-total')" id="toggle-total">
+            <i class="fa-solid fa-eye"></i>
+          </span>
+        </div>
+      </div>
+    
+      <button type="button" id="openTransferModal">Transfer Funds</button>
+    </form>
       
   
     <h2>Change Password</h2>
-    <form id="password-form">
-      <input type="password" id="current-pass" placeholder="Current Password" required />
-      <input type="password" id="new-pass" placeholder="New Password" required />
-      <input type="password" id="confirm-pass" placeholder="Confirm New Password" required />
-      <button type="submit">Update Password</button>
-      <div class="success" id="pass-update-msg">✅ Password updated</div>
-      <div class="error" id="passwordError">❌ Password update failed</div>
-    </form>
+  <!-- Password Form -->
+<form id="password-form">
+  <div class="input-wrapper">
+    <input type="password" id="current-pass" placeholder="Current Password" required />
+    <span class="toggle-visibility" onclick="showpass('current-pass', 'toggle-current')" id="toggle-current">
+      <i class="fa-solid fa-eye"></i>
+    </span>
+  </div>
+
+  <div class="input-wrapper">
+    <input type="password" id="new-pass" placeholder="New Password" required />
+    <span class="toggle-visibility" onclick="showpass('new-pass', 'toggle-new')" id="toggle-new">
+      <i class="fa-solid fa-eye"></i>
+    </span>
+  </div>
+
+  <div class="input-wrapper">
+    <input type="password" id="confirm-pass" placeholder="Confirm New Password" required />
+    <span class="toggle-visibility" onclick="showpass('confirm-pass', 'toggle-confirm')" id="toggle-confirm">
+      <i class="fa-solid fa-eye"></i>
+    </span>
+  </div>
+
+  <button type="submit">Update Password</button>
+  <div class="success" id="pass-update-msg">✅ Password updated</div>
+  <div class="error" id="passwordError">❌ Password update failed</div>
+</form>
 </div>
 </div>
 <div id="transferModal" class="modal">
@@ -274,7 +330,23 @@
   
 <div id="overlay" class="overlay"></div>
 
+<script>
+  const showpass = (pass, span) => {
+  let password = document.getElementById(pass);
+  let toggleIcon = document.getElementById(span).querySelector('i');
 
+  if (password.type === 'password') {
+    password.type = 'text';
+    toggleIcon.classList.remove('fa-eye');
+    toggleIcon.classList.add('fa-eye-slash');
+  } else {
+    password.type = 'password';
+    toggleIcon.classList.remove('fa-eye-slash');
+    toggleIcon.classList.add('fa-eye');
+  }
+};
+
+</script>
   <script type="module" src="../trading/user.js"></script>
 <script type="module" src="../api/auth.js"></script>
 <script type="module" src="../dashboard.js"></script>

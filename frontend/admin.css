@@ -1,81 +1,130 @@
+/* General Styles */
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-  }
-  
-  .admin-container {
-    display: flex;
-    min-height: 100vh;
-  }
-  
-  .sidebar {
-    width: 250px;
-    background-color: #1e293b;
-    color: white;
-    padding: 20px;
-    box-sizing: border-box;
-    position: fixed;
-    height: 100vh;
-    top: 0;
-    left: 0;
-  }
-  
-  .sidebar h2 {
-    margin-bottom: 30px;
-  }
-  
-  .nav-links {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .nav-link {
-    color: white;
-    text-decoration: none;
-    padding: 10px;
-    background-color: #334155;
-    border-radius: 5px;
-    position: relative;
-    transition: background 0.3s ease;
-  }
-  
-  .nav-link:hover {
-    background-color: #475569;
-  }
-  
-  .badge {
-    background-color: #10b981;
-    color: white;
-    font-size: 0.75rem;
-    padding: 3px 8px;
-    border-radius: 12px;
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  
-  .main-content {
-    margin-left: 250px;
-    padding: 40px;
-    width: 100%;
-  }
-  
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
 
-  .dashboard-stats {
-    display: flex;
-    gap: 2rem;
-    margin-top: 2rem;
+.admin-container {
+  display: flex;
+  position: relative;
+}
+
+.sidebar {
+  background-color: #333;
+  color: #fff;
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: -250px;
+  transition: left 0.3s ease;
+}
+
+.sidebar h2 {
+  padding: 20px;
+  text-align: center;
+}
+
+.nav-links {
+  list-style-type: none;
+  padding: 0;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-link {
+  display: block;
+  padding: 15px;
+  text-decoration: none;
+  color: #fff;
+  background-color: #444;
+  margin: 5px 0;
+}
+
+.nav-link:hover {
+  background-color: #555;
+}
+
+.dropdown {
+  display: none;
+  background-color: #555;
+  padding-left: 20px;
+}
+
+.dropdown-item {
+  padding: 10px 0;
+  color: #fff;
+  text-decoration: none;
+}
+
+.dropdown-item:hover {
+  background-color: #666;
+}
+
+.hamburger {
+  font-size: 30px;
+  padding: 20px;
+  background-color: #333;
+  color: white;
+  cursor: pointer;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+}
+
+/* Main Content */
+.main-content {
+  margin-left: 250px;
+  padding: 20px;
+  flex-grow: 1;
+}
+
+.dashboard-stats {
+  display: flex;
+  gap: 20px;
+}
+
+.stat-card {
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  flex-grow: 1;
+}
+
+.sidebar.open + .main-content {
+  margin-left: 0;
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+
+@media (max-width: 768px) {
+  .admin-container {
+      flex-direction: column;
   }
-  
-  .stat-card {
-    padding: 1rem 2rem;
-    background-color: #f4f4f4;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+  .sidebar {
+      width: 100%;
+      height: auto;
+      position: static;
+      display: none;
   }
+
+  .main-content {
+      margin-left: 0;
+  }
+
+  .sidebar.open {
+      display: block;
+  }
+}
 
   .pagination {
     margin-top: 20px;
@@ -89,21 +138,60 @@ body {
     cursor: pointer;
   }
   
-  .modal {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+/* Always hidden by default */
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: none; /* hidden by default */
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+/* When modal is open */
+.modal.show {
+  display: flex; /* flex center */
+}
+
+/* Modal box */
+.modal-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  text-align: center;
+  position: relative;
+}
+
+/* Close button */
+#closeModal {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  color: #888;
+  cursor: pointer;
+}
+
+#closeModal:hover {
+  color: #000;
+}
+
+/* Style inside modal */
+.modal-content h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.modal-content p {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
   
-  .modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 300px;
-  }
   
   

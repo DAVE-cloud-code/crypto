@@ -1,54 +1,100 @@
 const User = require('../models/User');
+const Wallet = require('../models/wallet');
+const mongoose = require('mongoose');
 
-// 1. Add a Deposit
 exports.addDeposit = async (req, res) => {
   try {
-    const { amount, method } = req.body;
+    const { amount, type } = req.body;
 
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ message: "User not found" });
 
+    const normalizedType = type.trim().replace(/\s+/g, '').toUpperCase();
+    const validTypes = ['BTC', 'USDT(TRC20)', 'USDC(ETHEREUM)', 'ETHEREUM'];
+
+    if (!validTypes.includes(normalizedType)) {
+      return res.status(400).json({ message: "Invalid deposit type" });
+    }
+
+    const depositId = new mongoose.Types.ObjectId();
+
     const newDeposit = {
-      type: "deposit",
+      _id: depositId,
+      type: normalizedType,
       amount,
-      method,
-      status: "pending"
+      status: "pending",
+      createdAt: new Date(),
     };
 
-    user.transactions.push(newDeposit);
     user.deposits.push(newDeposit);
+
+    const transactionData = {
+      transactionId: depositId,
+      direction: 'deposit', // Direction is separate
+      type: normalizedType, // Currency type
+      amount,
+      status: "pending",
+      createdAt: new Date(),
+    };
+
+    user.transactions.push(transactionData);
+
     await user.save();
 
     res.status(201).json({ message: "Deposit added", deposit: newDeposit });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
 
-// 2. Add a Withdrawal
-exports.addWithdrawal = async (req, res) => {
-  try {
-    const { amount, method } = req.body;
 
-    const user = await User.findById(req.user.id);
-    if (!user) return res.status(404).json({ message: "User not found" });
+// exports.addWithdrawal = async (req, res) => {
+//   try {
+//     const { amount, type } = req.body;
 
-    const newWithdrawal = {
-      type: "withdrawal",
-      amount,
-      method,
-      status: "pending"
-    };
+//     const user = await User.findById(req.user.id);
+//     if (!user) return res.status(404).json({ message: "User not found" });
 
-    user.transactions.push(newWithdrawal);
-    user.withdrawals.push(newWithdrawal);
-    await user.save();
+//     const normalizedType = type.trim().replace(/\s+/g, '').toUpperCase();
+//     const validTypes = ['BTC', 'USDT(TRC20)', 'USDC(ETHEREUM)', 'ETHEREUM'];
 
-    res.status(201).json({ message: "Withdrawal request added", withdrawal: newWithdrawal });
-  } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
-  }
-};
+//     if (!validTypes.includes(normalizedType)) {
+//       return res.status(400).json({ message: "Invalid withdrawal type" });
+//     }
+
+//     const withdrawalId = new mongoose.Types.ObjectId();
+
+//     const withdrawalData = {
+//       _id: withdrawalId,
+//       type: normalizedType,
+//       amount,
+//       status: "pending",
+//       createdAt: new Date(),
+//     };
+
+//     user.withdrawals.push(withdrawalData);
+
+//     const transactionData = {
+//       transactionId: withdrawalId,
+//       direction: 'withdrawal', // Direction is separate
+//       type: normalizedType, // Currency type
+//       amount,
+//       status: "pending",
+//       createdAt: new Date(),
+//     };
+
+//     user.transactions.push(transactionData);
+
+//     await user.save();
+
+//     res.status(201).json({ message: "Withdrawal request added", withdrawal: withdrawalData });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ message: "Server error", error: err.message });
+//   }
+// };
+
 
 // 3. Add a Trade
 exports.addTrade = async (req, res) => {
@@ -347,6 +393,7 @@ exports.updateUserProfile = async (req, res) => {
         fullname: user.fullname,
         username: user.username,
         email: user.email,
+        phone: user.phone,
         mainBalance: user.mainBalance,
         profitBalance: user.profitBalance,
         bonusBalance: user.bonusBalance,
@@ -366,4 +413,90 @@ exports.updateUserProfile = async (req, res) => {
       res.status(500).json({ message: 'Server error', error: err.message });
     }
   };
+
+  // ➕ Add new wallet (admin only)
+exports.addWallet = async (req, res) => {
+  try {
+    const { type, address } = req.body;
+
+    const existing = await Wallet.findOne({ type });
+    if (existing) {
+      return res.status(400).json({ message: 'Wallet for this crypto type already exists.' });
+    }
+
+    const newWallet = new Wallet({ type, address });
+    await newWallet.save();
+
+    res.status(201).json({ message: 'Wallet added successfully.', wallet: newWallet });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to add wallet', error });
+  }
+};
+
+// Update an existing wallet
+exports.updateWallet = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { type, address } = req.body;
+
+    const updatedWallet = await Wallet.findByIdAndUpdate(
+      id,
+      { type, address },
+      { new: true }
+    );
+
+    if (!updatedWallet) {
+      return res.status(404).json({ message: 'Wallet not found' });
+    }
+
+    res.status(200).json(updatedWallet);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to update wallet', error });
+  }
+};
+
+
+// 🔍 Get wallets (with optional type filtering)
+exports.getWallets = async (req, res) => {
+  try {
+    const { type } = req.query;
+
+    let filter = {};
+    if (type) {
+      filter.type = type.toUpperCase(); // Normalize case
+    }
+
+    const wallets = await Wallet.find(filter);
+    res.status(200).json(wallets);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch wallets', error });
+  }
+};
+
+// 🗑️ Delete a wallet by ID (admin only)
+exports.deleteWallet = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedWallet = await Wallet.findByIdAndDelete(id);
+
+    if (!deletedWallet) {
+      return res.status(404).json({ message: 'Wallet not found' });
+    }
+
+    res.status(200).json({ message: 'Wallet deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to delete wallet', error });
+  }
+};
+
+// Admin-only fetch of all wallets
+exports.getAllWalletsAdmin = async (req, res) => {
+  try {
+    const wallets = await Wallet.find().sort({ createdAt: -1 });
+    res.status(200).json(wallets);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to retrieve wallets', error });
+  }
+};
   
