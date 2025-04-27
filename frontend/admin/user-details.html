@@ -141,9 +141,9 @@
         <p><strong>Currency:</strong> <span id="currency"></span></p>
       </div>
       <div class="card">
-        <p><strong>Main Balance:</strong> $<span id="mainBalance"></span></p>
-        <p><strong>Profit Balance:</strong> $<span id="profitBalance"></span></p>
-        <p><strong>Bonus Balance:</strong> $<span id="bonusBalance"></span></p>
+        <p><strong>Main Balance:</strong> <span id="mainBalance"></span></p>
+        <p><strong>Profit Balance:</strong> <span id="profitBalance"></span></p>
+        <p><strong>Bonus Balance:</strong> <span id="bonusBalance"></span></p>
         <p><strong>Agreed to Terms:</strong> <span id="agreedToTerms"></span></p>
       </div>
     </div>
@@ -181,10 +181,22 @@
     document.getElementById('email').textContent = user.email || 'N/A';
     document.getElementById('role').textContent = user.role || 'N/A';
     document.getElementById('country').textContent = user.country || 'N/A';
-    document.getElementById('currency').textContent = user.currency || 'N/A';
-    document.getElementById('mainBalance').textContent = user.mainBalance ?? '0';
-    document.getElementById('profitBalance').textContent = user.profitBalance ?? '0';
-    document.getElementById('bonusBalance').textContent = user.bonusBalance ?? '0';
+// Function to format balances
+const formatCurrency = (amount, currency) => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: currency,
+    minimumFractionDigits: 2, // Adjust the number of decimal places if needed
+    maximumFractionDigits: 2 // Adjust the number of decimal places if needed
+  }).format(amount);
+};
+
+// Format and display user balances
+document.getElementById('currency').textContent = user.currency || 'N/A';
+document.getElementById('mainBalance').textContent = formatCurrency(user.mainBalance ?? 0, user.currency || 'USD');
+document.getElementById('profitBalance').textContent = formatCurrency(user.profitBalance ?? 0, user.currency || 'USD');
+document.getElementById('bonusBalance').textContent = formatCurrency(user.bonusBalance ?? 0, user.currency || 'USD');
+
     document.getElementById('agreedToTerms').textContent = user.agreedToTerms ? 'Yes' : 'No';
     const profileImage = document.getElementById('profileImage');
     const randomAvatar = `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70) + 1}`;
