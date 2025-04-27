@@ -15,7 +15,7 @@ hamburger.addEventListener("click", () => {
 // Fetch and display users
 const fetchAndDisplayUsers = async () => {
   try {
-    const res = await fetch("http://localhost:1800/api/auth/get-users", {
+    const res = await fetch("https://oreantrade.onrender.com/api/auth/get-users", {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json"
@@ -92,7 +92,7 @@ window.deleteUser = async (userId) => {
   if (!confirm("Are you sure you want to delete this user?")) return;
 
   try {
-    const res = await fetch(`http://localhost:1800/api/auth/delete-user/${userId}`, {
+    const res = await fetch(`https://oreantrade.onrender.com/api/auth/delete-user/${userId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
