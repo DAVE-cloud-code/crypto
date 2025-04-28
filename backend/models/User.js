@@ -82,7 +82,6 @@ const userSchema = new mongoose.Schema({
   bonusBalance: { type: Number, default: 0 },
   pendingBonus: { type: Number, default: 0 }, // holds bonus assigned but not yet claimed
   trades: [tradeSchema],
-  commodities: { type: [Object], default: [] }, // optional, or you can remove if already using trades
   loans: [loanSchema],
   deposits: [depositSchema],
   withdrawals: [withdrawalSchema],

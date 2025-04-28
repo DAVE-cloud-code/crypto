@@ -6,7 +6,7 @@ const isAdmin = require('../middlewares/isAdmin')
 const verifyToken = require('../middlewares/adminMiddleware');
 
 router.post('/deposit', auth, userDataController.addDeposit);
-// router.post('/withdraw', auth, userDataController.addWithdrawal);
+router.post('/withdraw', auth, userDataController.addWithdrawal);
 router.post('/trade', auth, userDataController.addTrade);
 router.get('/trades', auth, userDataController.getUserTrades);
 router.get('/transactions', auth, userDataController.getAllTransactions);
@@ -17,7 +17,7 @@ router.put('/update-profile', auth, userDataController.updateUserProfile);
 router.get('/wallets', auth, userDataController.getWallets);
 router.post('/claim-bonus', auth, userDataController.claimBonus);
 router.get('/get-bonus', auth, userDataController.checkBonus);
-
+// Loan routes
 router.post("/place-loan", auth, userDataController.placeLoan);
 router.get("/get-loan", auth, userDataController.getUserLoans);
 

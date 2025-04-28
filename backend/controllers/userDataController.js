@@ -20,7 +20,7 @@ exports.addDeposit = async (req, res) => {
 
     const newDeposit = {
       _id: depositId,
-      type: normalizedType,
+      type: normalizedType,  // Correct type here (e.g., 'BTC', 'USDT(TRC20)', etc.)
       amount,
       status: "pending",
       createdAt: new Date(),
@@ -30,8 +30,8 @@ exports.addDeposit = async (req, res) => {
 
     const transactionData = {
       transactionId: depositId,
-      direction: 'deposit', // Direction is separate
-      type: normalizedType, // Currency type
+      direction: 'deposit',  // Correct direction here ('deposit' for deposits)
+      type: normalizedType,  // Correct type here (same as deposit type)
       amount,
       status: "pending",
       createdAt: new Date(),
@@ -43,58 +43,56 @@ exports.addDeposit = async (req, res) => {
 
     res.status(201).json({ message: "Deposit added", deposit: newDeposit });
   } catch (err) {
-    console.error(err);
+    console.error('Deposit Error:', err);
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
 
+exports.addWithdrawal = async (req, res) => {
+  try {
+    const { amount, type } = req.body;
 
-// exports.addWithdrawal = async (req, res) => {
-//   try {
-//     const { amount, type } = req.body;
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
 
-//     const user = await User.findById(req.user.id);
-//     if (!user) return res.status(404).json({ message: "User not found" });
+    const normalizedType = type.trim().replace(/\s+/g, '').toUpperCase();
+    const validTypes = ['BTC', 'USDT(TRC20)', 'USDC(ETHEREUM)', 'ETHEREUM'];
 
-//     const normalizedType = type.trim().replace(/\s+/g, '').toUpperCase();
-//     const validTypes = ['BTC', 'USDT(TRC20)', 'USDC(ETHEREUM)', 'ETHEREUM'];
+    if (!validTypes.includes(normalizedType)) {
+      return res.status(400).json({ message: "Invalid withdrawal type" });
+    }
 
-//     if (!validTypes.includes(normalizedType)) {
-//       return res.status(400).json({ message: "Invalid withdrawal type" });
-//     }
+    const withdrawalId = new mongoose.Types.ObjectId();
 
-//     const withdrawalId = new mongoose.Types.ObjectId();
+    const withdrawalData = {
+      _id: withdrawalId,
+      type: normalizedType,  // Correct type here (e.g., 'BTC', 'USDT(TRC20)', etc.)
+      amount,
+      status: "pending",
+      createdAt: new Date(),
+    };
 
-//     const withdrawalData = {
-//       _id: withdrawalId,
-//       type: normalizedType,
-//       amount,
-//       status: "pending",
-//       createdAt: new Date(),
-//     };
+    user.withdrawals.push(withdrawalData);
 
-//     user.withdrawals.push(withdrawalData);
+    const transactionData = {
+      transactionId: withdrawalId,
+      direction: 'withdrawal',  // Correct direction here ('withdrawal' for withdrawals)
+      type: normalizedType,  // Correct type here (same as withdrawal type)
+      amount,
+      status: "pending",
+      createdAt: new Date(),
+    };
 
-//     const transactionData = {
-//       transactionId: withdrawalId,
-//       direction: 'withdrawal', // Direction is separate
-//       type: normalizedType, // Currency type
-//       amount,
-//       status: "pending",
-//       createdAt: new Date(),
-//     };
+    user.transactions.push(transactionData);
 
-//     user.transactions.push(transactionData);
+    await user.save();
 
-//     await user.save();
-
-//     res.status(201).json({ message: "Withdrawal request added", withdrawal: withdrawalData });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ message: "Server error", error: err.message });
-//   }
-// };
-
+    res.status(201).json({ message: "Withdrawal request added", withdrawal: withdrawalData });
+  } catch (err) {
+    console.error('Withdrawal Error:', err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
 
 // 3. Add a Trade
 exports.addTrade = async (req, res) => {
