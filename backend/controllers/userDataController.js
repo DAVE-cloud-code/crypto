@@ -508,10 +508,21 @@ exports.assignBonus = async (req, res) => {
       return res.status(400).json({ message: "Username and amount are required." });
     }
 
-    const user = await User.findOne({ username: username });
-    if (!user) return res.status(404).json({ message: "User not found." });
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
 
-    user.pendingBonus = Number(amount); // force convert string to number
+    // Add to user's pendingBonus
+    user.pendingBonus += Number(amount);
+
+    // Add new bonus object into bonuses array
+    user.bonuses.push({
+      amount: Number(amount),
+      status: 'pending',
+      assignedAt: new Date()
+    });
+
     await user.save();
 
     res.status(200).json({ message: "Bonus assigned successfully." });
@@ -520,6 +531,7 @@ exports.assignBonus = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 
 
 // User claims bonus
@@ -539,6 +551,15 @@ exports.claimBonus = async (req, res) => {
     const claimedAmount = user.pendingBonus;
     user.pendingBonus = 0;
 
+    // 🔥 Update bonuses array: mark all pending bonuses as received
+    user.bonuses = user.bonuses.map(bonus => {
+      if (bonus.status === 'pending') {
+        bonus.status = 'received';
+        bonus.claimedAt = new Date();
+      }
+      return bonus;
+    });
+
     await user.save();
 
     res.status(200).json({ 
@@ -551,6 +572,7 @@ exports.claimBonus = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 
 // Check if user has a pending bonus
 exports.checkBonus = async (req, res) => {
@@ -566,3 +588,27 @@ exports.checkBonus = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+exports.getAllAssignedBonuses = async (req, res) => {
+  try {
+    const users = await User.find({}, 'username email bonuses') // only needed fields
+
+    const formattedUsers = users.map(user => ({
+      username: user.username,
+      email: user.email,
+      bonuses: user.bonuses.map(bonus => ({
+        amount: bonus.amount,
+        assignedAt: bonus.assignedAt,
+        claimedAt: bonus.claimedAt,
+        status: bonus.status
+      }))
+    }));
+
+    res.status(200).json({ users: formattedUsers });
+  } catch (error) {
+    console.error("Get All Assigned Bonuses Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+

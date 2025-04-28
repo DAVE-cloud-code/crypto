@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-const User = require("./models/User"); // ✅ Adjust path if your model is elsewhere
+const User = require("./models/User"); // ✅ Adjust path if needed
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -17,59 +17,82 @@ const createTestUser = async () => {
 
     const user = new User({
       fullname: "Alice Great",
-      username: "Alice",
-      email: "alicegreat@gmail.com",
+      username: "alice23",
+      email: "alicegreat23@gmail.com",
       currency: "USD",
       country: "USA",
+      phone: "+1234567890", // Added phone number
       password: hashedPassword,
       agreedToTerms: true,
       role: "user",
       mainBalance: 1000000,
       profitBalance: 10000,
       bonusBalance: 50000,
-      pendingBonus: 10000, // Added pending bonus
+      pendingBonus: 10000,
+      resetToken: null,
+      resetTokenExpiry: null,
       walletPhrase: [
         "abandon", "ability", "about", "above", "absent", "absorb", "abstract", "absurd",
-        "abuse", "access", "accident", "account"  // Sample 12-word wallet phrase
+        "abuse", "access", "accident", "account"
       ],
 
+      // Bonuses
+      bonuses: [
+        {
+          amount: 5000,
+          status: "pending",
+          assignedAt: new Date(),
+          claimedAt: null
+        },
+        {
+          amount: 10000,
+          status: "claimed",
+          assignedAt: new Date(Date.now() - 86400000 * 5), // 5 days ago
+          claimedAt: new Date(Date.now() - 86400000 * 2)   // 2 days ago
+        }
+      ],
+
+      // Deposits
       deposits: [
         {
-          type: "USDT(TRC20)",  // Correct currency type
+          type: "USDT(TRC20)",
           amount: 500,
           status: "completed",
           createdAt: new Date()
         }
       ],
 
+      // Withdrawals
       withdrawals: [
         {
-          type: "BTC",  // Correct currency type
+          type: "BTC",
           amount: 100,
           status: "pending",
           createdAt: new Date()
         }
       ],
 
+      // Transactions
       transactions: [
         {
           transactionId: new mongoose.Types.ObjectId(),
-          direction: "deposit",  // Direction for deposit
-          type: "USDT(TRC20)",  // Correct currency type
+          direction: "deposit",
+          type: "USDT(TRC20)",
           amount: 500,
           status: "completed",
           createdAt: new Date()
         },
         {
           transactionId: new mongoose.Types.ObjectId(),
-          direction: "withdrawal",  // Direction for withdrawal
-          type: "BTC",  // Correct currency type
+          direction: "withdrawal",
+          type: "BTC",
           amount: 100,
           status: "pending",
           createdAt: new Date()
         }
       ],
 
+      // Trades
       trades: [
         {
           marketType: "crypto",
@@ -77,7 +100,7 @@ const createTestUser = async () => {
           amount: 200,
           leverage: 5,
           duration: "1h",
-          fromBalance: "mainBalance", // valid enum value
+          fromBalance: "mainBalance",
           status: "open",
           openedAt: new Date()
         },
@@ -87,18 +110,19 @@ const createTestUser = async () => {
           amount: 300,
           leverage: 2,
           duration: "30m",
-          fromBalance: "profitBalance", // valid enum value
+          fromBalance: "profitBalance",
           status: "closed",
           openedAt: new Date(Date.now() - 3600000),
           closedAt: new Date()
         }
       ],
 
+      // Loans
       loans: [
         {
           amount: 1000,
-          duration: 12, // in months
-          interestRate: 0.1,  // 10%
+          duration: 12,
+          interestRate: 0.1,
           totalRepayable: 1100,
           monthlyRepayment: 91.67,
           monthlyIncome: 3000,

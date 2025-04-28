@@ -66,6 +66,13 @@ const transactionSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
+const bonusSchema = new mongoose.Schema({
+  amount: { type: Number, required: true },
+  status: { type: String, enum: ['pending', 'claimed'], default: 'pending' },
+  assignedAt: { type: Date, default: Date.now },
+  claimedAt: { type: Date }
+});
+
 const userSchema = new mongoose.Schema({
   fullname: { type: String, required: true },
   username: { type: String, required: true, unique: true },
@@ -82,6 +89,7 @@ const userSchema = new mongoose.Schema({
   profitBalance: { type: Number, default: 0 },
   bonusBalance: { type: Number, default: 0 },
   pendingBonus: { type: Number, default: 0 }, // holds bonus assigned but not yet claimed
+  bonuses: [bonusSchema],
   trades: [tradeSchema],
   loans: [loanSchema],
   deposits: [depositSchema],

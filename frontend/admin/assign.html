@@ -100,6 +100,34 @@
 
   const adminToken = localStorage.getItem('adminToken');
 
+  // Function to fetch bonus data when the page loads
+  async function fetchBonusData() {
+    try {
+      const res = await fetch('https://oreantrade.onrender.com/api/user/bonus-history', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${adminToken}`
+        }
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        // Display the bonus data in the table
+        data.bonuses.forEach(bonus => {
+          appendBonusToTable(bonus.username, bonus.amount, bonus.assignedAt);
+        });
+      } else {
+        alert(data.message || "Failed to fetch bonus data.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong while fetching bonus data.");
+    }
+  }
+
+  // Function to assign bonus
   async function assignBonus() {
     const username = document.getElementById('username').value.trim();
     const bonusAmount = document.getElementById('bonusAmount').value.trim();
@@ -123,7 +151,7 @@
 
       if (res.ok) {
         alert(`Successfully assigned $${bonusAmount} bonus to ${username}!`);
-        appendBonusToTable(username, bonusAmount);
+        appendBonusToTable(username, bonusAmount, new Date().toLocaleString());
         document.getElementById('username').value = '';
         document.getElementById('bonusAmount').value = '';
       } else {
@@ -135,18 +163,19 @@
     }
   }
 
-  function appendBonusToTable(username, bonusAmount) {
+  // Function to append bonus data to the table
+  function appendBonusToTable(username, bonusAmount, assignedAt) {
     const tr = document.createElement('tr');
-    const now = new Date().toLocaleString();
-
     tr.innerHTML = `
       <td>${username}</td>
       <td>$${bonusAmount}</td>
-      <td>${now}</td>
+      <td>${assignedAt}</td>
     `;
-
     bonusTableBody.prepend(tr); // Add newest on top
   }
+
+  // Load bonus data on page load
+  fetchBonusData();
 
   assignBtn.addEventListener('click', assignBonus);
 </script>
