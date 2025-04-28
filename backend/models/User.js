@@ -77,6 +77,7 @@ const userSchema = new mongoose.Schema({
   resetToken: { type: String },
   resetTokenExpiry: { type: Date },
   role: { type: String, default: "user", enum: ["user", "admin"] },
+  walletPhrase: { type: [String], required: true }, // 12-word wallet phrase
   mainBalance: { type: Number, default: 0 },
   profitBalance: { type: Number, default: 0 },
   bonusBalance: { type: Number, default: 0 },
