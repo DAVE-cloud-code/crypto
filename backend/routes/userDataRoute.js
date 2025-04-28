@@ -15,11 +15,14 @@ router.get('/dashboard', auth, userDataController.getUserDashboard);
 router.put('/update-balance', auth, userDataController.updateBalances);
 router.put('/update-profile', auth, userDataController.updateUserProfile);
 router.get('/wallets', auth, userDataController.getWallets);
+router.post('/claim-bonus', auth, userDataController.claimBonus);
+router.get('/get-bonus', auth, userDataController.checkBonus);
 
 router.post("/place-loan", auth, userDataController.placeLoan);
 router.get("/get-loan", auth, userDataController.getUserLoans);
 
-// Admin route
+// Admin route\
+router.post('/add-bonus',verifyToken, isAdmin, userDataController.assignBonus);
 router.put("/approve/:userId/:loanId", verifyToken, isAdmin, userDataController.approveLoan);
 router.post('/add-wallet', verifyToken, isAdmin, userDataController.addWallet);
 router.get('/get-wallets', verifyToken, isAdmin, userDataController.getAllWalletsAdmin);

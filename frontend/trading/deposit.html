@@ -98,7 +98,6 @@
               <thead>
                 <tr>
                   <th>Amount</th>
-                  <th>Crypto</th>
                   <th>Status</th>
                   <th>Date</th>
                 </tr>
@@ -123,7 +122,7 @@ document.getElementById('download-qr').disabled = true;
   
     async function fetchWalletAddressByType(type) {
       try {
-        const res = await fetch(`http://localhost:1800/api/user/wallets?type=${encodeURIComponent(type)}`, {
+        const res = await fetch(`https://oreantrade.onrender.com/api/user/wallets?type=${encodeURIComponent(type)}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
   
@@ -175,7 +174,7 @@ downloadBtn.onclick = () => {
   
     async function populateCryptoTypeOptions() {
       try {
-        const res = await fetch('http://localhost:1800/api/user/wallets', {
+        const res = await fetch('https://oreantrade.onrender.com/api/user/wallets', {
           headers: { Authorization: `Bearer ${token}` }
         });
   
@@ -223,7 +222,6 @@ downloadBtn.onclick = () => {
           const row = document.createElement('tr');
           row.innerHTML = `
             <td>${formatCurrency(dep.amount)}</td>
-            <td>${dep.cryptoType}</td>
             <td style="color: ${dep.status === 'completed' ? 'green' : dep.status === 'pending' ? 'orange' : 'red'}">
               ${dep.status.charAt(0).toUpperCase() + dep.status.slice(1)}
             </td>
@@ -248,7 +246,7 @@ downloadBtn.onclick = () => {
       }
   
       try {
-        const res = await fetch('http://localhost:1800/api/user/deposit', {
+        const res = await fetch('https://oreantrade.onrender.com/api/user/deposit', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

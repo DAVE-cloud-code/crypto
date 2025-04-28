@@ -141,7 +141,7 @@ const token = localStorage.getItem('adminToken');
 async function authorizedFetch(url, options = {}) {
   if (!token) {
     alert('No admin token found, please login again.');
-    window.location.href = '/admin-login.html'; 
+    window.location.href = '../admin.html'; 
     return;
   }
   

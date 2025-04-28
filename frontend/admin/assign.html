@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin - Assign Bonus</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #ecf0f1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 50px;
+    }
+    .assign-container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 350px;
+      margin-bottom: 40px;
+    }
+    .assign-container h2 {
+      margin-bottom: 20px;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+    #assignBtn {
+      background: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #assignBtn:disabled {
+      background: gray;
+      cursor: not-allowed;
+    }
+    table {
+      width: 90%;
+      max-width: 700px;
+      background: white;
+      border-collapse: collapse;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #27ae60;
+      color: white;
+    }
+    tr:hover {
+      background-color: #f2f2f2;
+    }
+    #bonusTableContainer {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="assign-container">
+  <h2>Assign Bonus to User</h2>
+  <input type="text" id="username" placeholder="Enter Username" />
+  <input type="number" id="bonusAmount" placeholder="Enter Bonus Amount" />
+  <button id="assignBtn">Assign Bonus</button>
+</div>
+
+<div id="bonusTableContainer">
+  <table id="bonusTable">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Bonus Amount</th>
+        <th>Assigned At</th>
+      </tr>
+    </thead>
+    <tbody id="bonusTableBody">
+      <!-- Bonus assignments will be appended here -->
+    </tbody>
+  </table>
+</div>
+
+<script>
+  const assignBtn = document.getElementById('assignBtn');
+  const bonusTableBody = document.getElementById('bonusTableBody');
+
+  const adminToken = localStorage.getItem('adminToken');
+
+  async function assignBonus() {
+    const username = document.getElementById('username').value.trim();
+    const bonusAmount = document.getElementById('bonusAmount').value.trim();
+
+    if (!username || !bonusAmount) {
+      alert("Please fill all fields!");
+      return;
+    }
+
+    try {
+      const res = await fetch('https://oreantrade.onrender.com/api/user/add-bonus', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${adminToken}`
+        },
+        body: JSON.stringify({ username, amount: bonusAmount }) // correct here
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert(`Successfully assigned $${bonusAmount} bonus to ${username}!`);
+        appendBonusToTable(username, bonusAmount);
+        document.getElementById('username').value = '';
+        document.getElementById('bonusAmount').value = '';
+      } else {
+        alert(data.message || "Failed to assign bonus.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong!");
+    }
+  }
+
+  function appendBonusToTable(username, bonusAmount) {
+    const tr = document.createElement('tr');
+    const now = new Date().toLocaleString();
+
+    tr.innerHTML = `
+      <td>${username}</td>
+      <td>$${bonusAmount}</td>
+      <td>${now}</td>
+    `;
+
+    bonusTableBody.prepend(tr); // Add newest on top
+  }
+
+  assignBtn.addEventListener('click', assignBonus);
+</script>
+
+</body>
+</html>

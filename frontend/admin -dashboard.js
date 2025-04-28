@@ -3,6 +3,12 @@ let currentPage = 1;
 const usersPerPage = 5;
 let allUsers = [];
 
+// Redirect to login if admin is not logged in
+if (!token) {
+  window.location.href = 'admin.html'; // Change to your actual admin login page
+}
+
+
 // Hamburger toggle
 const hamburger = document.getElementById("hamburger");
 const sidebar = document.getElementById("sidebar");
@@ -116,3 +122,5 @@ document.getElementById("closeModal").addEventListener("click", () => {
 
 // Initialize and fetch users
 fetchAndDisplayUsers();
+
+

@@ -38,7 +38,7 @@
           </div>
           <div class="status">
             <p>Main Balance: <span class="green" id="user-balance">Loading....</span></p>
-            <p>Ai Trading: <span class="red" id="ai-trading">Inactive ❌</span></p>
+            <p id="ai-trading-status"></p>
             <p>Wallet: <span class="green">Connected ✅</span></p>
             <p>Balance: <span id="wallet-balance">Loading....</span></p>
             <p>Profit: <span id="user-profit">Loading....</span></p>
@@ -177,12 +177,60 @@
           eyeIcon.classList.add('blink');
           setTimeout(() => eyeIcon.classList.remove('blink'), 400);
         }
+
+ // AI Trading buttons
+const activateAiBtn = document.getElementById('activateAiBtn');
+const deactivateAiBtn = document.getElementById('deactivateAiBtn');
+
+// Sidebar ai-trading-status element
+const aiTradingStatus = document.getElementById('ai-trading-status');
+
+// Message under the image
+const aiMessage = document.getElementById('ai-message');
+
+// Function to update sidebar and message based on localStorage
+function updateAiTradingStatus() {
+  const aiTradingEnabled = localStorage.getItem('aiTradingEnabled') === 'true';
+  
+  if (aiTradingEnabled) {
+    aiTradingStatus.textContent = 'AI Trading: Active ✅';
+    aiTradingStatus.style.color = 'green';
+    aiMessage.textContent = 'AI Trading is currently active and working for you.';
+    aiMessage.style.color = 'green';
+    activateAiBtn.disabled = true;
+    deactivateAiBtn.disabled = false;
+  } else {
+    aiTradingStatus.textContent = 'AI Trading: Inactive ❌';
+    aiTradingStatus.style.color = 'red';
+    aiMessage.textContent = 'AI Trading is currently inactive. Click Activate to enable it.';
+    aiMessage.style.color = 'red';
+    activateAiBtn.disabled = false;
+    deactivateAiBtn.disabled = true;
+  }
+}
+
+// On page load
+updateAiTradingStatus();
+
+// Activate AI Trading
+activateAiBtn.addEventListener('click', () => {
+  localStorage.setItem('aiTradingEnabled', 'true');
+  updateAiTradingStatus();
+});
+
+// Deactivate AI Trading
+deactivateAiBtn.addEventListener('click', () => {
+  localStorage.setItem('aiTradingEnabled', 'false');
+  updateAiTradingStatus();
+});
+
       </script>
       
       <script type="module" src="./api/auth.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="module" src="dashboard.js"></script>
 <script type="module" src="./api/ham.js"></script>
+<script type="module" src="./api/ai.js"></script>
   
   
     </body>

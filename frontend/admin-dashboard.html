@@ -45,6 +45,14 @@
       <div class="nav-item">
           <a href="./admin/transaction-history.html" class="nav-link">Transaction History</a>
       </div>
+
+      <div class="nav-item">
+        <a href="./admin/assign.html" class="nav-link">Assign Bonus</a>
+      </div>
+
+      <div class="nav-item">
+        <a href="admin.html" id="logoutBtn" class="nav-link">Logout</a>
+      </div>
   </nav>
 </aside>
 
@@ -63,6 +71,16 @@
         </main>
     </div>
 
+    <script>
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+  // Remove the admin token
+  localStorage.removeItem('adminToken');
+    localStorage.clear();
+
+  // Redirect to the admin login page
+  window.location.href = '/admin.html'; 
+});
+    </script>
     <script type="module" src="./admin -dashboard.js"></script>
 </body>
 </html>

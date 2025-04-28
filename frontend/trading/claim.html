@@ -1,0 +1,189 @@
+<!DOCTYPE html><html lang="en" data-bs-theme="dark"><head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Ai Trade Gains meta Data -->
+    <meta name="application-name" content="Orean Trade - Best Platfotm for Your Crypto, Forex, Stocks & Day Trading">
+    <meta name="author" content="Orean Trade">
+    <meta name="keywords" content="Orean Trade, Crypto, Forex, and Stocks Trading Business, Copy Trading">
+    <meta name="description" content="Experience the power of copy trading, the ultimate platform designed to transform trading. With its sleek design and advanced features, Orean Trade empowers you to showcase your expertise, engage in trades, and dominate the markets. Elevate your online presence and unlock new trading possibilities with Orean Trade.">
+
+    <!-- OG meta data -->
+    <meta property="og:title" content="OreanTrade - Best Online Platfotm for Your Crypto, Forex, Stocks & Day Trading">
+    <meta property="og:Ai Trade Gain_name" content="Ai" trade="" gain="">
+    <meta property="og:url" content="index">
+    <meta property="og:description" content="Welcome to Orean Trade, the game-changing platform meticulously crafted to revolutionize trading business. With its sleek and modern design, Orean Trade provides a cutting-edge platform to showcase your expertise, attract good profits, and stay ahead in the competitive trading markets.">
+    <meta property="og:type" content="webAi Orean Trade">
+    <meta property="og:image" content="images-signin/favicon.png">
+    <link rel="shortcut icon" href="../images-signin/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="../dashboard.css">
+  <title>Claim Bonus</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f6fa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 50px;
+    }
+    .bonus-container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 300px;
+    }
+    .bonus-container h2 {
+      margin-bottom: 20px;
+    }
+    #bonusMessage {
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+    #claimBtn {
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #claimBtn:disabled {
+      background: gray;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+        
+    <div class="trade-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+          <div class="close-btn" id="close-sidebar"></div>
+        <div class="profile">
+          <img src="https://avatars.dicebear.com/api/initials/jd.svg" alt="User" class="avatar">
+          <div>
+            <h3 id="user-fullname">Loading...</h3>
+            <p id="user-username">Loading...</p>
+          </div>
+        </div>
+        <div class="buttons">
+          <button class="deposit"><a href="deposit.html" style="color: white; text-decoration: none;">DEPOSIT</a></button>
+          <button class="withdraw"><a href="withdraw.html" style="color: white; text-decoration: none;">WITHDRAWAL</a></button>
+        </div>
+        <nav>
+          <ul>
+            <li>🏠 <a href="../dashboard.html" style="text-decoration: none; color: black;">Home</a></li>
+            <li>💱Place Trade</li>
+            <li>📈 <a href="my-trades.html" style="text-decoration: none; color: black;">My Trades</a></li>
+            <li>💰  <a href="loans.html" style="text-decoration: none; color: black;">Take Loan</a> </li>
+            <li>📥  <a href="deposit.html" style="text-decoration: none; color: black;">Deposit</a> </li>
+            <li>📊  <a href="commodities.html" style="text-decoration: none; color: black;">Commodities</a> </li>
+            <li>💳  <a href="transactions.html" style="text-decoration: none; color: black;">Transactions</a> </li>
+            <li>👥  <a href="copy.html" style="text-decoration: none; color: black;">Copy Traders</a> </li>
+            <li>🏧  <a href="withdraw.html" style="text-decoration: none; color: black;">Withdrawal</a> </li>
+            <li>✅  <a href="verify.html" style="text-decoration: none; color: black;">Verifications</a> </li>
+            <li>⚙️  <a href="user.html" style="text-decoration: none; color: black;">User Settings</a> </li>
+            <li style="color: red;" id="logoutLink">🚪 Logout</li>
+          </ul>
+        </nav>
+      </aside>
+      
+      
+        <!-- Main Content -->
+        <div class="main-content">
+          <header class="topbar">
+            <div class="tip">
+             <div class="hamburger" id="hamburger">&#9776;</div>
+             <span class="user" id="header-fullname">Loading...</span>
+            </div>
+           </header>   
+
+<div class="bonus-container">
+  <h2>Claim Your Bonus</h2>
+  <div id="bonusMessage">Checking for bonus...</div>
+  <button id="claimBtn" disabled>Claim Bonus</button>
+</div>
+
+        </div>
+    </div>
+
+<script>
+  const bonusMessage = document.getElementById('bonusMessage');
+  const claimBtn = document.getElementById('claimBtn');
+
+  const userToken = localStorage.getItem('token'); 
+
+  async function checkBonus() {
+    try {
+      const res = await fetch('https://oreantrade.onrender.com/api/user/get-bonus', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userToken}`
+        }
+      });
+
+      const data = await res.json();
+      
+      if (res.ok) {
+        if (data.pendingBonus > 0) {
+          bonusMessage.innerText = `You have $${data.pendingBonus} bonus to claim!`;
+          claimBtn.disabled = false;
+        } else {
+          bonusMessage.innerText = "No bonus available to claim.";
+          claimBtn.disabled = true;
+        }
+      } else {
+        bonusMessage.innerText = data.message;
+        claimBtn.disabled = true;
+      }
+    } catch (error) {
+      bonusMessage.innerText = "Failed to load bonus.";
+      claimBtn.disabled = true;
+      console.error(error);
+    }
+  }
+
+  async function claimBonus() {
+    try {
+      const res = await fetch('https://oreantrade.onrender.com/api/user/claim-bonus', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userToken}`
+        }
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert(`Successfully claimed $${data.claimedAmount}!`);
+        bonusMessage.innerText = "You have successfully claimed your bonus.";
+        claimBtn.disabled = true;
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong!");
+    }
+  }
+
+  claimBtn.addEventListener('click', claimBonus);
+
+  // Check bonus on page load
+  checkBonus();
+</script>
+
+<script type="module" src="../api/auth.js"></script>
+<script type="module" src="../api/trade.js"  defer></script>
+<script type="module" src="../api/ham.js"></script>
+
+</body>
+</html>

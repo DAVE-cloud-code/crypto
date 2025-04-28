@@ -500,3 +500,71 @@ exports.getAllWalletsAdmin = async (req, res) => {
   }
 };
   
+
+// Admin assigns bonus (by username)
+exports.assignBonus = async (req, res) => {
+  try {
+    const { username, amount } = req.body;
+
+    if (!username || !amount) {
+      return res.status(400).json({ message: "Username and amount are required." });
+    }
+
+    const user = await User.findOne({ username: username });
+    if (!user) return res.status(404).json({ message: "User not found." });
+
+    user.pendingBonus = Number(amount); // force convert string to number
+    await user.save();
+
+    res.status(200).json({ message: "Bonus assigned successfully." });
+  } catch (error) {
+    console.error("Assign Bonus Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
+// User claims bonus
+exports.claimBonus = async (req, res) => {
+  try {
+    const userId = req.user.id; // Assuming you have middleware that sets req.user
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found." });
+
+    if (user.pendingBonus <= 0) {
+      return res.status(400).json({ message: "No bonus available to claim." });
+    }
+
+    // Move pendingBonus to bonusBalance
+    user.bonusBalance += user.pendingBonus;
+    const claimedAmount = user.pendingBonus;
+    user.pendingBonus = 0;
+
+    await user.save();
+
+    res.status(200).json({ 
+      message: "Bonus claimed successfully.",
+      claimedAmount,
+      newBonusBalance: user.bonusBalance
+    });
+  } catch (error) {
+    console.error("Claim Bonus Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+// Check if user has a pending bonus
+exports.checkBonus = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found." });
+
+    res.status(200).json({ pendingBonus: user.pendingBonus });
+  } catch (error) {
+    console.error("Check Bonus Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
