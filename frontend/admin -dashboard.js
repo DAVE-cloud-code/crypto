@@ -5,7 +5,7 @@ let allUsers = [];
 
 // Redirect to login if admin is not logged in
 if (!token) {
-  window.location.href = 'admin.html'; // Change to your actual admin login page
+  window.location.href = 'admin.html'; 
 }
 
 
@@ -30,7 +30,6 @@ const fetchAndDisplayUsers = async () => {
 
     allUsers = await res.json();
     displayUsers();
-    // document.getElementById("totalUsers").textContent = allUsers.length;
   } catch (err) {
     console.error("Error fetching users:", err);
   }
@@ -81,9 +80,52 @@ document.getElementById("nextPage").addEventListener("click", () => {
 });
 
 // Email functionality
+let selectedEmail = "";
+
 window.sendEmail = (email) => {
-  window.location.href = `mailto:${email}`;
+  selectedEmail = email;
+  document.getElementById("emailRecipient").textContent = `To: ${email}`;
+  document.getElementById("emailMessage").value = "";
+  document.getElementById("emailModal").style.display = "block";
 };
+
+// Close the modal
+document.getElementById("closeEmailModal").addEventListener("click", () => {
+  document.getElementById("emailModal").style.display = "none";
+});
+
+// Send email
+document.getElementById("sendEmailBtn").addEventListener("click", async () => {
+  const message = document.getElementById("emailMessage").value.trim();
+
+  if (!message) {
+    alert("Message cannot be empty.");
+    return;
+  }
+
+  try {
+    const res = await fetch("https://oreantrade.onrender.com/api/auth/send-email", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        to: selectedEmail,
+        message
+      })
+    });
+
+    if (!res.ok) throw new Error("Failed to send email");
+
+    alert("Email sent successfully!");
+    document.getElementById("emailModal").style.display = "none";
+  } catch (err) {
+    console.error("Email send error:", err);
+    alert("Failed to send email.");
+  }
+});
+
 
 window.viewDetails = (user) => {
   // Save the user data to localStorage
@@ -114,12 +156,6 @@ window.deleteUser = async (userId) => {
     console.error("Delete error:", err);
   }
 };
-
-// Close modal
-document.getElementById("closeModal").addEventListener("click", () => {
-  document.getElementById("userModal").style.display = "none";
-});
-
 // Initialize and fetch users
 fetchAndDisplayUsers();
 

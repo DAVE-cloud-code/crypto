@@ -95,6 +95,29 @@ tr:hover {
   background-color: #f1f1f1;
 }
 
+.modal {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+}
+.close {
+  float: right;
+  cursor: pointer;
+  font-size: 20px;
+}
+
 
   </style>
 </head>
@@ -163,17 +186,17 @@ tr:hover {
     </main>
   </div>
 
-  <!-- User detail modal -->
-  <div id="userModal" class="modal">
-    <div class="modal-content">
-      <span id="closeModal">×</span>
-      <h2>User Details</h2>
-  
-      <div id="modalDetails">
-        <!-- We'll inject all the details here -->
-      </div>
-    </div>
+<!-- Email Modal -->
+<div id="emailModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span id="closeEmailModal" class="close">&times;</span>
+    <h2>Send Email</h2>
+    <p id="emailRecipient"></p>
+    <textarea id="emailMessage" placeholder="Type your message here..." rows="6" style="width: 100%;"></textarea>
+    <button id="sendEmailBtn">Send Email</button>
   </div>
+</div>
+
   
 
   <script type="module" src="../admin -dashboard.js"></script>

@@ -12,7 +12,7 @@ router.post('/reset-password/:token', resetPassword);
 router.post('/register', register);
 router.post('/login', login);
 router.post('/logout', logout);
-router.delete('/delete-user', verifyToken, isAdmin, deleteUser)
+router.delete('/delete-user/:userId', verifyToken, isAdmin, deleteUser)
 router.put('/update-password', auth, updatePassword );
 
 // Admin-only route
