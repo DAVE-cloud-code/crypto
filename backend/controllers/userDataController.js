@@ -343,7 +343,7 @@ exports.updateWithdrawalStatus = async (req, res) => {
   exports.updateTransactionStatus = async (req, res) => {
     try {
       const { userId, transactionId } = req.params;
-      const { status } = req.body; // 'completed' or 'failed'
+      const { status } = req.body;
   
       const user = await User.findById(userId);
       if (!user) return res.status(404).json({ message: "User not found" });
@@ -353,16 +353,19 @@ exports.updateWithdrawalStatus = async (req, res) => {
   
       // Update the transaction status
       transaction.status = status;
-      // If the transaction is completed
-      if (status === 'completed') {
+  
+      // ✅ Also update the corresponding deposit if it exists
+      const deposit = user.deposits.id(transactionId);
+      if (deposit) {
+        deposit.status = status;
+      }
+  
+      // Adjust balance if approved
+      if (status === 'approved') {
         if (transaction.direction === 'deposit') {
           user.mainBalance += transaction.amount;
         } else if (transaction.direction === 'withdrawal') {
-          if (user.mainBalance >= transaction.amount) {
-            user.mainBalance -= transaction.amount;
-          } else {
-            return res.status(400).json({ message: "Insufficient balance for withdrawal" });
-          }
+          user.mainBalance -= transaction.amount;
         }
       }
   
@@ -373,6 +376,7 @@ exports.updateWithdrawalStatus = async (req, res) => {
       res.status(500).json({ message: "Failed to update transaction", error: err.message });
     }
   };
+  
   
   
   
