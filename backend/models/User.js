@@ -62,7 +62,7 @@ const transactionSchema = new mongoose.Schema({
   direction: { type: String, enum: ['deposit', 'withdrawal'], required: true },
   type: { type: String, enum: ['BTC', 'USDT(TRC20)', 'USDC(ETHEREUM)', 'ETHEREUM'], required: true },
   amount: { type: Number, required: true },
-  status: { type: String, enum: ['pending', 'approved', 'completed', 'failed'], default: 'pending' },
+  status: { type: String, enum: ['pending', 'completed', 'failed'], default: 'pending' },
   createdAt: { type: Date, default: Date.now }
 });
 

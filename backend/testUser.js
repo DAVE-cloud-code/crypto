@@ -16,9 +16,9 @@ const createTestUser = async () => {
     const hashedPassword = await bcrypt.hash("SoloVictor123##", 10);
 
     const user = new User({
-      fullname: "Alice Great",
-      username: "alice23",
-      email: "alicegreat23@gmail.com",
+      fullname: "Alice Dave",
+      username: "alice24",
+      email: "alicegreat24@gmail.com",
       currency: "USD",
       country: "USA",
       phone: "+1234567890", // Added phone number

@@ -351,14 +351,19 @@ exports.updateWithdrawalStatus = async (req, res) => {
       const transaction = user.transactions.id(transactionId);
       if (!transaction) return res.status(404).json({ message: "Transaction not found" });
   
-      // Update the transaction status
+      // Update transaction status
       transaction.status = status;
-      // Adjust balance if approved
-      if (status === 'approved') {
+  
+      // Sync related deposit or withdrawal
+      if (status === 'completed') {
         if (transaction.direction === 'deposit') {
           user.mainBalance += transaction.amount;
+          const deposit = user.deposits.id(transaction.transactionId);
+          if (deposit) deposit.status = 'completed';
         } else if (transaction.direction === 'withdrawal') {
           user.mainBalance -= transaction.amount;
+          const withdrawal = user.withdrawals.id(transaction.transactionId);
+          if (withdrawal) withdrawal.status = 'completed';
         }
       }
   
@@ -369,7 +374,6 @@ exports.updateWithdrawalStatus = async (req, res) => {
       res.status(500).json({ message: "Failed to update transaction", error: err.message });
     }
   };
-  
   
   
   
