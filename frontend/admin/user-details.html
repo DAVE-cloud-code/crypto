@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>User Details</title>
+  <link rel="stylesheet" href="../admin.css">
   <style>
     * {
       box-sizing: border-box;
@@ -123,6 +124,51 @@
 </head>
 <body>
 
+  <div class="admin-container">
+    <!-- Hamburger Icon -->
+      <div class="hamburger" id="hamburger">
+        &#9776;
+    </div>
+           <!-- Sidebar -->
+
+<aside class="sidebar" id="sidebar">
+<h2 style="margin-top: 20px;">Admin Dashboard</h2>
+<nav class="nav-links">
+  <!-- Simple Nav Links -->
+  <div class="nav-item">
+      <a href="users.html" class="nav-link">Users</a>
+  </div>
+
+  <div class="nav-item">
+      <a href="traders.html" class="nav-link">Traders</a>
+  </div>
+
+  <div class="nav-item">
+    <a href="wallets.html" class="nav-link">Wallets Page</a>
+  </div>
+
+  <div class="nav-item">
+      <a href="transactions.html" class="nav-link">Transactions</a>
+  </div>
+
+  <div class="nav-item">
+      <a href="send-mail.html" class="nav-link">Send Mail</a>
+  </div>
+
+  <div class="nav-item">
+      <a href="transaction-history.html" class="nav-link">Transaction History</a>
+  </div>
+
+  <div class="nav-item">
+    <a href="assign.html" class="nav-link">Assign Bonus</a>
+  </div>
+
+  <div class="nav-item">
+    <a href="../admin.html" id="logoutBtn" class="nav-link">Logout</a>
+  </div>
+</nav>
+</aside>
+
 <div class="container">
   <div class="profile-section">
     <img id="profileImage" src="" alt="Profile Image">
@@ -170,6 +216,8 @@
   </div>
 
   <a href="javascript:window.history.back()" class="back-btn">← Go Back</a>
+</div>
+  
 </div>
 
 <script>
@@ -233,6 +281,8 @@ profileImage.src = user.profileImage || randomAvatar;
     document.querySelector('.container').innerHTML = "<h2>No User Data Found</h2>";
   }
 </script>
+
+<script type="module" src="../admin -dashboard.js"></script>
 
 </body>
 </html>

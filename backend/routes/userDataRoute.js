@@ -9,7 +9,6 @@ router.post('/deposit', auth, userDataController.addDeposit);
 router.post('/withdraw', auth, userDataController.addWithdrawal);
 router.post('/trade', auth, userDataController.addTrade);
 router.get('/trades', auth, userDataController.getUserTrades);
-router.get('/transactions', auth, userDataController.getAllTransactions);
 router.post('/update-withdrawal-status', auth, userDataController.updateWithdrawalStatus);
 router.get('/dashboard', auth, userDataController.getUserDashboard);
 router.put('/update-balance', auth, userDataController.updateBalances);
@@ -23,10 +22,14 @@ router.get("/get-loan", auth, userDataController.getUserLoans);
 
 // Admin route\
 router.post('/add-bonus',verifyToken, isAdmin, userDataController.assignBonus);
+router.get("/get-bonuses", verifyToken, isAdmin, userDataController.getAllAssignedBonuses);
 router.put("/approve/:userId/:loanId", verifyToken, isAdmin, userDataController.approveLoan);
 router.post('/add-wallet', verifyToken, isAdmin, userDataController.addWallet);
 router.get('/get-wallets', verifyToken, isAdmin, userDataController.getAllWalletsAdmin);
 router.delete('/delete-wallet/:id', verifyToken, isAdmin, userDataController.deleteWallet);
 router.put('/update-wallet/:id', verifyToken, isAdmin, userDataController.updateWallet);
+router.get('/transactions', verifyToken, isAdmin, userDataController.getAllTransactions);
+router.patch('/update-transaction/:userId/:transactionId', verifyToken, isAdmin, userDataController.updateTransactionStatus);
+
 
 module.exports = router;

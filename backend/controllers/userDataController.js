@@ -181,16 +181,30 @@ exports.getUserTrades = async (req, res) => {
 
 
 // 5. Get All Transactions
+// Get all transactions for admin (deposits and withdrawals)
 exports.getAllTransactions = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("transactions");
-    if (!user) return res.status(404).json({ message: "User not found" });
+    const users = await User.find({}, 'username email transactions'); // fetch username, email, and transactions
 
-    res.status(200).json({ transactions: user.transactions });
+    const allTransactions = [];
+
+    users.forEach(user => {
+      user.transactions.forEach(transaction => {
+        allTransactions.push({
+          userId: user._id,
+          username: user.username,
+          email: user.email,
+          ...transaction._doc // include transaction details
+        });
+      });
+    });
+
+    res.status(200).json({ transactions: allTransactions });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
 
 // In user controller
 exports.updateBalances = async (req, res) => {
@@ -329,7 +343,7 @@ exports.updateWithdrawalStatus = async (req, res) => {
   exports.updateTransactionStatus = async (req, res) => {
     try {
       const { userId, transactionId } = req.params;
-      const { status } = req.body; // expected values: 'approved' or 'failed'
+      const { status } = req.body; // 'completed' or 'failed'
   
       const user = await User.findById(userId);
       if (!user) return res.status(404).json({ message: "User not found" });
@@ -337,7 +351,21 @@ exports.updateWithdrawalStatus = async (req, res) => {
       const transaction = user.transactions.id(transactionId);
       if (!transaction) return res.status(404).json({ message: "Transaction not found" });
   
+      // Update the transaction status
       transaction.status = status;
+      // If the transaction is completed
+      if (status === 'completed') {
+        if (transaction.direction === 'deposit') {
+          user.mainBalance += transaction.amount;
+        } else if (transaction.direction === 'withdrawal') {
+          if (user.mainBalance >= transaction.amount) {
+            user.mainBalance -= transaction.amount;
+          } else {
+            return res.status(400).json({ message: "Insufficient balance for withdrawal" });
+          }
+        }
+      }
+  
       await user.save();
   
       res.status(200).json({ message: `Transaction ${status}`, transaction });
@@ -345,6 +373,7 @@ exports.updateWithdrawalStatus = async (req, res) => {
       res.status(500).json({ message: "Failed to update transaction", error: err.message });
     }
   };
+  
   
   
   // Update user profile details
@@ -550,15 +579,6 @@ exports.claimBonus = async (req, res) => {
     user.bonusBalance += user.pendingBonus;
     const claimedAmount = user.pendingBonus;
     user.pendingBonus = 0;
-
-    // 🔥 Update bonuses array: mark all pending bonuses as received
-    user.bonuses = user.bonuses.map(bonus => {
-      if (bonus.status === 'pending') {
-        bonus.status = 'received';
-        bonus.claimedAt = new Date();
-      }
-      return bonus;
-    });
 
     await user.save();
 

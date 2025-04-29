@@ -86,6 +86,7 @@
         <th>Username</th>
         <th>Bonus Amount</th>
         <th>Assigned At</th>
+        <th>Status </th>
       </tr>
     </thead>
     <tbody id="bonusTableBody">
@@ -100,32 +101,38 @@
 
   const adminToken = localStorage.getItem('adminToken');
 
-  // Function to fetch bonus data when the page loads
   async function fetchBonusData() {
-    try {
-      const res = await fetch('https://oreantrade.onrender.com/api/user/bonus-history', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${adminToken}`
+  try {
+    const res = await fetch('https://oreantrade.onrender.com/api/user/get-bonuses', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${adminToken}`
+      }
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      data.users.forEach(user => {
+        const username = user.username;
+        if (user.bonuses && user.bonuses.length > 0) {
+          user.bonuses.forEach(bonus => {
+            appendBonusToTable(username, bonus.amount, bonus.assignedAt, bonus.status);
+          });
         }
       });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        // Display the bonus data in the table
-        data.bonuses.forEach(bonus => {
-          appendBonusToTable(bonus.username, bonus.amount, bonus.assignedAt);
-        });
-      } else {
-        alert(data.message || "Failed to fetch bonus data.");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Something went wrong while fetching bonus data.");
+    } else {
+      alert(data.message || "Failed to fetch bonus data.");
     }
+  } catch (error) {
+    console.error(error);
+    alert("Something went wrong while fetching bonus data.");
   }
+}
+
+
+
 
   // Function to assign bonus
   async function assignBonus() {
@@ -164,12 +171,13 @@
   }
 
   // Function to append bonus data to the table
-  function appendBonusToTable(username, bonusAmount, assignedAt) {
+  function appendBonusToTable(username, bonusAmount, assignedAt, status) {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${username}</td>
       <td>$${bonusAmount}</td>
       <td>${assignedAt}</td>
+      <td>${status}</td>
     `;
     bonusTableBody.prepend(tr); // Add newest on top
   }

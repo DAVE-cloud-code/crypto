@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Wallet Management</title>
+  <link rel="stylesheet" href="../admin.css">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -88,7 +89,44 @@
 </head>
 <body>
 
-  <h1>Wallet Management</h1>
+
+    <div class="hamburger" id="hamburger">
+      &#9776;
+    </div>
+    <aside class="sidebar" id="sidebar">
+      <h2 style="margin-top: 20px;">Admin Dashboard</h2>
+      <nav class="nav-links">
+          <!-- Simple Nav Links -->
+          <div class="nav-item">
+              <a href="users.html" class="nav-link">Users</a>
+          </div>
+    
+          <div class="nav-item">
+              <a href="traders.html" class="nav-link">Traders</a>
+          </div>
+    
+          <div class="nav-item">
+            <a href="wallets.html" class="nav-link">Wallets Page</a>
+          </div>
+          <div class="nav-item">
+              <a href="transactions.html" class="nav-link">Transactions</a>
+          </div>
+    
+          <div class="nav-item">
+              <a href="send-mail.html" class="nav-link">Send Mail</a>
+          </div>
+    
+          <div class="nav-item">
+              <a href="transaction-history.html" class="nav-link">Transaction History</a>
+          </div>
+
+          <div class="nav-item">
+            <a href="../admin.html" id="logoutBtn" class="nav-link">Logout</a>
+          </div>
+      </nav>
+    </aside>
+
+  <h1 style="margin-top: 13vh;">Wallet Management</h1>
 
   <div id="addWalletForm" style="margin-bottom: 20px;">
     <h3>Add New Wallet</h3>
@@ -126,7 +164,7 @@
       <button onclick="closeModal()">Cancel</button>
     </div>
   </div>
-  
+
   <script>
   const API_URL = 'https://oreantrade.onrender.com/api/user';
 const tbody = document.querySelector('#walletTable tbody');
@@ -309,5 +347,6 @@ loadWallets();
 
   </script>
 
+<script type="module" src="../admin -dashboard.js"></script>
 </body>
 </html>
