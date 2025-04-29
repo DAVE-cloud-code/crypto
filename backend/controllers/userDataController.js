@@ -353,13 +353,6 @@ exports.updateWithdrawalStatus = async (req, res) => {
   
       // Update the transaction status
       transaction.status = status;
-  
-      // ✅ Also update the corresponding deposit if it exists
-      const deposit = user.deposits.id(transactionId);
-      if (deposit) {
-        deposit.status = status;
-      }
-  
       // Adjust balance if approved
       if (status === 'approved') {
         if (transaction.direction === 'deposit') {
