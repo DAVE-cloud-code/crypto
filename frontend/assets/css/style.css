@@ -82,6 +82,7 @@ Tags: Crypto, Forex, and Stocks Trading Business
 .about__content--style2 .about__content-inner, .roadmap--style2 .roadmap__upper-inner, .roadmap--style1 .roadmap__item-header, .accordion__button, .comment__author, .comment__head, .tags--style2 ul, .tags ul, .sidebar__categorie-body ul li, .sidebar__recentpost-inner, .testimonial__author, .testimonial__footer, .testimonial__item--style3 .testimonial__item-body, .blog-details__action-inner, .blog__writer, .floating-content__item--style4, .floating-content__item--style2, .social, .btn-group, .footer__end-links, .footer__app-inner, .footer__app, .account__check, .contact__item-inner, .subtitle, .section-header--style4, .menu, .header-wrapper .menu-area .header-btn, .header-wrapper .menu-area, .header-wrapper, .paginations ul li:not(:first-child, :last-child) a, .paginations ul li a, .swiper-nav {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
 .footer__app-inner, .account__social-btn, .banner--style4 .banner__content-btn, .subtitle--style2, .home-showcase__buttons, .paginations ul li:not(:first-child, :last-child) a, .paginations ul li a {
