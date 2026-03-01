@@ -20,7 +20,7 @@ const app = express();
 const allowedOrigins = [
   'http://127.0.0.1:5500',
   'http://localhost:5500',
-  'https://oreantrade.onrender.com',
+  'https://crypto-pxxc.onrender.com',
   'https://oreantrade..com',
   'https://www.oreantrade.com'
 ];
