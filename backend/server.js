@@ -21,7 +21,7 @@ const allowedOrigins = [
   'http://127.0.0.1:5500',
   'http://localhost:5500',
   'https://crypto-pxxc.onrender.com',
-  'https://oreantrade..com',
+  'https://alphafundtradings.onrender.com',
   'https://www.oreantrade.com'
 ];
 
