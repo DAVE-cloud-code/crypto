@@ -4,7 +4,7 @@ const token = localStorage.getItem('token'); // Adjust if stored differently
 
 export async function getDashboardData(token) {
     try {
-      const response = await fetch('https://oreantrade.onrender.com/api/user/dashboard', {
+      const response = await fetch('https://crypto-pxxc.onrender.com/api/user/dashboard', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,

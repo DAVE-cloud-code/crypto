@@ -80,7 +80,7 @@
 let activeTab = 'deposit';
 
 function fetchTransactions() {
-  fetch('https://oreantrade.onrender.com/api/user/transactions', {
+  fetch('https://crypto-pxxc.onrender.com/api/user/transactions', {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('adminToken')}`, // Assuming you store token
@@ -134,7 +134,7 @@ function updateTransaction(userId, transactionId, status) {
     return;
   }
 
-  fetch(`https://oreantrade.onrender.com/api/user/update-transaction/${userId}/${transactionId}`, {
+  fetch(`https://crypto-pxxc.onrender.com/api/user/update-transaction/${userId}/${transactionId}`, {
     method: 'PATCH',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('adminToken')}`,

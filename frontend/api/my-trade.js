@@ -139,7 +139,7 @@ window.addEventListener('click', (event) => {
     }
   
     function loadTrades(status = 'all') {
-      fetch(`https://oreantrade.onrender.com/api/user/trades?status=${status}`, {
+      fetch(`https://crypto-pxxc.onrender.com/api/user/trades?status=${status}`, {
         method: 'GET',
         headers: { 'Authorization': `Bearer ${token}` }
       })

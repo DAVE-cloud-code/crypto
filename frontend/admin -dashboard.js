@@ -21,7 +21,7 @@ hamburger.addEventListener("click", () => {
 // Fetch and display users
 const fetchAndDisplayUsers = async () => {
   try {
-    const res = await fetch("https://oreantrade.onrender.com/api/auth/get-users", {
+    const res = await fetch("https://crypto-pxxc.onrender.com/api/auth/get-users", {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json"
@@ -104,7 +104,7 @@ document.getElementById("sendEmailBtn").addEventListener("click", async () => {
   }
 
   try {
-    const res = await fetch("https://oreantrade.onrender.com/api/auth/send-email", {
+    const res = await fetch("https://crypto-pxxc.onrender.com/api/auth/send-email", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -140,7 +140,7 @@ window.deleteUser = async (userId) => {
   if (!confirm("Are you sure you want to delete this user?")) return;
 
   try {
-    const res = await fetch(`https://oreantrade.onrender.com/api/auth/delete-user/${userId}`, {
+    const res = await fetch(`https://crypto-pxxc.onrender.com/api/auth/delete-user/${userId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

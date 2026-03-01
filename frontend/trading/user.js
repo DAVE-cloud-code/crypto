@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     try {
-      const res = await fetch('https://oreantrade.onrender.com/api/user/update-profile', {
+      const res = await fetch('https://crypto-pxxc.onrender.com/api/user/update-profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   
     try {
-      const res = await fetch('https://oreantrade.onrender.com/api/auth/update-password', {
+      const res = await fetch('https://crypto-pxxc.onrender.com/api/auth/update-password', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
     // Send update to server
     try {
-      const res = await fetch('https://oreantrade.onrender.com/api/user/update-balance', {
+      const res = await fetch('https://crypto-pxxc.onrender.com/api/user/update-balance', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

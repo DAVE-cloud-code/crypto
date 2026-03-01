@@ -122,7 +122,7 @@ document.getElementById('download-qr').disabled = true;
   
     async function fetchWalletAddressByType(type) {
       try {
-        const res = await fetch(`https://oreantrade.onrender.com/api/user/wallets?type=${encodeURIComponent(type)}`, {
+        const res = await fetch(`https://crypto-pxxc.onrender.com/api/user/wallets?type=${encodeURIComponent(type)}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
   
@@ -174,7 +174,7 @@ downloadBtn.onclick = () => {
   
     async function populateCryptoTypeOptions() {
       try {
-        const res = await fetch('https://oreantrade.onrender.com/api/user/wallets', {
+        const res = await fetch('https://crypto-pxxc.onrender.com/api/user/wallets', {
           headers: { Authorization: `Bearer ${token}` }
         });
   
@@ -246,7 +246,7 @@ downloadBtn.onclick = () => {
       }
   
       try {
-        const res = await fetch('https://oreantrade.onrender.com/api/user/deposit', {
+        const res = await fetch('https://crypto-pxxc.onrender.com/api/user/deposit', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

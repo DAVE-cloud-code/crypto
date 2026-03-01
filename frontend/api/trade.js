@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     console.log('Trade:', trade);
   
     try {
-      const res = await fetch('https://oreantrade.onrender.com/api/user/trade', {
+      const res = await fetch('https://crypto-pxxc.onrender.com/api/user/trade', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

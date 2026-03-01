@@ -15,7 +15,7 @@ document.getElementById('loan-form').addEventListener('submit', async function (
   const loanData = { amount, duration, monthlyIncome, acceptedTerms };
 
   try {
-    const res = await fetch('https://oreantrade.onrender.com/api/user/place-loan', {
+    const res = await fetch('https://crypto-pxxc.onrender.com/api/user/place-loan', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ async function fetchLoans() {
   const token = localStorage.getItem('token');
 
   try {
-    const res = await fetch('https://oreantrade.onrender.com/api/user/get-loan', {
+    const res = await fetch('https://crypto-pxxc.onrender.com/api/user/get-loan', {
       headers: {
         'Authorization': `Bearer ${token}`
       }

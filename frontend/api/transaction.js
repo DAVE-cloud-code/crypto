@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const fetchTransactions = async () => {
     try {
-      const res = await fetch("https://oreantrade.onrender.com/api/user/transactions", {
+      const res = await fetch("https://crypto-pxxc.onrender.com/api/user/transactions", {
         headers: {
           "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json"
