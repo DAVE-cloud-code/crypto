@@ -20,9 +20,9 @@ const app = express();
 const allowedOrigins = [
   'http://127.0.0.1:5500',
   'http://localhost:5500',
-  'https://crypto-pxxc.onrender.com',
+  'https://alphafundtradings.com',
   'https://alphafundtradings.onrender.com',
-  'https://www.oreantrade.com'
+  'https://www.alphafundtradings.com'
 ];
 
 app.use(cors({
